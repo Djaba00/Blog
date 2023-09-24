@@ -1,0 +1,15 @@
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/bin/Debug/net7.0/Blog.BLL.deps.json
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/bin/Debug/net7.0/Blog.BLL.dll
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/bin/Debug/net7.0/Blog.BLL.pdb
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/bin/Debug/net7.0/Blog.DAL.dll
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/bin/Debug/net7.0/Blog.DAL.pdb
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.csproj.AssemblyReference.cache
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.GeneratedMSBuildEditorConfig.editorconfig
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.AssemblyInfoInputs.cache
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.AssemblyInfo.cs
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.csproj.CoreCompileInputs.cache
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.csproj.CopyComplete
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.dll
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/refint/Blog.BLL.dll
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/Blog.BLL.pdb
+/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/Debug/net7.0/ref/Blog.BLL.dll

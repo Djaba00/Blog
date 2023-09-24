@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.DAL", "Blog.DAL\Blog.DAL.csproj", "{8AC1CE56-44FB-48E0-B50A-D04E8C43ACD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.BLL", "Blog.BLL\Blog.BLL.csproj", "{6064664F-ABD1-4027-AD19-F28F1D053572}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.WebClient", "Blog.WebClient\Blog.WebClient.csproj", "{2ACA5323-3C08-45A1-BF75-0567940EA886}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AC1CE56-44FB-48E0-B50A-D04E8C43ACD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC1CE56-44FB-48E0-B50A-D04E8C43ACD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC1CE56-44FB-48E0-B50A-D04E8C43ACD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC1CE56-44FB-48E0-B50A-D04E8C43ACD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6064664F-ABD1-4027-AD19-F28F1D053572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6064664F-ABD1-4027-AD19-F28F1D053572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6064664F-ABD1-4027-AD19-F28F1D053572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6064664F-ABD1-4027-AD19-F28F1D053572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ACA5323-3C08-45A1-BF75-0567940EA886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ACA5323-3C08-45A1-BF75-0567940EA886}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ACA5323-3C08-45A1-BF75-0567940EA886}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ACA5323-3C08-45A1-BF75-0567940EA886}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BADC5064-55E3-461C-9920-41C6F64C525F}
+	EndGlobalSection
+EndGlobal
