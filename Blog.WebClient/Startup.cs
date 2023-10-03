@@ -2,6 +2,8 @@
 using Blog.DAL.Entities;
 using Blog.BLL.Configurations;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
+using Blog.WebClient.Configurations;
 
 namespace Blog.WebClient
 {
@@ -17,13 +19,16 @@ namespace Blog.WebClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBllServices(profile: new MappingProfilePLL());
+            services.AddPllServices();
 
             string dbConnection = Configuration.GetConnectionString("DefaultConnection");
-
             services.AddSqlLiteContext(dbConnection);
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog", Version = "v1" }); });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,6 +36,8 @@ namespace Blog.WebClient
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog v1"));
             }
             else
             {
@@ -38,13 +45,14 @@ namespace Blog.WebClient
 
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
