@@ -10,7 +10,7 @@ namespace Blog.DAL.Entities
 		public DateTime? Changed { get; set; }
 
 		public string UserId { get; set; }
-		public User User { get; set; }
+		public UserAccount User { get; set; }
 
 		public virtual ICollection<Tag> Tags { get; set; }
 

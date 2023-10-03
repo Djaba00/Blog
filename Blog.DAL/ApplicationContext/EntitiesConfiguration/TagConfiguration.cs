@@ -9,7 +9,9 @@ namespace Blog.DAL.ApplicationContext.EntitiesConfiguration
 	{
 		public void Configure(EntityTypeBuilder<Tag> builder)
 		{
+			builder.ToTable("Tags");
 
+			builder.HasIndex(t => t.Name).IsUnique();
 		}
 	}
 }

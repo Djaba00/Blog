@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Blog.DAL.Entities
 {
-	public class User : IdentityUser
+	public class UserProfile
 	{
+		public int Id { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string MiddleName { get; set; }
@@ -12,6 +13,9 @@ namespace Blog.DAL.Entities
         public string Image { get; set; }
         public string Status { get; set; }
         public string About { get; set; }
+
+		public string UserAccountId { get; set; }
+		public UserAccount UserAccount { get; set; }
 
 		public virtual ICollection<Article> Articles { get; set; }
 		public virtual ICollection<Comment> Comments { get; set; } 

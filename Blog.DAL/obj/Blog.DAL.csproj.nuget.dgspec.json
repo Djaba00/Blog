@@ -1,26 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj": {}
+    "D:\\Development\\Projects\\Blog\\Blog.DAL\\Blog.DAL.csproj": {}
   },
   "projects": {
-    "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj": {
+    "D:\\Development\\Projects\\Blog\\Blog.DAL\\Blog.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj",
+        "projectUniqueName": "D:\\Development\\Projects\\Blog\\Blog.DAL\\Blog.DAL.csproj",
         "projectName": "Blog.DAL",
-        "projectPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj",
-        "packagesPath": "/Users/frankcowperwood/.nuget/packages/",
-        "outputPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/obj/",
+        "projectPath": "D:\\Development\\Projects\\Blog\\Blog.DAL\\Blog.DAL.csproj",
+        "packagesPath": "C:\\Users\\DJaba\\.nuget\\packages\\",
+        "outputPath": "D:\\Development\\Projects\\Blog\\Blog.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/frankcowperwood/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\DJaba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,6 +40,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.11, )"
@@ -74,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.307/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
         }
       }
     }

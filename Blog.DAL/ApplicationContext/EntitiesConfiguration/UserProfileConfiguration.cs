@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Blog.DAL.ApplicationContext.EntitiesConfiguration
 {
-	public class UserConfiguration : IEntityTypeConfiguration<User>
+	public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
 	{
-		public void Configure(EntityTypeBuilder<User> builder)
+		public void Configure(EntityTypeBuilder<UserProfile> builder)
 		{
-			builder.ToTable("Users");
+			builder.ToTable("UserProfiles");
 			builder.Property(u => u.FirstName).IsRequired().HasMaxLength(30);
 			builder.Property(u => u.LastName).IsRequired().HasMaxLength(30);
         }

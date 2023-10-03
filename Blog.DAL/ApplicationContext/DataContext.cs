@@ -6,17 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.DAL.ApplicationContext
 {
-	public class DataContext : IdentityDbContext<User>
+	public class DataContext : IdentityDbContext<UserAccount>
     {
 
-        DbSet<User> Users { get; set; }
-        DbSet<Article> Articles { get; set; }
-        DbSet<Tag> Tags { get; set; }
-        DbSet<Comment> Comments { get; set; }
-
-        public DataContext()
-        {
-        }
+        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
 		{
@@ -27,7 +23,8 @@ namespace Blog.DAL.ApplicationContext
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserProfileConfiguration());
+            modelBuilder.ApplyConfiguration(new UserAccountConfiguration());
             modelBuilder.ApplyConfiguration(new ArticleConfiguration());
             modelBuilder.ApplyConfiguration(new TagConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
