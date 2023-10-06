@@ -24,7 +24,17 @@ namespace Blog.DAL.Repositories
             return users;
         }
 
-        public async Task<UserProfile> GetByIdAsync(string id)
+        public async Task<UserProfile> GetByIdAsync(int id)
+        {
+            var user = await db.UserProfiles
+                .Include(u => u.Articles)
+                .Include(u => u.Comments)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return user;
+        }
+
+        public async Task<UserProfile> GetByAccountId(string id)
         {
             var user = await db.UserProfiles
                 .Include(u => u.Articles)
@@ -39,17 +49,37 @@ namespace Blog.DAL.Repositories
             await db.UserProfiles.AddAsync(entity);
         }
 
-        public void Update(UserProfile entity)
+        public async Task UpdateAsync(UserProfile updateEntitiy)
         {
-            db.Entry(entity).State = EntityState.Modified;
+            var userProfile = await GetByAccountId(updateEntitiy.UserAccountId);
+
+            if (userProfile != null)
+            {
+                userProfile.FirstName = updateEntitiy.FirstName ?? userProfile.FirstName;
+                userProfile.LastName = updateEntitiy.LastName ?? userProfile.LastName;
+                userProfile.MiddleName = updateEntitiy.MiddleName ?? userProfile.MiddleName;
+
+                userProfile.BirthDate = updateEntitiy.BirthDate;
+
+                userProfile.Image = updateEntitiy.Image ?? userProfile.Image;
+                userProfile.Status = updateEntitiy.Status ?? userProfile.Status;
+                userProfile.About = updateEntitiy.About ?? userProfile.About;
+
+                userProfile.Articles = updateEntitiy.Articles ?? userProfile.Articles;
+                userProfile.Comments = updateEntitiy.Comments ?? userProfile.Comments;
+            }
+            else
+            {
+                throw new Exception("Пользователь не найден");
+            }
         }
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var user = db.UserProfiles.Find(id);
+            var user = await GetByIdAsync(id);
 
             if (user != null)
             {
-                db.Entry(user).State = EntityState.Deleted;
+                db.UserProfiles.Remove(user);
             }
         }
     }

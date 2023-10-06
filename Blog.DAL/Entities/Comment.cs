@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Blog.DAL.Entities
 {
 	public class Comment
@@ -11,7 +12,7 @@ namespace Blog.DAL.Entities
         public string UserId { get; set; }
         public UserAccount User { get; set; }
 
-        public string ArticleId { get; set; }
+        public int ArticleId { get; set; }
         public Article Article { get; set; }
     }
 }

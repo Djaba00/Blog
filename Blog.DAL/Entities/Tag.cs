@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Blog.DAL.Entities
 {
 	public class Tag

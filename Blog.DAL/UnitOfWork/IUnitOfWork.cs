@@ -12,7 +12,8 @@ namespace Blog.DAL.Interfaces
     {
         IUserProfileRepository<UserProfile> UserProfiles { get; }
         IUserAccountRepository<UserAccount> UserAccounts { get; }
-        SignInManager<UserAccount> AccountSignIn { get; }
+        RoleManager<Role> RoleManager { get; }
+        SignInManager<UserAccount> SignInManager { get; }
         IArticleRepository<Article> Articles { get; }
         ICommentRepository<Comment> Comments { get; }
         ITagRepository<Tag> Tags { get; }

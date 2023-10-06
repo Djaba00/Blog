@@ -43,18 +43,28 @@ namespace Blog.DAL.Repositories
             await db.Tags.AddAsync(entity);
         }
 
-        public void Update(Tag entity)
+        public async Task UpdateAsync(Tag entity)
         {
-            db.Entry(entity).State = EntityState.Modified;
-        }
-
-        public void Delete(int id)
-        {
-            var tag = db.Tags.Find(id);
+            var tag = await GetByIdAsync(entity.Id);
 
             if (tag != null)
             {
-                db.Entry(tag).State = EntityState.Deleted;
+                tag.Name = entity.Name;
+                tag.Articles = entity.Articles;
+            }
+            else
+            {
+                throw new Exception("Тэг не найден");
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var tag = await GetByIdAsync(id);
+
+            if (tag != null)
+            {
+                db.Tags.Remove(tag);
             }
         }
 

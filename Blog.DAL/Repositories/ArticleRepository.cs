@@ -2,12 +2,6 @@
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Blog.DAL.Repositories
 {
@@ -44,38 +38,61 @@ namespace Blog.DAL.Repositories
             await db.Articles.AddAsync(entity);
         }
 
-        public void Update(Article entity)
+        public async Task UpdateAsync(Article updateEntity)
         {
-            db.Entry(entity).State = EntityState.Modified;
-        }
-
-        public void Delete(int id)
-        {
-            var article = db.Articles.Find(id);
+            var article = await GetByIdAsync(updateEntity.Id);
 
             if (article != null)
             {
-                db.Entry(article).State = EntityState.Deleted;
+                article.Changed = DateTime.Now;
+                article.Title = updateEntity.Title;
+                article.Content = updateEntity.Content;
+                article.Tags = updateEntity.Tags;
+            }
+            else
+            {
+                throw new Exception("Статья не найдена");
             }
         }
 
-        public async Task<List<Article>> GetArticlesByName(string name)
+        public async Task DeleteAsync(int id)
+        {
+            var article = await GetByIdAsync(id);
+
+            if (article != null)
+            {
+                db.Articles.Remove(article);
+            }
+        }
+
+        public async Task<List<Article>> GetArticlesByTitleAsync(string name)
         {
             var articles = await db.Articles
                 .Include(a => a.Tags)
                 .Include(a => a.Comments)
-                .Where(a => a.Name.Contains(name))
+                .Where(a => a.Title.Contains(name))
                 .ToListAsync();
 
             return articles;
         }
 
-        public async Task<List<Article>> GetArticlesByAuthorId(string id)
+        public async Task<List<Article>> GetArticlesByAuthorIdAsync(string id)
         {
             var articles = await db.Articles
                 .Include(a => a.Tags)
                 .Include(a => a.Comments)
                 .Where(a => a.UserId == id)
+                .ToListAsync();
+
+            return articles;
+        }
+
+        public async Task<List<Article>> GetArticlesByTagAsync(string tag)
+        {
+            var articles = await db.Articles
+                .Include(a => a.Tags)
+                .Include(a => a.Comments)
+                .Where(a => a.Tags.Select(x => x.Name).Contains(tag))
                 .ToListAsync();
 
             return articles;

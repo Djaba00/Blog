@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231001115511_Initial")]
-    partial class Initial
+    [Migration("20231006122900_DefaultRoles")]
+    partial class DefaultRoles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace Blog.DAL.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
@@ -78,11 +78,7 @@ namespace Blog.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ArticleId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ArticleId1")
+                    b.Property<int>("ArticleId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("Changed")
@@ -104,7 +100,7 @@ namespace Blog.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId1");
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("UserId");
 
@@ -134,6 +130,7 @@ namespace Blog.DAL.Migrations
             modelBuilder.Entity("Blog.DAL.Entities.UserAccount", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("AccessFailedCount")
@@ -173,6 +170,10 @@ namespace Blog.DAL.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
@@ -191,6 +192,8 @@ namespace Blog.DAL.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -251,6 +254,10 @@ namespace Blog.DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -266,6 +273,10 @@ namespace Blog.DAL.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -370,6 +381,33 @@ namespace Blog.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Blog.DAL.Entities.Role", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.HasDiscriminator().HasValue("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Moder",
+                            NormalizedName = "MODER"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
+                });
+
             modelBuilder.Entity("ArticleTag", b =>
                 {
                     b.HasOne("Blog.DAL.Entities.Article", null)
@@ -404,7 +442,7 @@ namespace Blog.DAL.Migrations
                 {
                     b.HasOne("Blog.DAL.Entities.Article", "Article")
                         .WithMany("Comments")
-                        .HasForeignKey("ArticleId1")
+                        .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -421,6 +459,17 @@ namespace Blog.DAL.Migrations
                     b.Navigation("Article");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Blog.DAL.Entities.UserAccount", b =>
+                {
+                    b.HasOne("Blog.DAL.Entities.Role", "Role")
+                        .WithMany("Accounts")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Blog.DAL.Entities.UserProfile", b =>
@@ -501,6 +550,11 @@ namespace Blog.DAL.Migrations
                     b.Navigation("Articles");
 
                     b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Blog.DAL.Entities.Role", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }

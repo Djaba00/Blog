@@ -1,13 +1,7 @@
 ﻿using Blog.DAL.ApplicationContext;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.DAL.Repositories
 {
@@ -37,24 +31,54 @@ namespace Blog.DAL.Repositories
             return comment;
         }
 
+        public async Task<List<Comment>> GetCommentsByAuthorIdAsync(string id)
+        {
+            var comments = await db.Comments
+                .Include(c => c.User)
+                .Where(c => c.UserId == id)
+                .ToListAsync();
+
+            return comments;
+        }
+
+        public async Task<List<Comment>> GetCommentsByArticleIdAsync(int id)
+        {
+            var comments = await db.Comments
+                .Include(c => c.User)
+                .Where(c => c.ArticleId == id)
+                .ToListAsync();
+
+            return comments;
+        }
+
         public async Task CreateAsync(Comment entity)
         {
             await db.Comments.AddAsync(entity);
         }
 
-        public void Update(Comment entity)
+        public async Task UpdateAsync(Comment updateEntity)
         {
-            db.Entry(entity).State = EntityState.Modified;
-        }
-
-        public void Delete(int id)
-        {
-            var comment = db.Comments.Find(id);
+            var comment = await GetByIdAsync(updateEntity.Id);
 
             if (comment != null)
             {
-                db.Entry(comment).State = EntityState.Deleted;
+                comment.Changed = DateTime.Now;
+                comment.Content = updateEntity.Content;
             }
-        } 
+            else
+            {
+                throw new Exception("Комментарий не найден");
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var comment = await GetByIdAsync(id);
+
+            if (comment != null)
+            {
+                db.Comments.Remove(comment);
+            }
+        }
     }
 }

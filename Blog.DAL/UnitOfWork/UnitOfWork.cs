@@ -3,11 +3,6 @@ using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Blog.DAL.Repositories;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.DAL.UnitOfWork
 {
@@ -16,6 +11,7 @@ namespace Blog.DAL.UnitOfWork
         DataContext db;
         UserManager<UserAccount> userManager { get; set; }
         SignInManager<UserAccount> signInManager { get; set; }
+        RoleManager<Role> roleManager { get; set; }
 
         IUserProfileRepository<UserProfile> UserProfileRepository { get; set; }
         IUserAccountRepository<UserAccount> UserAccountRepository { get; set; }
@@ -51,18 +47,26 @@ namespace Blog.DAL.UnitOfWork
             {
                 if (UserAccountRepository == null)
                 {
-                    UserAccountRepository = new UserAccountRepository(userManager);
+                    UserAccountRepository = new UserAccountRepository(db, userManager);
                 }
 
                 return UserAccountRepository;
             }
         }
 
-        public SignInManager<UserAccount> AccountSignIn
+        public SignInManager<UserAccount> SignInManager
         {
             get
             {
                 return signInManager;
+            }
+        }
+
+        public RoleManager<Role> RoleManager
+        {
+            get
+            {
+                return roleManager;
             }
         }
 

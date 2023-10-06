@@ -11,7 +11,7 @@ namespace Blog.DAL.ApplicationContext.EntitiesConfiguration
 		{
             builder.ToTable("Articles");
 
-            builder.Property(a => a.Name).IsRequired().HasMaxLength(200);
+            builder.Property(a => a.Title).IsRequired().HasMaxLength(200);
             builder.Property(a => a.Content).IsRequired();
         }
 	}

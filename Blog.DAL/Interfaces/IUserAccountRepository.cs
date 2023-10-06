@@ -12,6 +12,7 @@ namespace Blog.DAL.Interfaces
     public interface IUserAccountRepository<T>
         where T : class
     {
+        Task<IEnumerable<UserAccount>> GetAllAsync();
         Task<UserAccount> GetByIdAsync(string id);
         Task<UserAccount> GetAuthAccountAsync(ClaimsPrincipal? userClaims);
         Task<IdentityResult> RegistrationAsync(UserAccount account, string password);
