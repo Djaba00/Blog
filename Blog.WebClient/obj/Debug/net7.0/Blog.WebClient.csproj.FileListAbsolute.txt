@@ -155,9 +155,9 @@ D:\Development\Projects\Blog\Blog.WebClient\obj\Debug\net7.0\refint\Blog.WebClie
 D:\Development\Projects\Blog\Blog.WebClient\obj\Debug\net7.0\Blog.WebClient.pdb
 D:\Development\Projects\Blog\Blog.WebClient\obj\Debug\net7.0\Blog.WebClient.genruntimeconfig.cache
 D:\Development\Projects\Blog\Blog.WebClient\obj\Debug\net7.0\ref\Blog.WebClient.dll
-D:\Development\Projects\Blog\Blog.WebClient\obj\Debug\net7.0\Blog.WebClient.MvcApplicationPartsAssemblyInfo.cs
 D:\Development\Projects\Blog\Blog.WebClient\bin\Debug\net7.0\Microsoft.OpenApi.dll
 D:\Development\Projects\Blog\Blog.WebClient\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Development\Projects\Blog\Blog.WebClient\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Development\Projects\Blog\Blog.WebClient\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\Development\Projects\Blog\Blog.WebClient\bin\Debug\net7.0\System.Security.Permissions.dll
+D:\Development\Projects\Blog\Blog.WebClient\obj\Debug\net7.0\Blog.WebClient.MvcApplicationPartsAssemblyInfo.cs

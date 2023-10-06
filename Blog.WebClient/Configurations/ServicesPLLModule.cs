@@ -10,6 +10,7 @@ namespace Blog.WebClient.Configurations
         public static IServiceCollection AddPllServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<ICommentService, CommentService>();
