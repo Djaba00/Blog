@@ -37,32 +37,13 @@ namespace Blog.BLL.Configurations
             return services;
         }
 
-        // Пример реализации разных вариантов подключений. Нужны соответветсвующие NuGet пакеты 
-
-        public static IServiceCollection AddSqlServerContext(this IServiceCollection services, string connectionString)
-        {
-            //services.AddDbContext<DbContext>(
-            //    options => options.UseSqlServer(connectionString,
-            //  opts => opts.MigrationsAssembly("Blog.WebClient")));
-            return services;
-        }
-
-        public static IServiceCollection AddNpgsqlContext(this IServiceCollection services, string connectionString)
-        {
-            //services.AddDbContext<DbContext>(
-            //    options => options.UseNpgsql(connectionString,
-            //  opts => opts.MigrationsAssembly("Blog.WebClient")));
-
-            return services;
-        }
-
         public static IServiceCollection AddSqlLiteContext(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<DataContext>(
                 options => options.UseSqlite(connectionString,
                 opts => opts.MigrationsAssembly("Blog.DAL"))
                 .EnableSensitiveDataLogging())
-                .AddIdentity<UserAccount, IdentityRole>(options =>
+                .AddIdentity<UserAccount, Role>(options =>
                 {
                     options.Password.RequiredLength = 5;
                     options.Password.RequireNonAlphanumeric = false;

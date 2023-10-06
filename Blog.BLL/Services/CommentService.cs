@@ -3,12 +3,6 @@ using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Blog.BLL.Services
 {
@@ -25,24 +19,36 @@ namespace Blog.BLL.Services
 
         public async Task CreateCommentAsync(CommentModel commentModel)
         {
-            var comment = mapper.Map<Comment>(commentModel);
+            if (commentModel != null)
+            {
+                var comment = mapper.Map<Comment>(commentModel);
 
-            await db.Comments.CreateAsync(comment);
+                await db.Comments.CreateAsync(comment);
+
+                await db.SaveAsync();
+            }
         }
 
         public async Task UpdateCommentAsync(CommentModel commentModel)
         {
-            var comment = mapper.Map<Comment>(commentModel);
+            if (commentModel != null)
+            {
+                var comment = mapper.Map<Comment>(commentModel);
 
-            db.Comments.Update(comment);
+                await db.Comments.UpdateAsync(comment);
+
+                await db.SaveAsync();
+            }
         }
 
         public async Task DeleteCommentAsync(int id)
         {
-            db.Comments.Delete(id);
+            var comment = db.Comments.DeleteAsync(id);
+
+            await db.SaveAsync();
         }
 
-        public async Task<List<CommentModel>> GetAllComments()
+        public async Task<List<CommentModel>> GetAllCommentsAsync()
         {
             var comments = await db.Comments.GetAllAsync();
 
@@ -56,11 +62,39 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<CommentModel> GetCommentById(int id)
+        public async Task<CommentModel> GetCommentByIdAsync(int id)
         {
             var comment = await db.Comments.GetByIdAsync(id);
 
             var result = mapper.Map<CommentModel>(comment);
+
+            return result;
+        }
+
+        public async Task<List<CommentModel>> GetCommentsByAuthorIdAsync(string id)
+        {
+            var comments = await db.Comments.GetCommentsByAuthorIdAsync(id);
+
+            var result = new List<CommentModel>();
+
+            foreach (var comment in comments)
+            {
+                result.Add(mapper.Map<CommentModel>(comment));
+            }
+
+            return result;
+        }
+
+        public async Task<List<CommentModel>> GetCommentsByArticleIdAsync(int id)
+        {
+            var comments = await db.Comments.GetCommentsByArticleIdAsync(id);
+
+            var result = new List<CommentModel>();
+
+            foreach (var comment in comments)
+            {
+                result.Add(mapper.Map<CommentModel>(comment));
+            }
 
             return result;
         }

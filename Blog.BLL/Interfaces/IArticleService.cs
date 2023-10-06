@@ -9,10 +9,12 @@ namespace Blog.BLL.Interfaces
 {
     public interface IArticleService
     {
-        Task CreateArticelAsync(ArticleModel articleModel);
+        Task CreateArticleAsync(ArticleModel articleModel);
         Task UpdateArticleAsync(ArticleModel articleModel);
-        Task DeleteArticelAsync(int id);
-        Task<List<ArticleModel>> GetAllArticles();
-        Task<List<ArticleModel>> GetArticlesByAuthotId(string id);
+        Task DeleteArticleAsync(int id);
+        Task<List<ArticleModel>> GetAllArticlesAsync();
+        Task<ArticleModel> GetArticleByIdAsync(int id);
+        Task<List<ArticleModel>> GetArticlesByAuthotIdAsync(string id);
+        Task<List<ArticleModel>> GetArticlesByTitleAsync(string title);
     }
 }

@@ -12,7 +12,10 @@ namespace Blog.BLL.Interfaces
         Task CreateCommentAsync(CommentModel commentModel);
         Task UpdateCommentAsync(CommentModel commentModel);
         Task DeleteCommentAsync(int id);
-        Task<List<CommentModel>> GetAllComments();
-        Task<CommentModel> GetCommentById(int id);
+
+        Task<List<CommentModel>> GetAllCommentsAsync();
+        Task<CommentModel> GetCommentByIdAsync(int id);
+        Task<List<CommentModel>> GetCommentsByAuthorIdAsync(string id);
+        Task<List<CommentModel>> GetCommentsByArticleIdAsync(int id);
     }
 }

@@ -3,11 +3,6 @@ using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.BLL.Services
 {
@@ -22,26 +17,35 @@ namespace Blog.BLL.Services
             this.mapper = mapper;
         }
 
-        public async Task CreateArticelAsync(ArticleModel articleModel)
+        public async Task CreateArticleAsync(ArticleModel articleModel)
         {
             var article = mapper.Map<Article>(articleModel);
 
             await db.Articles.CreateAsync(article);
+
+            await db.SaveAsync();
         }
 
         public async Task UpdateArticleAsync(ArticleModel articleModel)
         {
-            var article = mapper.Map<Article>(articleModel);
+            if (articleModel != null)
+            {
+                var article = mapper.Map<Article>(articleModel);
 
-            db.Articles.Update(article);
+                await db.Articles.UpdateAsync(article);
+
+                await db.SaveAsync();
+            }
         }
 
-        public async Task DeleteArticelAsync(int id)
+        public async Task DeleteArticleAsync(int id)
         {
-            db.Articles.Delete(id);
+            await db.Articles.DeleteAsync(id);
+
+            await db.SaveAsync();
         }
 
-        public async Task<List<ArticleModel>> GetAllArticles()
+        public async Task<List<ArticleModel>> GetAllArticlesAsync()
         {
             var articles = await db.Articles.GetAllAsync();
 
@@ -55,9 +59,46 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<List<ArticleModel>> GetArticlesByAuthotId(string id)
+        public async Task<ArticleModel> GetArticleByIdAsync(int id)
         {
-            var articles = await db.Articles.GetArticlesByAuthorId(id);
+            var article = await db.Articles.GetByIdAsync(id);
+
+            var result = mapper.Map<ArticleModel>(article);
+
+            return result;
+        }
+
+        public async Task<List<ArticleModel>> GetArticlesByAuthotIdAsync(string authorId)
+        {
+            var articles = await db.Articles.GetArticlesByAuthorIdAsync(authorId);
+
+            var result = new List<ArticleModel>();
+
+            foreach (var article in articles)
+            {
+                result.Add(mapper.Map<ArticleModel>(article));
+            }
+
+            return result;
+        }
+
+        public async Task<List<ArticleModel>> GetArticlesByTitleAsync(string title)
+        {
+            var articles = await db.Articles.GetArticlesByTitleAsync(title);
+
+            var result = new List<ArticleModel>();
+
+            foreach (var article in articles)
+            {
+                result.Add(mapper.Map<ArticleModel>(article));
+            }
+
+            return result;
+        }
+
+        public async Task<List<ArticleModel>> GetArticlesByTagAsync(string tag)
+        {
+            var articles = await db.Articles.GetArticlesByTagAsync(tag);
 
             var result = new List<ArticleModel>();
 

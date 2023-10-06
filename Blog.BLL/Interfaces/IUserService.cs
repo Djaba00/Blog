@@ -11,16 +11,11 @@ namespace Blog.BLL.Interfaces
 {
     public interface IUserService
     {
-        Task<IdentityResult> RegistrationAsync(UserAccountModel accountModel);
-        Task<SignInResult> LoginAsync(UserAccountModel accountModel);
-        Task LogoutAsync();
-
-        Task<IdentityResult> UpdateAccountAsync(UserAccountModel accountModel);
-        Task<IdentityResult> DeleteAccountAsync(UserAccountModel accountModel);
-
-        Task<List<UserAccountModel>> GetAllUsersAsync();
-        Task<UserAccountModel> GetUserByIdAsync(string id);
-
-        Task<UserAccountModel> GetAuthAccountAsync(ClaimsPrincipal? userClaims);
+        Task<List<UserProfileModel>> GetAllUserProfilesAsync();
+        Task<UserProfileModel> GetUserProfileByIdAsync(int id);
+        Task<UserProfileModel> GetUserProfileByAccountIdAsync(string id);
+        Task CreateUserProfileAsync(UserProfileModel userModel);
+        Task UpdateUserProfileAsync(UserProfileModel userModel);
+        Task DeleteUserProfileAsync(int id);
     }
 }

@@ -3,11 +3,6 @@ using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.BLL.Services
 {
@@ -22,26 +17,35 @@ namespace Blog.BLL.Services
             this.mapper = mapper;
         }
 
-        public async Task CreateCommentAsync(TagModel tagModel)
+        public async Task CreateTagAsync(TagModel tagModel)
         {
             var tag = mapper.Map<Tag>(tagModel);
 
             await db.Tags.CreateAsync(tag);
+
+            await db.SaveAsync();
         }
 
-        public async Task UpdateCommentAsync(TagModel tagModel)
+        public async Task UpdateTagAsync(TagModel tagModel)
         {
-            var tag = mapper.Map<Tag>(tagModel);
+            if (tagModel != null)
+            {
+                var tag = mapper.Map<Tag>(tagModel);
 
-            db.Tags.Update(tag);
+                await db.Tags.UpdateAsync(tag);
+
+                await db.SaveAsync();
+            }
         }
 
-        public async Task DeleteCommentAsync(int id)
+        public async Task DeleteTagAsync(int id)
         {
-            db.Tags.Delete(id);
+            await db.Tags.DeleteAsync(id);
+
+            await db.SaveAsync();
         }
 
-        public async Task<List<TagModel>> GetAllComments()
+        public async Task<List<TagModel>> GetAllTagsAsync()
         {
             var tags = await db.Tags.GetAllAsync();
 
@@ -55,13 +59,36 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<TagModel> GetCommentById(int id)
+        public async Task<TagModel> GetTagByIdAsync(int id)
         {
             var tag = await db.Tags.GetByIdAsync(id);
 
-            var result = mapper.Map<TagModel>(tag);
+            if (tag != null)
+            {
+                var result = mapper.Map<TagModel>(tag);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Тэг не найден");
+            }
+        }
+
+        public async Task<TagModel> GetTagByName(string name)
+        {
+            var tag = await db.Tags.GetTagsByName(name);
+
+            if (tag != null)
+            {
+                var result = mapper.Map<TagModel>(tag);
+
+                return result;
+            }
+            else
+            {
+                throw new Exception("Тэг не найден");
+            }
         }
     }
 }

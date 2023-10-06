@@ -17,13 +17,20 @@ namespace Blog.BLL.Configurations
                 .ForMember(m => m.UserName, opt => opt.MapFrom(x => x.Email))
                 .ReverseMap();
 
-            CreateMap<UserProfileModel, UserProfile>().ReverseMap();
+            CreateMap<RoleModel, Role>()
+                .ReverseMap();
 
-            CreateMap<ArticleModel, Article>().ReverseMap();
+            CreateMap<UserProfileModel, UserProfile>()
+                .ReverseMap();
 
-            CreateMap<CommentModel, Comment>().ReverseMap();
+            CreateMap<ArticleModel, Article>()
+                .ReverseMap();
 
-            CreateMap<TagModel, Tag>().ReverseMap();
+            CreateMap<CommentModel, Comment>()
+                .ReverseMap();
+
+            CreateMap<TagModel, Tag>()
+                .ReverseMap();
         }
     }
 }
