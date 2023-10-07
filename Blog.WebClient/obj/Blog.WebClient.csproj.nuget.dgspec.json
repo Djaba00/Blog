@@ -1,39 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.WebClient\\Blog.WebClient.csproj": {}
+    "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Blog.WebClient.csproj": {}
   },
   "projects": {
-    "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.BLL\\Blog.BLL.csproj": {
+    "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/Blog.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.BLL\\Blog.BLL.csproj",
+        "projectUniqueName": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/Blog.BLL.csproj",
         "projectName": "Blog.BLL",
-        "projectPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.BLL\\Blog.BLL.csproj",
-        "packagesPath": "C:\\Users\\frankcowperwood\\.nuget\\packages\\",
-        "outputPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.BLL\\obj\\",
+        "projectPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/Blog.BLL.csproj",
+        "packagesPath": "/Users/frankcowperwood/.nuget/packages/",
+        "outputPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\frankcowperwood\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/frankcowperwood/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.DAL\\Blog.DAL.csproj": {
-                "projectPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.DAL\\Blog.DAL.csproj"
+              "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj": {
+                "projectPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj"
               }
             }
           }
@@ -73,32 +68,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.DAL\\Blog.DAL.csproj": {
+    "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.DAL\\Blog.DAL.csproj",
+        "projectUniqueName": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj",
         "projectName": "Blog.DAL",
-        "projectPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.DAL\\Blog.DAL.csproj",
-        "packagesPath": "C:\\Users\\frankcowperwood\\.nuget\\packages\\",
-        "outputPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.DAL\\obj\\",
+        "projectPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj",
+        "packagesPath": "/Users/frankcowperwood/.nuget/packages/",
+        "outputPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\frankcowperwood\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/frankcowperwood/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -156,40 +146,36 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.WebClient\\Blog.WebClient.csproj": {
+    "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Blog.WebClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.WebClient\\Blog.WebClient.csproj",
+        "projectUniqueName": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Blog.WebClient.csproj",
         "projectName": "Blog.WebClient",
-        "projectPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.WebClient\\Blog.WebClient.csproj",
-        "packagesPath": "C:\\Users\\frankcowperwood\\.nuget\\packages\\",
-        "outputPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.WebClient\\obj\\",
+        "projectPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Blog.WebClient.csproj",
+        "packagesPath": "/Users/frankcowperwood/.nuget/packages/",
+        "outputPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\frankcowperwood\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/frankcowperwood/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
+          "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.BLL\\Blog.BLL.csproj": {
-                "projectPath": "\\\\Mac\\Home\\Desktop\\Prog\\Development\\FinalTasksSF\\Blog\\Blog.BLL\\Blog.BLL.csproj"
+              "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/Blog.BLL.csproj": {
+                "projectPath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/Blog.BLL.csproj"
               }
             }
           }
@@ -234,7 +220,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     }
