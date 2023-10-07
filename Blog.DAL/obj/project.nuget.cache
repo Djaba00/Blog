@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "h3Gcw1nC8stLmqstM6EOTkmLF/w4qbI/US6W2ZOzCwAL08nlZvALwVKXI/9+AHnuFl71dYtx7wII/2V6sSfQZA==",
+=======
+  "dgSpecHash": "AQZDzcM1ROCLPsMbLUxien0QicVjRAkVk2g0mSlmjER8Kk0AdZK1UGsxL/j/S8uNHUf5B+4S+1RN+2U6h/mUJQ==",
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.DAL/Blog.DAL.csproj",
   "expectedPackageFiles": [

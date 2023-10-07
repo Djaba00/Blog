@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "B+/M3AEU/7p1vGE+tRB+/kmCfEOAzuc7ymqOpkPxFHPIwM6WEqJykAuEXZh3/CDfSAnQqbEFxp6KSruhai2TAw==",
+=======
+  "dgSpecHash": "NDRGKNomgkjeBaQzcn/a+yIzIVRMJrU1eil/rcXyMc94I2y4mbxuRSBYetgO8wuT4om0gj0GkWF+U5bKuY528A==",
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.BLL/Blog.BLL.csproj",
   "expectedPackageFiles": [

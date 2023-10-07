@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "rj0kbB8mbB1Vei+JUOaTjurrbjnuzFiRZcXxgPxPQgTk/CQR2J5G078FH8HXwLorz9FIRxiWw5Y+F2C9SqBt6g==",
+=======
+  "dgSpecHash": "mdp470D0hvHzCrVj+n/ASIMBv84Sn63IFccsmsQBzauWhem095irtrP/HmtTj/iM+r8Wh7ns6YtZhtILaKpHyA==",
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "/Users/frankcowperwood/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Blog.WebClient.csproj",
   "expectedPackageFiles": [
