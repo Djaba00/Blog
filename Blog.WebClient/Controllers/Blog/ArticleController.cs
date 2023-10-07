@@ -4,6 +4,7 @@ using Blog.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Blog.WebClient.VIewModels.Article;
 using Microsoft.AspNetCore.Authorization;
+using Blog.WebClient.VIewModels.User;
 
 namespace Blog.WebClient.Controllers.Blog
 {
@@ -19,7 +20,21 @@ namespace Blog.WebClient.Controllers.Blog
             this.articleService = articleService;
             this.accountService = accountService;
         }
-        
+
+        [Authorize]
+        [Route("NewArticle")]
+        [HttpGet]
+        public async Task<IActionResult> MyPageAsync()
+        {
+            var user = User;
+
+            var result = await accountService.GetAuthAccountAsync(user);
+
+            var model = mapper.Map<UserViewModel>(result.Profile);
+
+            return View("NewArticle", model);
+        }
+
         [Authorize]
         [Route("NewArticle")]
         [HttpPost]
@@ -28,6 +43,8 @@ namespace Blog.WebClient.Controllers.Blog
             if (ModelState.IsValid)
             {
                 var article = mapper.Map<ArticleModel>(articleModel);
+
+                article.Created = DateTime.Now;
 
                 await articleService.CreateArticleAsync(article);
 
@@ -45,6 +62,8 @@ namespace Blog.WebClient.Controllers.Blog
             if (ModelState.IsValid)
             {
                 var article = mapper.Map<ArticleModel>(updateArticle);
+
+                article.Changed = DateTime.Now;
 
                 await articleService.UpdateArticleAsync(article);
 

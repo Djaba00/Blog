@@ -12,6 +12,7 @@ namespace Blog.WebClient.Configurations
     {
         public MappingProfilePLL()
         {
+            #region[User]
             CreateMap<RegistrationViewModel, UserAccountModel>()
                 .ForMember(m => m.UserName, opt => opt.MapFrom(vm => vm.Email));
 
@@ -23,16 +24,20 @@ namespace Blog.WebClient.Configurations
 
             CreateMap<EditUserProfileViewModel, UserProfileModel>()
                 .ReverseMap();
+            #endregion
 
+            #region[Article]
             CreateMap<ArticleViewModel, ArticleModel>()
                 .ReverseMap();
 
             CreateMap<CreateArticleViewModel, ArticleModel>()
-                .ReverseMap();
+                .ForMember(m => m.UserId, opt => opt.MapFrom(vm => vm.AuthorId));
 
             CreateMap<EditArticleViewModel, ArticleModel>()
                 .ReverseMap();
+            #endregion
 
+            #region[Comment]
             CreateMap<CommentViewModel, CommentModel>()
                 .ReverseMap();
 
@@ -41,8 +46,13 @@ namespace Blog.WebClient.Configurations
 
             CreateMap<EditCommentViewModel, CommentModel>()
                 .ReverseMap();
+            #endregion
 
+            #region[Tag]
             CreateMap<TagViewModel, TagModel>()
+                .ReverseMap();
+
+            CreateMap<HashTagViewModel, TagModel>()
                 .ReverseMap();
 
             CreateMap<CreateTagViewModel, TagModel>()
@@ -50,6 +60,7 @@ namespace Blog.WebClient.Configurations
 
             CreateMap<EditTagViewModel, TagModel>()
                 .ReverseMap();
+            #endregion
         }
     }
 }

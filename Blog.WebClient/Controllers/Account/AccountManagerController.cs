@@ -85,5 +85,14 @@ namespace Blog.WebClient.Controllers.Account
 
             return View("AccountsList", models);
         }
+
+        [Route("InitializeAccounts")]
+        [HttpGet]
+        public async Task<IActionResult> InitializencAccountsAsync()
+        {
+            await accountService.InitializeAccountsWithRolesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

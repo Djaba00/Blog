@@ -21,9 +21,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Database\" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Database\" />
   </ItemGroup>
 </Project>

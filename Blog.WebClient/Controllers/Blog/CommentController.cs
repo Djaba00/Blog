@@ -30,6 +30,8 @@ namespace Blog.WebClient.Controllers.Blog
             {
                 var comment = mapper.Map<CommentModel>(commentModel);
 
+                comment.Created = DateTime.Now;
+
                 await commentService.CreateCommentAsync(comment);
 
                 return RedirectToAction("MyPage");
@@ -46,6 +48,8 @@ namespace Blog.WebClient.Controllers.Blog
             if (ModelState.IsValid)
             {
                 var comment = mapper.Map<CommentModel>(updateComment);
+
+                comment.Changed = DateTime.Now;
 
                 await commentService.UpdateCommentAsync(comment);
 

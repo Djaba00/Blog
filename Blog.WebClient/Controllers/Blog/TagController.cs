@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.BLL.Services;
-using Blog.WebClient.VIewModels.Article;
 using Blog.WebClient.VIewModels.Tag;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

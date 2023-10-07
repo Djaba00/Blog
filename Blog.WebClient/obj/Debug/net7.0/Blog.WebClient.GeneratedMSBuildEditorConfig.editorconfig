@@ -9,37 +9,37 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Blog.WebClient
 build_property.RootNamespace = Blog.WebClient
-build_property.ProjectDir = D:\Development\Projects\Blog\Blog.WebClient\
+build_property.ProjectDir = \\Mac\Home\Desktop\Prog\Development\FinalTasksSF\Blog\Blog.WebClient\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Development\Projects\Blog\Blog.WebClient
+build_property.MSBuildProjectDirectory = \\Mac\Home\Desktop\Prog\Development\FinalTasksSF\Blog\Blog.WebClient
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Development/Projects/Blog/Blog.WebClient/Views/Home/Index.cshtml]
+[//Mac/Home/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Development/Projects/Blog/Blog.WebClient/Views/Home/Privacy.cshtml]
+[//Mac/Home/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Development/Projects/Blog/Blog.WebClient/Views/Shared/Error.cshtml]
+[//Mac/Home/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Development/Projects/Blog/Blog.WebClient/Views/Shared/_ValidationScriptsPartial.cshtml]
+[//Mac/Home/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Development/Projects/Blog/Blog.WebClient/Views/_ViewImports.cshtml]
+[//Mac/Home/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Development/Projects/Blog/Blog.WebClient/Views/_ViewStart.cshtml]
+[//Mac/Home/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Development/Projects/Blog/Blog.WebClient/Views/Shared/_Layout.cshtml]
+[//Mac/Home/Desktop/Prog/Development/FinalTasksSF/Blog/Blog.WebClient/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-hxc2ndwblb

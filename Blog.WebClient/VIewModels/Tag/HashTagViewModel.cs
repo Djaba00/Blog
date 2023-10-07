@@ -1,8 +1,7 @@
 ﻿namespace Blog.WebClient.VIewModels.Tag
 {
-    public class EditTagViewModel
+    public class HashTagViewModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }
