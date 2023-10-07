@@ -11,8 +11,7 @@ namespace Blog.BLL.Models
 
         public bool RememberMe { get; set; }
 
-        public List<RoleModel> Roles { get; set; }
-
+        public int ProfileId { get; set; }
         public UserProfileModel Profile { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace Blog.BLL.Models
+﻿namespace Blog.BLL.Models
 {
     public class ArticleModel
     {
@@ -12,8 +11,8 @@ namespace Blog.BLL.Models
         public string UserId { get; set; }
         public UserAccountModel User { get; set; }
 
-        public virtual ICollection<TagModel> Tags { get; set; }
+        public List<TagModel> Tags { get; set; }
 
-        public virtual ICollection<CommentModel> Comments { get; set; }
+        public List<CommentModel> Comments { get; set; }
     }
 }

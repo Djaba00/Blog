@@ -59,6 +59,8 @@ namespace Blog.BLL.Services
 
             var result = await db.UserAccounts.RegistrationAsync(account, accountModel.Password);
 
+            await db.UserAccounts.AddToRoleAsync(account, "User");
+
             return result;
         }
 
@@ -86,6 +88,56 @@ namespace Blog.BLL.Services
             }
 
             return result;
-        }  
+        }
+
+        public async Task InitializeAccountsWithRolesAsync()
+        {
+            var adminData = new { Email = "admin@gmail.com", Password = "Adminqwerty" };
+            var moderatorData = new { Email = "moderator@gmail.com", Password = "Moderqwerty" };
+            var userData = new { Email = "user@gmail.com", Password = "Userqwerty" };
+
+            if (await db.RoleManager.FindByNameAsync("Admin") == null)
+            {
+                await db.RoleManager.CreateAsync(new Role("Admin"));
+            }
+            if (await db.RoleManager.FindByNameAsync("Moderator") == null)
+            {
+                await db.RoleManager.CreateAsync(new Role("Moderator"));
+            }
+            if (await db.RoleManager.FindByNameAsync("User") == null)
+            {
+                await db.RoleManager.CreateAsync(new Role("User"));
+            }
+
+            if (await db.RoleManager.FindByNameAsync(adminData.Email) == null)
+            {
+                var admin = new UserAccount { Email = adminData.Email, UserName = adminData.Email };
+                IdentityResult result = await db.UserAccounts.RegistrationAsync(admin, adminData.Password);
+                if (result.Succeeded)
+                {
+                    await db.UserAccounts.AddToRoleAsync(admin, "Admin");
+                }
+            }
+
+            if (await db.RoleManager.FindByNameAsync(moderatorData.Email) == null)
+            {
+                var moderator = new UserAccount { Email = moderatorData.Email, UserName = moderatorData.Email };
+                IdentityResult result = await db.UserAccounts.RegistrationAsync(moderator, moderatorData.Password);
+                if (result.Succeeded)
+                {
+                    await db.UserAccounts.AddToRoleAsync(moderator, "Moderator");
+                }
+            }
+
+            if (await db.RoleManager.FindByNameAsync(userData.Email) == null)
+            {
+                var user = new UserAccount { Email = userData.Email, UserName = userData.Email };
+                IdentityResult result = await db.UserAccounts.RegistrationAsync(user, userData.Password);
+                if (result.Succeeded)
+                {
+                    await db.UserAccounts.AddToRoleAsync(user, "User");
+                }
+            }
+        }
     }
 }

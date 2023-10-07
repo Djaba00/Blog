@@ -15,7 +15,7 @@ namespace Blog.BLL.Models
         public string UserAccountId { get; set; }
         public UserAccountModel UserAccount { get; set; }
 
-        public virtual ICollection<ArticleModel> Articles { get; set; }
-        public virtual ICollection<CommentModel> Comments { get; set; }
+        public List<ArticleModel> Articles { get; set; }
+        public List<CommentModel> Comments { get; set; }
     }
 }
