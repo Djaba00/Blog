@@ -8,9 +8,6 @@ namespace Blog.DAL.ApplicationContext.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.HasMany(c => c.Accounts)
-                .WithOne(a => a.Role)
-                .HasForeignKey(a => a.RoleId);
         }
     }
 }

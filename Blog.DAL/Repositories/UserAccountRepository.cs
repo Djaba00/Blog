@@ -67,6 +67,13 @@ namespace Blog.DAL.Repositories
             return result;
         }
 
+        public async Task<IdentityResult> AddToRoleAsync(UserAccount account, string role)
+        {
+            var result = await userManager.AddToRoleAsync(account, role);
+
+            return result;
+        }
+
         public async Task<IdentityResult> ChangePasswordAsync(UserAccount account, string oldPassword, string newPassword)
         {
             var result = await userManager.ChangePasswordAsync(account, oldPassword, newPassword);

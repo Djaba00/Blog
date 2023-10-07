@@ -21,11 +21,12 @@ namespace Blog.DAL.UnitOfWork
 
         private bool disposed = false;
 
-        public UnitOfWork(DataContext db, UserManager<UserAccount> userManager, SignInManager<UserAccount> signInManager)
+        public UnitOfWork(DataContext db, UserManager<UserAccount> userManager, SignInManager<UserAccount> signInManager, RoleManager<Role> roleManager)
         {
             this.db = db;
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
 
         public IUserProfileRepository<UserProfile> UserProfiles

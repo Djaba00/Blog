@@ -18,6 +18,7 @@ namespace Blog.DAL.Interfaces
         Task<IdentityResult> RegistrationAsync(UserAccount account, string password);
         Task<IdentityResult> UpdateAsync(UserAccount entity);
         Task<IdentityResult> DeleteAsync(string id);
+        Task<IdentityResult> AddToRoleAsync(UserAccount account, string role);
         Task<IdentityResult> ChangePasswordAsync(UserAccount account, string oldPassword, string newPassword);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Blog.DAL.ApplicationContext.EntitiesConfiguration;
-using Blog.DAL.ApplicationContext.EntitiesConfiguration.Helpers;
 using Blog.DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +28,6 @@ namespace Blog.DAL.ApplicationContext
             modelBuilder.ApplyConfiguration(new ArticleConfiguration());
             modelBuilder.ApplyConfiguration(new TagConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
-
-            modelBuilder.Entity<Role>().HasData(DataGenerator.roles);
-            modelBuilder.Entity<UserAccount>().HasData(DataGenerator.accounts);
         }
     }
 }
