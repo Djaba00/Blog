@@ -86,7 +86,6 @@ namespace Blog.WebClient.Controllers.Account
             return View("AccountsList", models);
         }
 
-        [Authorize(Roles = "Admin")]
         [Route("InitializeAccounts")]
         [HttpGet]
         public async Task<IActionResult> InitializencAccountsAsync()

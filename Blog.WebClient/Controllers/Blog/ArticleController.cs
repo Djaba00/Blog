@@ -24,7 +24,7 @@ namespace Blog.WebClient.Controllers.Blog
         [Authorize]
         [Route("NewArticle")]
         [HttpGet]
-        public async Task<IActionResult> MyPageAsync()
+        public async Task<IActionResult> CreateArticleAsync()
         {
             var user = User;
 
