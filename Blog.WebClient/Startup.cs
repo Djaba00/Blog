@@ -1,13 +1,12 @@
-﻿using System;
-using Blog.DAL.Entities;
-using Blog.BLL.Configurations;
-using Microsoft.AspNetCore.Identity;
+﻿using Blog.BLL.Configurations;
 using Microsoft.OpenApi.Models;
 using Blog.WebClient.Configurations;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 
 namespace Blog.WebClient
 {
-	public class Startup
+    public class Startup
 	{
         public Startup(IConfiguration configuration)
         {
@@ -24,6 +23,12 @@ namespace Blog.WebClient
 
             string dbConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddSqlLiteContext(dbConnection);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("Login");
+                });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
