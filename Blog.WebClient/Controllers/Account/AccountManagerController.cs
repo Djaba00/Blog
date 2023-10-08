@@ -4,6 +4,7 @@ using Blog.BLL.Models;
 using Blog.WebClient.VIewModels.Account;
 using Blog.WebClient.VIewModels.User;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebClient.Controllers.Account
@@ -21,7 +22,6 @@ namespace Blog.WebClient.Controllers.Account
 
         [Route("Login")]
         [HttpPost]
-
         public async Task<IActionResult> LoginAsync(LoginViewModel login)
         {
             if (ModelState.IsValid)
@@ -86,6 +86,7 @@ namespace Blog.WebClient.Controllers.Account
             return View("AccountsList", models);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("InitializeAccounts")]
         [HttpGet]
         public async Task<IActionResult> InitializencAccountsAsync()
