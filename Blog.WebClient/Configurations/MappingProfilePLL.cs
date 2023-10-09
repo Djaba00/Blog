@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Blog.BLL.Models;
-using Blog.WebClient.VIewModels.Account;
-using Blog.WebClient.VIewModels.Article;
-using Blog.WebClient.VIewModels.Comment;
-using Blog.WebClient.VIewModels.Tag;
-using Blog.WebClient.VIewModels.User;
+using Blog.WebService.VIewModels.Account;
+using Blog.WebService.VIewModels.Article;
+using Blog.WebService.VIewModels.Comment;
+using Blog.WebService.VIewModels.Tag;
+using Blog.WebService.VIewModels.User;
 
-namespace Blog.WebClient.Configurations
+namespace Blog.WebService.Configurations
 {
     public class MappingProfilePLL : Profile
     {

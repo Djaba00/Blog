@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebClient.VIewModels.Account;
-using Blog.WebClient.VIewModels.User;
+using Blog.WebService.VIewModels.Account;
+using Blog.WebService.VIewModels.User;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blog.WebClient.Controllers.Account
+namespace Blog.WebService.Controllers.Account
 {
     public class AccountManagerController : Controller
     {

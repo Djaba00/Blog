@@ -1,4 +1,4 @@
-﻿namespace Blog.WebClient.VIewModels.Comment
+﻿namespace Blog.WebService.VIewModels.Comment
 {
     public class EditCommentViewModel
     {

@@ -1,10 +1,10 @@
 ﻿using Blog.BLL.Configurations;
 using Microsoft.OpenApi.Models;
-using Blog.WebClient.Configurations;
+using Blog.WebService.Configurations;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 
-namespace Blog.WebClient
+namespace Blog.WebService
 {
     public class Startup
 	{

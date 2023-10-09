@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Blog.WebClient.Models;
+using Blog.WebService.Models;
 
-namespace Blog.WebClient.Controllers;
+namespace Blog.WebService.Controllers;
 
 public class HomeController : Controller
 {

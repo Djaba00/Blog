@@ -3,7 +3,7 @@ using Blog.BLL.Services;
 using Blog.DAL.Interfaces;
 using Blog.DAL.UnitOfWork;
 
-namespace Blog.WebClient.Configurations
+namespace Blog.WebService.Configurations
 {
     public static class ServicesPLLModule
     {

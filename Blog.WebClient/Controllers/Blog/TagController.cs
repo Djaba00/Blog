@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebClient.VIewModels.Tag;
+using Blog.WebService.VIewModels.Tag;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blog.WebClient.Controllers.Blog
+namespace Blog.WebService.Controllers.Blog
 {
     public class TagController : Controller
     {

@@ -4,7 +4,6 @@ using Blog.DAL.ApplicationContext;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Blog.DAL.UnitOfWork;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

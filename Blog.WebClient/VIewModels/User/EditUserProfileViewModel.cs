@@ -1,4 +1,4 @@
-﻿namespace Blog.WebClient.VIewModels.User
+﻿namespace Blog.WebService.VIewModels.User
 {
     public class EditUserProfileViewModel
     {

@@ -1,7 +1,7 @@
 ﻿using Blog.BLL.Models;
-using Blog.WebClient.VIewModels.Article;
+using Blog.WebService.VIewModels.Article;
 
-namespace Blog.WebClient.VIewModels.Tag
+namespace Blog.WebService.VIewModels.Tag
 {
     public class CreateTagViewModel
     {

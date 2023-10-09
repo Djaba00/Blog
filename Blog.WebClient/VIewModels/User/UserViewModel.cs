@@ -1,6 +1,6 @@
 ﻿using Blog.BLL.Models;
 
-namespace Blog.WebClient.VIewModels.User
+namespace Blog.WebService.VIewModels.User
 {
     public class UserViewModel
     {

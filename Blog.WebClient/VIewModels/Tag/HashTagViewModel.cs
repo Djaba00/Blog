@@ -1,4 +1,4 @@
-﻿namespace Blog.WebClient.VIewModels.Tag
+﻿namespace Blog.WebService.VIewModels.Tag
 {
     public class HashTagViewModel
     {

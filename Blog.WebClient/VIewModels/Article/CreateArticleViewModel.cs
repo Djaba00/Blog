@@ -1,8 +1,8 @@
 ﻿using Blog.BLL.Models;
-using Blog.WebClient.VIewModels.Tag;
-using Blog.WebClient.VIewModels.User;
+using Blog.WebService.VIewModels.Tag;
+using Blog.WebService.VIewModels.User;
 
-namespace Blog.WebClient.VIewModels.Article
+namespace Blog.WebService.VIewModels.Article
 {
     public class CreateArticleViewModel
     {

@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Hosting;
 
-namespace Blog.WebClient
+namespace Blog.WebService
 {
     public class Program
     {

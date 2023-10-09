@@ -2,11 +2,11 @@
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
-using Blog.WebClient.VIewModels.Article;
+using Blog.WebService.VIewModels.Article;
 using Microsoft.AspNetCore.Authorization;
-using Blog.WebClient.VIewModels.User;
+using Blog.WebService.VIewModels.User;
 
-namespace Blog.WebClient.Controllers.Blog
+namespace Blog.WebService.Controllers.Blog
 {
     public class ArticleController : Controller
     {

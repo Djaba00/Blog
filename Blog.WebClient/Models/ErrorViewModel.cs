@@ -1,4 +1,4 @@
-﻿namespace Blog.WebClient.Models;
+﻿namespace Blog.WebService.Models;
 
 public class ErrorViewModel
 {
