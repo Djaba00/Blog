@@ -1,10 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Policy;
 using System.Xml.Linq;
 
 namespace Blog.WebService.VIewModels.Account
 {
     public class RegistrationViewModel
     {
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
