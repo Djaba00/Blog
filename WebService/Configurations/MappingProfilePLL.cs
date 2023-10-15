@@ -15,11 +15,12 @@ namespace Blog.WebService.Configurations
             #region[User]
             CreateMap<RegistrationViewModel, UserAccountModel>()
                 .ForMember(m => m.UserName, opt => opt.MapFrom(vm => vm.Email));
+            CreateMap<RegistrationViewModel, UserProfileModel>();
 
             CreateMap<LoginViewModel, UserAccountModel>()
                 .ForMember(m => m.UserName, opt => opt.MapFrom(vm => vm.Email));
 
-            CreateMap<UserViewModel, UserAccountModel>()
+            CreateMap<UserViewModel, UserProfileModel>()
                 .ReverseMap();
 
             CreateMap<EditUserProfileViewModel, UserProfileModel>()
