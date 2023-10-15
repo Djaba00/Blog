@@ -60,6 +60,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [HttpGet]
+        [Route("Comments")]
         public async Task<IActionResult> GetCommentsListAsync()
         {
             var comments = await commentService.GetAllCommentsAsync();
@@ -75,6 +76,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [HttpGet]
+        [Route("Comment/ArticleComments")]
         public async Task<IActionResult> GetComentsByArticleIdAsync(int id)
         {
             var comments = await commentService.GetCommentsByArticleIdAsync(id);
@@ -90,6 +92,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [HttpGet]
+        [Route("Comment/AuthorComments")]
         public async Task<IActionResult> GetCommentsByAuthorIdAsync(string id)
         {
             var comments = await commentService.GetCommentsByAuthorIdAsync(id);

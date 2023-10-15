@@ -19,7 +19,13 @@ namespace Blog.WebService.Controllers.Account
             this.accountService = accountService;
         }
 
-        [Route("Login")]
+        [Route("AccountManager/Login")]
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [Route("AccountManager/Login")]
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginViewModel login)
         {
@@ -29,18 +35,17 @@ namespace Blog.WebService.Controllers.Account
 
             if (result.Succeeded)
             {
-                return RedirectToAction("MyPage");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                return RedirectToAction("Login", "AccountManager");
             }
-
-            return RedirectToAction("Index", "Home"); ;
         }
 
         [Authorize]
-        [Route("Logout")]
+        [Route("AccountManager/Logout")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutAsync()
@@ -50,7 +55,7 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Authorize]
-        [Route("MyPage")]
+        [Route("AccountManager/MyPage")]
         [HttpGet]
         public async Task<IActionResult> MyPageAsync()
         {
@@ -65,8 +70,8 @@ namespace Blog.WebService.Controllers.Account
             return View("UserPage", model);
         }
 
-        [Authorize]
-        [Route("Accounts")]
+        [Authorize(Roles = "Admin")]
+        [Route("AccountManager/Accounts")]
         [HttpGet]
         public async Task<IActionResult> GetAccountsListAsync()
         {

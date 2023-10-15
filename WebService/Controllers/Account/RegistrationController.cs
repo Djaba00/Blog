@@ -2,6 +2,7 @@
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.BLL.Services;
+using Blog.WebService.Interfaces;
 using Blog.WebService.VIewModels.Account;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,31 +20,37 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Route("Registration")]
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        [Route("Registration")]
         [HttpPost]
         public async Task<IActionResult> RegistrationAsync(RegistrationViewModel registration)
         {
-            if (ModelState.IsValid)
+            var account = mapper.Map<UserAccountModel>(registration);
+
+            account.Profile = mapper.Map<UserProfileModel>(registration);
+
+            var result = await accountService.RegistrationAsync(account);
+
+            if (result.Succeeded)
             {
-                var user = mapper.Map<UserAccountModel>(registration);
+                await accountService.LoginAsync(account);
 
-                var result = await accountService.RegistrationAsync(user);
-
-                if (result.Succeeded)
+                return RedirectToAction("MyPage", "Account");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
                 {
-                    await accountService.LoginAsync(user);
-
-                    return RedirectToAction("Edit", "User");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-            return RedirectToAction("Index", "Home"); ;
+            return RedirectToAction("Index", "Home");
         }
     }
 }

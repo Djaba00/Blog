@@ -11,17 +11,24 @@ namespace Blog.WebService.Controllers.Blog
     {
         IMapper mapper;
         ITagService tagService;
-        IAccountService accountService;
 
-        public TagController(IMapper mapper, ITagService tagService, IAccountService accountService)
+        public TagController(IMapper mapper, ITagService tagService)
         {
             this.mapper = mapper;
             this.tagService = tagService;
-            this.accountService = accountService;
         }
 
         [Authorize]
-        [Route("NewTag")]
+        [Route("Tag/NewTag")]
+        [HttpGet]
+        public IActionResult CreateTag()
+        {
+            return View("NewTag");
+        }
+
+
+        [Authorize]
+        [Route("Tag/NewTag")]
         [HttpPost]
         public async Task<IActionResult> CreateTagAsync(CreateTagViewModel tagModel)
         {
@@ -33,7 +40,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("EditTag")]
+        [Route("Tag/EditTag")]
         [HttpPost]
         public async Task<IActionResult> UpdateTagAsync(EditTagViewModel updateTag)
         {
@@ -45,7 +52,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("DeleteTag")]
+        [Route("Tag/DeleteTag")]
         [HttpPost]
         public async Task<IActionResult> DeleteTagAsync(int id)
         {
@@ -54,7 +61,7 @@ namespace Blog.WebService.Controllers.Blog
             return RedirectToAction("MyPage");
         }
 
-        [Route("Tag")]
+        [Route("Tag/Tags")]
         [HttpGet]
         public async Task<IActionResult> GetTagsListAsync()
         {
@@ -70,7 +77,7 @@ namespace Blog.WebService.Controllers.Blog
             return View("ArticlesList", models);
         }
 
-        [Route("Tags")]
+        [Route("Tag/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> GetTagByIdAsync(int id)
         {

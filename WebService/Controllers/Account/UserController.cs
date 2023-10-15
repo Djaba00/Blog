@@ -78,7 +78,6 @@ namespace Blog.WebService.Controllers.Account
             return RedirectToAction("MyPage");
         }
 
-        [Authorize(Roles = "Admin")]
         [Route("Users")]
         [HttpGet]
         public async Task<IActionResult> GetUserProfilesListAsync()
