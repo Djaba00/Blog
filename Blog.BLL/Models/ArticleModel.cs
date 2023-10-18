@@ -8,8 +8,8 @@
         public DateTime Created { get; set; }
         public DateTime? Changed { get; set; }
 
-        public string UserId { get; set; }
-        public UserAccountModel User { get; set; }
+        public int UserId { get; set; }
+        public UserProfileModel User { get; set; }
 
         public List<TagModel> Tags { get; set; }
 

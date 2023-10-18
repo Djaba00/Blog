@@ -9,6 +9,8 @@ namespace Blog.BLL.Interfaces
         Task<IdentityResult> RegistrationAsync(UserAccountModel accountModel);
         Task<SignInResult> LoginAsync(UserAccountModel accountModel);
         Task LogoutAsync();
+        Task<IdentityResult> UpdateAccountAsync(UserAccountModel userAccount);
+        Task<IdentityResult> ChangePasswordAsync(UserAccountModel userAccount, string oldPassword, string newPassword);
         Task<IdentityResult> DeleteAccountAsync(UserAccountModel accountModel);
 
         Task<List<UserAccountModel>> GetAllAcoountsAsync();

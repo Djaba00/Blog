@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Blog.BLL.Externtions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
@@ -23,7 +24,7 @@ namespace Blog.BLL.Services
             {
                 var comment = mapper.Map<Comment>(commentModel);
 
-                await db.Comments.CreateAsync(comment);
+                db.Comments.Create(comment);
 
                 await db.SaveAsync();
             }
@@ -33,9 +34,13 @@ namespace Blog.BLL.Services
         {
             if (commentModel != null)
             {
-                var comment = mapper.Map<Comment>(commentModel);
+                var comment = await db.Comments.GetByIdAsync(commentModel.Id);
+                
+                var updateComment = mapper.Map<Comment>(commentModel);
 
-                await db.Comments.UpdateAsync(comment);
+                comment.Edit(updateComment);
+
+                db.Comments.Update(comment);
 
                 await db.SaveAsync();
             }
@@ -43,7 +48,9 @@ namespace Blog.BLL.Services
 
         public async Task DeleteCommentAsync(int id)
         {
-            var comment = db.Comments.DeleteAsync(id);
+            var comment = await db.Comments.GetByIdAsync(id);
+            
+            db.Comments.Delete(comment);
 
             await db.SaveAsync();
         }

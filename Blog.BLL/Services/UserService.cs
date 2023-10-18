@@ -54,7 +54,7 @@ namespace Blog.BLL.Services
         {
             var userProfile = mapper.Map<UserProfile>(userModel);
 
-            await db.UserProfiles.CreateAsync(userProfile);
+            db.UserProfiles.Create(userProfile);
 
             await db.SaveAsync();
         }
@@ -63,14 +63,16 @@ namespace Blog.BLL.Services
         {
             var userProfile = mapper.Map<UserProfile>(userProfileModel);
 
-            await db.UserProfiles.UpdateAsync(userProfile);
+            db.UserProfiles.Update(userProfile);
 
             await db.SaveAsync();
         }
 
         public async Task DeleteUserProfileAsync(int id)
         {
-            await db.UserProfiles.DeleteAsync(id);
+            var user = await db.UserProfiles.GetByIdAsync(id);
+            
+            db.UserProfiles.Delete(user);
 
             await db.SaveAsync();
         }

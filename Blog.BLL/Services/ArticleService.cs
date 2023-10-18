@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Blog.BLL.Externtions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
+using Blog.DAL.ApplicationContext.EntitiesConfiguration;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 
@@ -21,7 +23,14 @@ namespace Blog.BLL.Services
         {
             var article = mapper.Map<Article>(articleModel);
 
-            await db.Articles.CreateAsync(article);
+            article.Tags = new List<Tag>();
+
+            foreach (var tag in articleModel.Tags)
+            {
+                article.Tags.Add(await db.Tags.GetByIdAsync(tag.Id));
+            }
+
+            db.Articles.Create(article);
 
             await db.SaveAsync();
         }
@@ -30,9 +39,13 @@ namespace Blog.BLL.Services
         {
             if (articleModel != null)
             {
-                var article = mapper.Map<Article>(articleModel);
+                var article = await db.Articles.GetByIdAsync(articleModel.Id);
+                
+                var updateArticle = mapper.Map<Article>(articleModel);
 
-                await db.Articles.UpdateAsync(article);
+                article.Edit(updateArticle);
+
+                db.Articles.Update(article);
 
                 await db.SaveAsync();
             }
@@ -40,7 +53,9 @@ namespace Blog.BLL.Services
 
         public async Task DeleteArticleAsync(int id)
         {
-            await db.Articles.DeleteAsync(id);
+            var article = await db.Articles.GetByIdAsync(id);
+            
+            db.Articles.Delete(article);
 
             await db.SaveAsync();
         }
@@ -68,7 +83,7 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<List<ArticleModel>> GetArticlesByAuthotIdAsync(string authorId)
+        public async Task<List<ArticleModel>> GetArticlesByAuthorIdAsync(int authorId)
         {
             var articles = await db.Articles.GetArticlesByAuthorIdAsync(authorId);
 

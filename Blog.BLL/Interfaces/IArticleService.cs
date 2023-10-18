@@ -14,7 +14,7 @@ namespace Blog.BLL.Interfaces
         Task DeleteArticleAsync(int id);
         Task<List<ArticleModel>> GetAllArticlesAsync();
         Task<ArticleModel> GetArticleByIdAsync(int id);
-        Task<List<ArticleModel>> GetArticlesByAuthotIdAsync(string id);
+        Task<List<ArticleModel>> GetArticlesByAuthorIdAsync(int id);
         Task<List<ArticleModel>> GetArticlesByTitleAsync(string title);
     }
 }

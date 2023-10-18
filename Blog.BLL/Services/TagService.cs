@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Blog.BLL.Externtions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
@@ -15,34 +16,6 @@ namespace Blog.BLL.Services
         {
             this.db = db;
             this.mapper = mapper;
-        }
-
-        public async Task CreateTagAsync(TagModel tagModel)
-        {
-            var tag = mapper.Map<Tag>(tagModel);
-
-            await db.Tags.CreateAsync(tag);
-
-            await db.SaveAsync();
-        }
-
-        public async Task UpdateTagAsync(TagModel tagModel)
-        {
-            if (tagModel != null)
-            {
-                var tag = mapper.Map<Tag>(tagModel);
-
-                await db.Tags.UpdateAsync(tag);
-
-                await db.SaveAsync();
-            }
-        }
-
-        public async Task DeleteTagAsync(int id)
-        {
-            await db.Tags.DeleteAsync(id);
-
-            await db.SaveAsync();
         }
 
         public async Task<List<TagModel>> GetAllTagsAsync()
@@ -89,6 +62,40 @@ namespace Blog.BLL.Services
             {
                 throw new Exception("Тэг не найден");
             }
+        }
+
+        public async Task CreateTagAsync(TagModel tagModel)
+        {
+            var tag = mapper.Map<Tag>(tagModel);
+
+            db.Tags.Create(tag);
+
+            await db.SaveAsync();
+        }
+
+        public async Task UpdateTagAsync(TagModel tagModel)
+        {
+            if (tagModel != null)
+            {
+                var tag = await db.Tags.GetByIdAsync(tagModel.Id);
+                
+                var updateTag = mapper.Map<Tag>(tagModel);
+
+                tag.Edit(updateTag);
+
+                db.Tags.Update(tag);
+
+                await db.SaveAsync();
+            }
+        }
+
+        public async Task DeleteTagAsync(int id)
+        {
+            var tag = await db.Tags.GetByIdAsync(id);
+            
+            db.Tags.Delete(tag);
+
+            await db.SaveAsync();
         }
     }
 }
