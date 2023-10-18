@@ -4,6 +4,6 @@ namespace Blog.DAL.Entities
 {
     public class UserAccount : IdentityUser
     {
-        public UserProfile Profile { get; set; }
+        public virtual UserProfile Profile { get; set; }
     }
 }

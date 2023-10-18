@@ -44,43 +44,18 @@ namespace Blog.DAL.Repositories
             return user;
         }
 
-        public async Task CreateAsync(UserProfile entity)
+        public void Create(UserProfile entity)
         {
-            await db.UserProfiles.AddAsync(entity);
+            db.UserProfiles.Add(entity);
         }
 
-        public async Task UpdateAsync(UserProfile updateEntitiy)
+        public void Update(UserProfile updateEntitiy)
         {
-            var userProfile = await GetByAccountId(updateEntitiy.UserAccountId);
-
-            if (userProfile != null)
-            {
-                userProfile.FirstName = updateEntitiy.FirstName ?? userProfile.FirstName;
-                userProfile.LastName = updateEntitiy.LastName ?? userProfile.LastName;
-                userProfile.MiddleName = updateEntitiy.MiddleName ?? userProfile.MiddleName;
-
-                userProfile.BirthDate = updateEntitiy.BirthDate;
-
-                userProfile.Image = updateEntitiy.Image ?? userProfile.Image;
-                userProfile.Status = updateEntitiy.Status ?? userProfile.Status;
-                userProfile.About = updateEntitiy.About ?? userProfile.About;
-
-                userProfile.Articles = updateEntitiy.Articles ?? userProfile.Articles;
-                userProfile.Comments = updateEntitiy.Comments ?? userProfile.Comments;
-            }
-            else
-            {
-                throw new Exception("Пользователь не найден");
-            }
+            db.UserProfiles.Update(updateEntitiy);
         }
-        public async Task DeleteAsync(int id)
+        public void Delete(UserProfile entity)
         {
-            var user = await GetByIdAsync(id);
-
-            if (user != null)
-            {
-                db.UserProfiles.Remove(user);
-            }
+            db.UserProfiles.Remove(entity);
         }
     }
 }

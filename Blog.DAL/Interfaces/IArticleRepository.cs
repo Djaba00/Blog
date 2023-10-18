@@ -6,7 +6,7 @@ namespace Blog.DAL.Interfaces
         where T : class
     {
         Task<List<T>> GetArticlesByTitleAsync(string title);
-        Task<List<Article>> GetArticlesByAuthorIdAsync(string authorId);
+        Task<List<Article>> GetArticlesByAuthorIdAsync(int authorId);
         Task<List<Article>> GetArticlesByTagAsync(string tag);
     }
 }

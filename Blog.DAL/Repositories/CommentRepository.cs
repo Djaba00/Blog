@@ -51,34 +51,19 @@ namespace Blog.DAL.Repositories
             return comments;
         }
 
-        public async Task CreateAsync(Comment entity)
+        public void Create(Comment entity)
         {
-            await db.Comments.AddAsync(entity);
+            db.Comments.Add(entity);
         }
 
-        public async Task UpdateAsync(Comment updateEntity)
+        public void Update(Comment updateEntity)
         {
-            var comment = await GetByIdAsync(updateEntity.Id);
-
-            if (comment != null)
-            {
-                comment.Changed = DateTime.Now;
-                comment.Content = updateEntity.Content;
-            }
-            else
-            {
-                throw new Exception("Комментарий не найден");
-            }
+            db.Comments.Update(updateEntity);
         }
 
-        public async Task DeleteAsync(int id)
+        public void Delete(Comment entity)
         {
-            var comment = await GetByIdAsync(id);
-
-            if (comment != null)
-            {
-                db.Comments.Remove(comment);
-            }
+            db.Comments.Remove(entity);
         }
     }
 }

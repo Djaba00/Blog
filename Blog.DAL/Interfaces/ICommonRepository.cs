@@ -11,8 +11,8 @@ namespace Blog.DAL.Interfaces
     {
         Task<IEnumerable<T1>> GetAllAsync();
         Task<T1> GetByIdAsync(T2 id);
-        Task CreateAsync(T1 entity);
-        Task UpdateAsync(T1 entity);
-        Task DeleteAsync(int id);
+        void Create(T1 entity);
+        void Update(T1 entity);
+        void Delete(T1 entity);
     }
 }

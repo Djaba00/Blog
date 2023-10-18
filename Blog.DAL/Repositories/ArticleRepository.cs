@@ -33,38 +33,6 @@ namespace Blog.DAL.Repositories
             return article;
         }
 
-        public async Task CreateAsync(Article entity)
-        {
-            await db.Articles.AddAsync(entity);
-        }
-
-        public async Task UpdateAsync(Article updateEntity)
-        {
-            var article = await GetByIdAsync(updateEntity.Id);
-
-            if (article != null)
-            {
-                article.Changed = DateTime.Now;
-                article.Title = updateEntity.Title;
-                article.Content = updateEntity.Content;
-                article.Tags = updateEntity.Tags;
-            }
-            else
-            {
-                throw new Exception("Статья не найдена");
-            }
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var article = await GetByIdAsync(id);
-
-            if (article != null)
-            {
-                db.Articles.Remove(article);
-            }
-        }
-
         public async Task<List<Article>> GetArticlesByTitleAsync(string name)
         {
             var articles = await db.Articles
@@ -76,7 +44,7 @@ namespace Blog.DAL.Repositories
             return articles;
         }
 
-        public async Task<List<Article>> GetArticlesByAuthorIdAsync(string id)
+        public async Task<List<Article>> GetArticlesByAuthorIdAsync(int id)
         {
             var articles = await db.Articles
                 .Include(a => a.Tags)
@@ -96,6 +64,21 @@ namespace Blog.DAL.Repositories
                 .ToListAsync();
 
             return articles;
+        }
+
+        public void Create(Article entity)
+        {   
+            db.Articles.Add(entity);
+        }
+
+        public void Update(Article updateEntity)
+        {
+            db.Articles.Update(updateEntity);
+        }
+
+        public void Delete(Article entity)
+        {
+            db.Articles.Remove(entity);
         }
     }
 }

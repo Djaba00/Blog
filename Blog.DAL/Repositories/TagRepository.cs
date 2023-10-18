@@ -37,37 +37,6 @@ namespace Blog.DAL.Repositories
                 throw new Exception("Тэг не найден");
             }
         }
-
-        public async Task CreateAsync(Tag entity)
-        {
-            await db.Tags.AddAsync(entity);
-        }
-
-        public async Task UpdateAsync(Tag entity)
-        {
-            var tag = await GetByIdAsync(entity.Id);
-
-            if (tag != null)
-            {
-                tag.Name = entity.Name;
-                tag.Articles = entity.Articles;
-            }
-            else
-            {
-                throw new Exception("Тэг не найден");
-            }
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var tag = await GetByIdAsync(id);
-
-            if (tag != null)
-            {
-                db.Tags.Remove(tag);
-            }
-        }
-
         public async Task<IEnumerable<Tag>> GetTagsByName(string name)
         {
             var tags = await db.Tags
@@ -76,6 +45,21 @@ namespace Blog.DAL.Repositories
                 .ToListAsync();
 
             return tags;
+        }
+
+        public void Create(Tag entity)
+        {
+            db.Tags.Add(entity);
+        }
+
+        public void Update(Tag entity)
+        {
+            db.Tags.Update(entity);
+        }
+
+        public void Delete(Tag updateEntity)
+        {
+            db.Tags.Remove(updateEntity);
         }
     }
 }

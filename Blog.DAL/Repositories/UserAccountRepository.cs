@@ -20,7 +20,7 @@ namespace Blog.DAL.Repositories
 
         public async Task<IEnumerable<UserAccount>> GetAllAsync()
         {
-            var users = await db.Users
+            var users = await userManager.Users
                 .Include(u => u.Profile)
                 .ToListAsync();
 
@@ -28,8 +28,8 @@ namespace Blog.DAL.Repositories
         }
 
         public async Task<UserAccount> GetByIdAsync(string id)
-        {
-            var user = await db.Users
+        {   
+            var user = await userManager.Users
                 .Include(u => u.Profile)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -38,7 +38,11 @@ namespace Blog.DAL.Repositories
 
         public Task<UserAccount> GetAuthAccountAsync(ClaimsPrincipal? userClaims)
         {
-            var result = userManager.GetUserAsync(userClaims);
+            var userId = userManager.GetUserId(userClaims);
+
+            var result = userManager.Users
+                .Include(u => u.Profile)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             return result;
         }

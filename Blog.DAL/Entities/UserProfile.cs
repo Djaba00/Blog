@@ -15,7 +15,7 @@ namespace Blog.DAL.Entities
         public string About { get; set; }
 
 		public string UserAccountId { get; set; }
-		public UserAccount UserAccount { get; set; }
+		public virtual UserAccount UserAccount { get; set; }
 
 		public virtual ICollection<Article> Articles { get; set; }
 		public virtual ICollection<Comment> Comments { get; set; } 
