@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blog.WebService.VIewModels.Tag
+namespace Blog.WebService.ViewModels.Tag
 {
     public class EditTagViewModel
     {

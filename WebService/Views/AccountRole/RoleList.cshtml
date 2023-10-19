@@ -1,0 +1,24 @@
+﻿@using Blog.WebService.ViewModels.AccountRole;
+@model List<AccountRoleViewModel>;
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>@role.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

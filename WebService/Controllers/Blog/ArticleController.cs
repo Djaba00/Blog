@@ -2,9 +2,11 @@
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
-using Blog.WebService.VIewModels.Article;
+using Blog.WebService.ViewModels.Article;
 using Microsoft.AspNetCore.Authorization;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.ViewModels.User;
+using Blog.WebService.ViewModels.Tag;
+using Blog.DAL.Entities;
 
 namespace Blog.WebService.Controllers.Blog
 {
@@ -13,36 +15,55 @@ namespace Blog.WebService.Controllers.Blog
         IMapper mapper;
         IArticleService articleService;
         IAccountService accountService;
+        ITagService tagService;
 
-        public ArticleController(IMapper mapper, IArticleService articleService, IAccountService accountService)
+        public ArticleController(IMapper mapper, IArticleService articleService, IAccountService accountService, ITagService tagService)
         {
             this.mapper = mapper;
             this.articleService = articleService;
             this.accountService = accountService;
+            this.tagService = tagService;
         }
 
         [Authorize]
-        [Route("NewArticle")]
+        [Route("Article/NewArticle")]
         [HttpGet]
         public async Task<IActionResult> CreateArticleAsync()
         {
-            var user = User;
+            var currentUser = User;
 
-            var result = await accountService.GetAuthAccountAsync(user);
+            var result = accountService.GetAuthAccountAsync(currentUser);
 
-            var model = mapper.Map<UserViewModel>(result.Profile);
+            var dbTags = tagService.GetAllTagsAsync();
 
-            return View("NewArticle", model);
+            result.Wait();
+            dbTags.Wait();
+
+            var user = mapper.Map<UserViewModel>(result.Result.Profile);
+
+
+            var model = new CreateArticleViewModel();
+
+            model.AuthorId = user.Id;
+
+            foreach (var tag in dbTags.Result)
+            {
+                model.ArticleTags.Add(mapper.Map<HashTagViewModel>(tag));
+            }
+
+            return View("CreateArticle", model);
         }
 
         [Authorize]
-        [Route("NewArticle")]
+        [Route("Article/NewArticle")]
         [HttpPost]
         public async Task<IActionResult> CreateArticleAsync(CreateArticleViewModel articleModel)
         {
-            var article = mapper.Map<ArticleModel>(articleModel);
+            var selectedTags = articleModel.ArticleTags.Where(c => c.Selected).ToList();
 
-            article.Created = DateTime.Now;
+            articleModel.ArticleTags = selectedTags;
+            
+            var article = mapper.Map<ArticleModel>(articleModel);
 
             await articleService.CreateArticleAsync(article);
 
@@ -50,13 +71,27 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("EditArticle")]
+        [Route("Article/EditArticle/{id:int}")]
+        [HttpGet]
+        public async Task<IActionResult> UpdateArticleAsync(int id)
+        {
+            var article = await articleService.GetArticleByIdForEditAsync(id);
+            
+            var model = mapper.Map<EditArticleViewModel>(article);
+
+            return View("EditArticle", model);
+        }
+
+        [Authorize]
+        [Route("Article/EditArticle")]
         [HttpPost]
         public async Task<IActionResult> UpdateArticleAsync(EditArticleViewModel updateArticle)
         {
-            var article = mapper.Map<ArticleModel>(updateArticle);
+            var selectedTags = updateArticle.Tags.Where(c => c.Selected).ToList();
 
-            article.Changed = DateTime.Now;
+            updateArticle.Tags = selectedTags;
+
+            var article = mapper.Map<ArticleModel>(updateArticle);
 
             await articleService.UpdateArticleAsync(article);
 
@@ -64,7 +99,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("DeleteArticle")]
+        [Route("Article/DeleteArticle")]
         [HttpPost]
         public async Task<IActionResult> DeleteArticleAsync(int id)
         {
@@ -73,7 +108,7 @@ namespace Blog.WebService.Controllers.Blog
             return RedirectToAction("MyPage");
         }
 
-        [Route("Articles")]
+        [Route("Article/Articles")]
         [HttpGet]
         public async Task<IActionResult> GetArticlesListAsync()
         {
@@ -89,28 +124,45 @@ namespace Blog.WebService.Controllers.Blog
             return View("ArticlesList", models);
         }
 
+        [Route("Article/{id:int}")]
         [HttpGet]
-        public async Task<IActionResult> GetArticlesByAuthorIdAsync(string id)
+        public async Task<IActionResult> GetArticleByIdAsync(int id)
         {
-            var articles = await articleService.GetArticlesByAuthotIdAsync(id);
+            var article = await articleService.GetArticleByIdAsync(id);
 
-            var models = new List<ArticleModel>();
+            var model = mapper.Map<ArticleModel>(article);
+
+            return View("ArticlesList", model);
+        }
+
+        [Route("Article/Author/{id:int}")]
+        [HttpGet]
+        public async Task<IActionResult> GetArticleByAuthorIdAsync(int authorId)
+        {
+            var articles = await articleService.GetArticlesByAuthorIdAsync(authorId);
+
+            var model = new List<ArticleViewModel>();
 
             foreach (var article in articles)
             {
-                models.Add(mapper.Map<ArticleModel>(article));
+                model.Add(mapper.Map<ArticleViewModel>(article));
             }
-
-            return View("ArticlesList", models);
+            
+            return View("ArticlesList", model);
         }
 
-        [Route("Article/{id:int}")]
+        [Route("Article/Tag/{tagName}")]
         [HttpGet]
-        public async Task<IActionResult> GetArticleByAuthorIdAsync(string id)
+        public async Task<IActionResult> GetArticleByTagAsync(string tagName)
         {
-            var article = await articleService.GetArticlesByAuthotIdAsync(id);
+            var articles = await articleService.GetArticlesByTagAsync(tagName);
 
-            var model = mapper.Map<ArticleModel>(article);
+            var model = new List<ArticleViewModel>();
+
+            foreach (var article in articles)
+            {
+                model.Add(mapper.Map<ArticleViewModel>(article));
+            }
 
             return View("ArticlesList", model);
         }

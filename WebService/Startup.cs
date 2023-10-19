@@ -27,8 +27,13 @@ namespace Blog.WebService
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new PathString("Login");
+                    options.LoginPath = Configuration["Application:LoginPath"];
                 });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = Configuration["Application:LoginPath"];
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -64,6 +69,7 @@ namespace Blog.WebService
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
             });
         }

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Account;
-using Blog.WebService.VIewModels.Article;
-using Blog.WebService.VIewModels.Comment;
-using Blog.WebService.VIewModels.Tag;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.ViewModels.Account;
+using Blog.WebService.ViewModels.AccountRole;
+using Blog.WebService.ViewModels.Article;
+using Blog.WebService.ViewModels.Comment;
+using Blog.WebService.ViewModels.Tag;
+using Blog.WebService.ViewModels.User;
 
 namespace Blog.WebService.Configurations
 {
@@ -23,8 +24,28 @@ namespace Blog.WebService.Configurations
             CreateMap<UserViewModel, UserProfileModel>()
                 .ReverseMap();
 
-            CreateMap<EditUserProfileViewModel, UserProfileModel>()
+            CreateMap<UserViewModel, UserProfileModel>()
                 .ReverseMap();
+
+            CreateMap<AccountViewModel, UserAccountModel>()
+                .ReverseMap();
+
+            CreateMap<EditUserViewModel, UserAccountModel>()
+                .ForMember(m => m.UserName, opt => opt.MapFrom(vm => vm.Email))
+                .ReverseMap();
+            #endregion
+
+            #region[Role]
+
+            CreateMap<CreateAccountRoleViewModel, AccountRoleModel>()
+                .ReverseMap();
+
+            CreateMap<EditAccountRoleViewModel, AccountRoleModel>()
+                .ReverseMap();
+
+            CreateMap<AccountRoleViewModel, AccountRoleModel>()
+                .ReverseMap();
+            
             #endregion
 
             #region[Article]
@@ -32,7 +53,8 @@ namespace Blog.WebService.Configurations
                 .ReverseMap();
 
             CreateMap<CreateArticleViewModel, ArticleModel>()
-                .ForMember(m => m.UserId, opt => opt.MapFrom(vm => vm.AuthorId));
+                .ForMember(m => m.UserId, opt => opt.MapFrom(vm => vm.AuthorId))
+                .ForMember(m => m.Tags, opt => opt.MapFrom(vm => vm.ArticleTags));
 
             CreateMap<EditArticleViewModel, ArticleModel>()
                 .ReverseMap();

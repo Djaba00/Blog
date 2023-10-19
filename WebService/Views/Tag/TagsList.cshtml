@@ -1,0 +1,26 @@
+﻿@using Blog.WebService.ViewModels.Tag;
+@model List<TagViewModel>;
+
+@{
+    ViewData["Title"] = "Tags";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Статьи</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tag in Model)
+        {
+            <tr>
+                <td>@tag.Name</td>
+                <td>
+                    <a class="link-primary" asp-area="" asp-controller="Article" asp-action="Articles" asp-">Статьи</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

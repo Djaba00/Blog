@@ -1,8 +1,8 @@
 ﻿using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Article;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.ViewModels.Article;
+using Blog.WebService.ViewModels.User;
 
-namespace Blog.WebService.VIewModels.Comment
+namespace Blog.WebService.ViewModels.Comment
 {
     public class CommentViewModel
     {

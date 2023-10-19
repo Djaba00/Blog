@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.BLL.Services;
-using Blog.WebService.Interfaces;
-using Blog.WebService.VIewModels.Account;
+using Blog.WebService.ViewModels.Account;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebService.Controllers.Account
@@ -12,18 +10,20 @@ namespace Blog.WebService.Controllers.Account
     {
         IMapper mapper;
         IAccountService accountService;
+        ISignInService signInService;
 
-        public RegistrationController(IMapper mapper, IAccountService accountService)
+        public RegistrationController(IMapper mapper, IAccountService accountService, ISignInService signInService)
         {
             this.mapper = mapper;
             this.accountService = accountService;
+            this.signInService = signInService;
         }
 
         [Route("Registration")]
         [HttpGet]
         public IActionResult Registration()
         {
-            return View();
+            return View("Registration");
         }
 
         [Route("Registration")]
@@ -38,7 +38,7 @@ namespace Blog.WebService.Controllers.Account
 
             if (result.Succeeded)
             {
-                await accountService.LoginAsync(account);
+                await signInService.LoginAsync(account);
 
                 return RedirectToAction("MyPage", "Account");
             }

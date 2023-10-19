@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Comment;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.ViewModels.Comment;
+using Blog.WebService.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

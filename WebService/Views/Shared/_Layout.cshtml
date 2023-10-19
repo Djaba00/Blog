@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Blog.BLL.Interfaces;
+
+@inject ISignInService SignInService;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -39,6 +43,9 @@
                                         <a class="dropdown-item" asp-area="" asp-controller="Tag" asp-action="NewTag">Создать тег</a>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Tag" asp-action="EditTag">Редактировать тег</a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="Tag" asp-action="Tags">Список тегов</a>
                                     </li>
                                 </ul>
@@ -50,6 +57,12 @@
                                     Пользователи
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="EditUser">Редактировать профиль</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AccountManager" asp-action="Accounts">Список пользователей</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -59,16 +72,40 @@
                                     Роли
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AccountRole" asp-action="AddRole">Создать роль</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AccountRole" asp-action="EditRole">Реадактировать роль</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AccountRole" asp-action="Roles">Список ролей</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
                     </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AccountManager" asp-action="Login">Вход</a>
-                        </li>
-                    </ul>
+                    @if(SignInService.IsSignIn(User))
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="AccountManager" asp-action="Logout">Выход</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="AccountManager" asp-action="Login">Вход</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="AccountManager" asp-action="Registration">Регистрация</a>
+                            </li>
+                        </ul>
+                    }
+                    
                 </div>
             </div>
         </nav>

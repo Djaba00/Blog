@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Tag;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.ViewModels.Tag;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Blog.WebService.VIewModels.Article
+namespace Blog.WebService.ViewModels.Article
 {
     public class CreateArticleViewModel
     {
@@ -13,8 +12,8 @@ namespace Blog.WebService.VIewModels.Article
         [StringLength(1000, MinimumLength = 50)]
         public string Content { get; set; }
 
-        public string AuthorId { get; set; }
+        public int AuthorId { get; set; }
 
-        public List<HashTagViewModel> Tags { get; set; } = new List<HashTagViewModel>();
+        public List<HashTagViewModel> ArticleTags { get; set; } = new List<HashTagViewModel>();
     }
 }

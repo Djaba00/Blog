@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Article;
+using Blog.WebService.ViewModels.Article;
 
-namespace Blog.WebService.VIewModels.Tag
+namespace Blog.WebService.ViewModels.Tag
 {
     public class CreateTagViewModel
     {

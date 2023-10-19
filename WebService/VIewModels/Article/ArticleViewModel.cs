@@ -1,9 +1,9 @@
 ﻿using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Comment;
-using Blog.WebService.VIewModels.Tag;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.ViewModels.Comment;
+using Blog.WebService.ViewModels.Tag;
+using Blog.WebService.ViewModels.User;
 
-namespace Blog.WebService.VIewModels.Article
+namespace Blog.WebService.ViewModels.Article
 {
     public class ArticleViewModel
     {

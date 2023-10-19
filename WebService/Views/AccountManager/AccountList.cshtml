@@ -1,0 +1,47 @@
+﻿@using Blog.WebService.ViewModels.Account
+
+@model List<AccountViewModel>;
+
+@{
+    ViewData["Title"] = "UserList";
+}
+
+<div class="container form-container px-0">
+    <div class="col">
+        <h2>Все пользователи</h2>
+        <hr />
+
+        @foreach(var user in Model)
+        {
+            <div class="card my-3">
+                <div class="card-body">
+                    <a class="card-title ">@user.Profile.GetFullName()</a>
+                    <div class="d-flex">
+                        @foreach (var role in user.Roles)
+                        {
+                            if (role.Name == "Admin")
+                            {
+                                <span class="badge bg-danger">@role.Name</span>
+                            }
+                            else if (role.Name == "Moderator")
+                            {
+                                <span class="badge bg-warning">@role.Name</span>
+                            }
+                            else if (role.Name == "Developer")
+                            {
+                                <span class="badge bg-warning">@role.Name</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary">@role.Name</span>
+                            }
+                        }
+                    </div>
+                    <p class="card-text mb-0">Количество статей @user.Profile.Articles.Count()</p>
+                    <p class="card-text text-secondary">@user.Email</p>
+                </div>
+            </div>
+        }
+    </div>
+    
+</div>

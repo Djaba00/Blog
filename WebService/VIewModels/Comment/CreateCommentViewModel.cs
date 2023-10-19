@@ -1,6 +1,6 @@
 ﻿using Blog.BLL.Models;
 
-namespace Blog.WebService.VIewModels.Comment
+namespace Blog.WebService.ViewModels.Comment
 {
     public class CreateCommentViewModel
     {

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Account;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +11,13 @@ namespace Blog.WebService.Controllers.Account
     {
         IMapper mapper;
         IAccountService accountService;
+        ISignInService signInService;
 
-        public AccountManagerController(IMapper mapper, IAccountService accountService)
+        public AccountManagerController(IMapper mapper, IAccountService accountService, ISignInService signInService)
         {
             this.mapper = mapper;
             this.accountService = accountService;
+            this.signInService = signInService;
         }
 
         [Route("AccountManager/Login")]
@@ -31,7 +32,7 @@ namespace Blog.WebService.Controllers.Account
         {
             var user = mapper.Map<UserAccountModel>(login);
 
-            var result = await accountService.LoginAsync(user);
+            var result = await signInService.LoginAsync(user);
 
             if (result.Succeeded)
             {
@@ -50,41 +51,24 @@ namespace Blog.WebService.Controllers.Account
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutAsync()
         {
-            await accountService.LogoutAsync();
+            await signInService.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
-        [Route("AccountManager/MyPage")]
-        [HttpGet]
-        public async Task<IActionResult> MyPageAsync()
-        {
-            var user = User;
-
-            var result = await accountService.GetAuthAccountAsync(user);
-
-            var model = mapper.Map<UserViewModel>(result.Profile);
-
-            // mapper
-
-            return View("UserPage", model);
-        }
-
-        [Authorize(Roles = "Admin")]
         [Route("AccountManager/Accounts")]
         [HttpGet]
         public async Task<IActionResult> GetAccountsListAsync()
         {
-            var users = await accountService.GetAllAcoountsAsync();
+            var users = await accountService.GetAllAcсountsAsync();
 
-            var models = new List<UserViewModel>();
+            var models = new List<AccountViewModel>();
 
-            foreach (var model in models)
+            foreach (var user in users)
             {
-                models.Add(mapper.Map<UserViewModel>(model));
+                models.Add(mapper.Map<AccountViewModel>(user));
             }
 
-            return View("AccountsList", models);
+            return View("AccountList", models);
         }
 
         [Route("InitializeAccounts")]

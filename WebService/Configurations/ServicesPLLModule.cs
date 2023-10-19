@@ -1,7 +1,5 @@
 ﻿using Blog.BLL.Interfaces;
 using Blog.BLL.Services;
-using Blog.DAL.Interfaces;
-using Blog.DAL.UnitOfWork;
 
 namespace Blog.WebService.Configurations
 {
@@ -11,6 +9,8 @@ namespace Blog.WebService.Configurations
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ISignInService, SignInService>();
+            services.AddScoped<IAccountRoleService, AccountRoleService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<ICommentService, CommentService>();

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebService.VIewModels.User;
+using Blog.WebService.Externtions;
+using Blog.WebService.ViewModels.Account;
+using Blog.WebService.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +12,8 @@ namespace Blog.WebService.Controllers.Account
     public class UserController : Controller
     {
         IMapper mapper;
-        IUserService userService;
-        IAccountService accountService;
+        readonly IUserService userService;
+        readonly IAccountService accountService;
 
         public UserController(IMapper mapper, IUserService userService, IAccountService accountService)
         {
@@ -20,56 +22,56 @@ namespace Blog.WebService.Controllers.Account
             this.accountService = accountService;
         }
 
-        [Authorize]
-        [Route("NewProfile")]
-        [HttpPost]
-        public async Task<IActionResult> CreateUserProfileAsync(EditUserProfileViewModel userModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var userProfile = mapper.Map<UserProfileModel>(userModel);
-
-                await userService.CreateUserProfileAsync(userProfile);
-
-                return RedirectToAction("MyPage");
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
 
         [Authorize]
-        [Route("EditProfile")]
+        [Route("User/MyPage")]
         [HttpGet]
-        public async Task<IActionResult> UpdateUserProfileAsync()
+        public async Task<IActionResult> MyPageAsync()
         {
-            var user = User;
+            var currentUser = await accountService.GetAuthAccountAsync(User);
 
-            var result = await accountService.GetAuthAccountAsync(user);
+            var user = await accountService.GetAccountByIdAsync(currentUser.Id);
 
-            var editModel = mapper.Map<EditUserProfileViewModel>(result);
+            var model = mapper.Map<UserViewModel>(user.Profile);
 
-            return View("UserEdit", editModel);
+            // mapper
+
+            return View("UserPage", model);
         }
 
         [Authorize]
-        [Route("EditProfile")]
-        [HttpPost]
-        public async Task<IActionResult> UpdateUserProfileAsync(EditUserProfileViewModel updateUser)
+        [Route("User/EditUser")]
+        [HttpGet]
+        public async Task<IActionResult> UpdateUserAsync()
         {
-            if (ModelState.IsValid)
+            var account = await accountService.GetAuthAccountAsync(User);
+
+            account.Profile = await userService.GetUserProfileByAccountIdAsync(account.Id);
+
+            var model = mapper.Map<EditUserViewModel>(account);
+
+            return View("EditUser", model);
+        }
+
+        [Authorize]
+        [Route("User/EditUser")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserAsync(EditUserViewModel updateUser)
+        {
+            var user = mapper.Map<UserAccountModel>(updateUser);
+
+            await accountService.UpdateAccountAsync(user);
+
+            if(updateUser.NewPassword != null && updateUser.OldPassword != null)
             {
-                var userProfile = mapper.Map<UserProfileModel>(updateUser);
-
-                await userService.UpdateUserProfileAsync(userProfile);
-
-                return RedirectToAction("MyPage");
+                await accountService.ChangePasswordAsync(user, updateUser.OldPassword, updateUser.NewPassword);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MyPage");
         }
 
         [Authorize]
-        [Route("DeleteProfile")]
+        [Route("User/DeleteUser")]
         [HttpPost]
         public async Task<IActionResult> DeleteUserProfileAsync(int id)
         {
@@ -78,7 +80,7 @@ namespace Blog.WebService.Controllers.Account
             return RedirectToAction("MyPage");
         }
 
-        [Route("Users")]
+        [Route("User/Users")]
         [HttpGet]
         public async Task<IActionResult> GetUserProfilesListAsync()
         {

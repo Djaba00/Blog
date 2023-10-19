@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebService.VIewModels.Tag;
+using Blog.WebService.ViewModels.Tag;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +36,19 @@ namespace Blog.WebService.Controllers.Blog
 
             await tagService.CreateTagAsync(tag);
 
-            return RedirectToAction("MyPage");
+            return RedirectToAction("Tags");
+        }
+
+        [Authorize]
+        [Route("Tag/EditTag/{id:int}")]
+        [HttpGet]
+        public async Task<IActionResult> UpdateTagAsync(int id)
+        {
+            var tag = await tagService.GetTagByIdAsync(id);
+
+            var model = mapper.Map<EditTagViewModel>(tag);
+
+            return View("EditTag", model);
         }
 
         [Authorize]
@@ -48,7 +60,7 @@ namespace Blog.WebService.Controllers.Blog
 
             await tagService.UpdateTagAsync(tag);
 
-            return RedirectToAction("MyPage");
+            return RedirectToAction("Tags");
         }
 
         [Authorize]
@@ -58,7 +70,7 @@ namespace Blog.WebService.Controllers.Blog
         {
             await tagService.DeleteTagAsync(id);
 
-            return RedirectToAction("MyPage");
+            return RedirectToAction("Tags");
         }
 
         [Route("Tag/Tags")]
@@ -74,7 +86,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<TagModel>(tag));
             }
 
-            return View("ArticlesList", models);
+            return View("TagsList", models);
         }
 
         [Route("Tag/{id:int}")]
@@ -85,7 +97,7 @@ namespace Blog.WebService.Controllers.Blog
 
             var model = mapper.Map<TagModel>(tag);
 
-            return View("ArticlesList", model);
+            return View("Tag", model);
         }
     }
 }
