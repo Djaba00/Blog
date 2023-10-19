@@ -23,6 +23,13 @@ namespace Blog.DAL.Repositories
             return articles;
         }
 
+        public async Task<Article> FindArticleAsync(Article entity)
+        {
+            var result = await db.Articles.FindAsync(entity.Id);
+
+            return result;
+        }
+
         public async Task<Article> GetByIdAsync(int id)
         {
             var article = await db.Articles

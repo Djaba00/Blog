@@ -3,6 +3,7 @@ using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Security.Claims;
 
 namespace Blog.DAL.Repositories
@@ -11,17 +12,20 @@ namespace Blog.DAL.Repositories
     {
         readonly DataContext db;
         readonly UserManager<UserAccount> userManager;
+        readonly SignInManager<UserAccount> signInManager;
 
-        public UserAccountRepository(DataContext db, UserManager<UserAccount> userManager)
+        public UserAccountRepository(DataContext db, UserManager<UserAccount> userManager, SignInManager<UserAccount> signInManager)
         {
             this.db = db;
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         public async Task<IEnumerable<UserAccount>> GetAllAsync()
         {
             var users = await userManager.Users
                 .Include(u => u.Profile)
+                    .ThenInclude(p => p.Articles)
                 .ToListAsync();
 
             return users;
@@ -31,18 +35,22 @@ namespace Blog.DAL.Repositories
         {   
             var user = await userManager.Users
                 .Include(u => u.Profile)
+                    .ThenInclude(p => p.Articles)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             return user;
         }
 
-        public Task<UserAccount> GetAuthAccountAsync(ClaimsPrincipal? userClaims)
+        public async Task<List<string>> GetUserRolesAsync(UserAccount entity)
         {
-            var userId = userManager.GetUserId(userClaims);
+            var result = await userManager.GetRolesAsync(entity);
 
-            var result = userManager.Users
-                .Include(u => u.Profile)
-                .FirstOrDefaultAsync(u => u.Id == userId);
+            return result.ToList();
+        }
+
+        public async Task<UserAccount> GetAuthAccountAsync(ClaimsPrincipal? userClaims)
+        {
+            var result = await userManager.GetUserAsync(userClaims);
 
             return result;
         }
@@ -54,11 +62,16 @@ namespace Blog.DAL.Repositories
             return result;
         }
 
-        public async Task<IdentityResult> DeleteAsync(string id)
+        public async Task<IdentityResult> ChangePasswordAsync(UserAccount account, string oldPassword, string newPassword)
         {
-            var user = await userManager.FindByIdAsync(id);
-            
-            var result = await userManager.DeleteAsync(user);
+            var result = await userManager.ChangePasswordAsync(account, oldPassword, newPassword);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteAsync(UserAccount entity)
+        {            
+            var result = await userManager.DeleteAsync(entity);
 
             return result;
         }
@@ -78,9 +91,23 @@ namespace Blog.DAL.Repositories
             return result;
         }
 
-        public async Task<IdentityResult> ChangePasswordAsync(UserAccount account, string oldPassword, string newPassword)
+        public async Task<IdentityResult> AddToRolesAsync(UserAccount account, List<string> roles)
         {
-            var result = await userManager.ChangePasswordAsync(account, oldPassword, newPassword);
+            var result = await userManager.AddToRolesAsync(account, roles);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> RemoveFromRoleAsync(UserAccount account, string role)
+        {
+            var result = await userManager.RemoveFromRoleAsync(account, role);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> RemoveFromRolesAsync(UserAccount account, List<string> roles)
+        {
+            var result = await userManager.RemoveFromRolesAsync(account, roles);
 
             return result;
         }

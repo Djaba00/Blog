@@ -3,6 +3,7 @@ using System;
 using Blog.DAL.ApplicationContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231015203851_RoleAddDescription")]
+    partial class RoleAddDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -53,12 +56,18 @@ namespace Blog.DAL.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("UserProfileId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Articles", (string)null);
                 });
@@ -394,11 +403,15 @@ namespace Blog.DAL.Migrations
 
             modelBuilder.Entity("Blog.DAL.Entities.Article", b =>
                 {
-                    b.HasOne("Blog.DAL.Entities.UserProfile", "User")
-                        .WithMany("Articles")
+                    b.HasOne("Blog.DAL.Entities.UserAccount", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Blog.DAL.Entities.UserProfile", null)
+                        .WithMany("Articles")
+                        .HasForeignKey("UserProfileId");
 
                     b.Navigation("User");
                 });

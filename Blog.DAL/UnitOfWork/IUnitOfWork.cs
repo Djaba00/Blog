@@ -1,10 +1,5 @@
 ﻿using Blog.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.DAL.Interfaces
 {
@@ -12,8 +7,8 @@ namespace Blog.DAL.Interfaces
     {
         IUserProfileRepository<UserProfile> UserProfiles { get; }
         IUserAccountRepository<UserAccount> UserAccounts { get; }
-        RoleManager<Role> RoleManager { get; }
         SignInManager<UserAccount> SignInManager { get; }
+        RoleManager<Role> RoleManager { get; }
         IArticleRepository<Article> Articles { get; }
         ICommentRepository<Comment> Comments { get; }
         ITagRepository<Tag> Tags { get; }

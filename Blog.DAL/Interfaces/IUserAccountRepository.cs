@@ -1,11 +1,6 @@
 ﻿using Blog.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.DAL.Interfaces
 {
@@ -15,10 +10,17 @@ namespace Blog.DAL.Interfaces
         Task<IEnumerable<UserAccount>> GetAllAsync();
         Task<UserAccount> GetByIdAsync(string id);
         Task<UserAccount> GetAuthAccountAsync(ClaimsPrincipal? userClaims);
+        Task<List<string>> GetUserRolesAsync(UserAccount entity);
+
         Task<IdentityResult> RegistrationAsync(UserAccount account, string password);
+
         Task<IdentityResult> UpdateAsync(UserAccount entity);
-        Task<IdentityResult> DeleteAsync(string id);
-        Task<IdentityResult> AddToRoleAsync(UserAccount account, string role);
+        Task<IdentityResult> DeleteAsync(UserAccount entity);
         Task<IdentityResult> ChangePasswordAsync(UserAccount account, string oldPassword, string newPassword);
+
+        Task<IdentityResult> AddToRoleAsync(UserAccount account, string role);
+        Task<IdentityResult> AddToRolesAsync(UserAccount account, List<string> roles);
+        Task<IdentityResult> RemoveFromRoleAsync(UserAccount account, string role);
+        Task<IdentityResult> RemoveFromRolesAsync(UserAccount account, List<string> roles);
     }
 }

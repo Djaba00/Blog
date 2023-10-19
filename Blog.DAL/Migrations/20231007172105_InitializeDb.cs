@@ -178,12 +178,12 @@ namespace Blog.DAL.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
                     LastName = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
-                    MiddleName = table.Column<string>(type: "TEXT", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Image = table.Column<string>(type: "TEXT", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", nullable: false),
-                    About = table.Column<string>(type: "TEXT", nullable: false),
-                    UserAccountId = table.Column<string>(type: "TEXT", nullable: false)
+                    MiddleName = table.Column<string>(type: "TEXT", nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Image = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
+                    About = table.Column<string>(type: "TEXT", nullable: true),
+                    UserAccountId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
