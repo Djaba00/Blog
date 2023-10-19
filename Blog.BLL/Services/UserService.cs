@@ -3,13 +3,12 @@ using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Blog.BLL.Services
 {
     public class UserService : IUserService
     {
-        IUnitOfWork db { get; set; }
+        IUnitOfWork db;
         IMapper mapper;
 
         public UserService(IUnitOfWork db, IMapper mapper)

@@ -48,7 +48,7 @@ namespace Blog.BLL.Services
             }
         }
 
-        public async Task<TagModel> GetTagByName(string name)
+        public async Task<TagModel> GetTagByNameAsync(string name)
         {
             var tag = await db.Tags.GetTagsByName(name);
 

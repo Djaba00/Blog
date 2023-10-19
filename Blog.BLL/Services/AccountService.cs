@@ -5,7 +5,9 @@ using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Blog.WebService.Externtions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Blog.BLL.Services
@@ -21,7 +23,7 @@ namespace Blog.BLL.Services
             this.mapper = mapper;
         }
 
-        public async Task<List<UserAccountModel>> GetAllAcoountsAsync()
+        public async Task<List<UserAccountModel>> GetAllAcсountsAsync()
         {
             var accounts = await db.UserAccounts.GetAllAsync();
 
@@ -29,7 +31,18 @@ namespace Blog.BLL.Services
 
             foreach (var account in accounts)
             {
-                result.Add(mapper.Map<UserAccountModel>(account));
+                var tempAcc = mapper.Map<UserAccountModel>(account);
+
+                var accRoles = await db.UserAccounts.GetUserRolesAsync(account);
+
+                tempAcc.Roles = new List<AccountRoleModel>();
+
+                foreach(var role in accRoles)
+                {
+                    tempAcc.Roles.Add(new AccountRoleModel() { Name = role });
+                }
+
+                result.Add(tempAcc);
             }
 
             return result;
@@ -41,6 +54,24 @@ namespace Blog.BLL.Services
 
             var result = mapper.Map<UserAccountModel>(user);
 
+            var userRoles = await db.UserAccounts.GetUserRolesAsync(user);
+
+            var allRoles = await db.RoleManager.Roles.ToListAsync();
+
+            result.Roles = new List<AccountRoleModel>();
+
+            foreach (var role in allRoles)
+            {
+                var userRole = mapper.Map<AccountRoleModel>(role);
+
+                result.Roles.Add(userRole);
+            }
+
+            foreach (var role in userRoles)
+            {
+                result.Roles.FirstOrDefault(r => r.Name == role).Selected = true;
+            }
+
             return result;
         }
 
@@ -48,7 +79,7 @@ namespace Blog.BLL.Services
         {
             var userAccount = await db.UserAccounts.GetAuthAccountAsync(account);
 
-            var result = mapper.Map<UserAccountModel>(userAccount);
+            var result = await GetAccountByIdAsync(userAccount.Id);
 
             return result;
         }
@@ -62,20 +93,6 @@ namespace Blog.BLL.Services
             await db.UserAccounts.AddToRoleAsync(account, "User");
 
             return result;
-        }
-
-        public async Task<SignInResult> LoginAsync(UserAccountModel accountModel)
-        {
-            var account = mapper.Map<UserAccount>(accountModel);
-
-            var result = await db.SignInManager.PasswordSignInAsync(account.Email, accountModel.Password, accountModel.RememberMe, false);
-
-            return result;
-        }
-
-        public async Task LogoutAsync()
-        {
-            await db.SignInManager.SignOutAsync();
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(UserAccountModel userAccount, string oldPassword, string newPassword)
@@ -93,6 +110,8 @@ namespace Blog.BLL.Services
 
             var updateAccount = mapper.Map<UserAccount>(userAccount);
 
+            await account.EditRoles(userAccount, db);
+
             account.Edit(updateAccount);
 
             var result = await db.UserAccounts.UpdateAsync(account);
@@ -107,7 +126,9 @@ namespace Blog.BLL.Services
 
         public async Task<IdentityResult> DeleteAccountAsync(UserAccountModel accountModel)
         {
-            var result = await db.UserAccounts.DeleteAsync(accountModel.Id);
+            var account = await db.UserAccounts.GetByIdAsync(accountModel.Id);
+            
+            var result = await db.UserAccounts.DeleteAsync(account);
 
             if (result.Succeeded)
             {

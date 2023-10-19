@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Blog.BLL.Externtions
 {
-    public static class TagExt
+    public static class RoleExt
     {
-        public static Tag Edit(this Tag tag, Tag updateTag)
+        public static Role Edit(this Role role, Role updateRole)
         {
-            tag.Name = updateTag.Name;
-            tag.Articles = updateTag.Articles;
+            role.Name = updateRole.Name;
+            role.Description = updateRole.Description;
 
-            return tag;
+            return role;
         }
     }
 }

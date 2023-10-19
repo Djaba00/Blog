@@ -13,7 +13,7 @@ namespace Blog.BLL.Models
         public string About { get; set; }
 
         public string UserAccountId { get; set; }
-        //public UserAccountModel UserAccount { get; set; }
+        public UserAccountModel UserAccount { get; set; }
 
         public List<ArticleModel> Articles { get; set; }
         public List<CommentModel> Comments { get; set; }

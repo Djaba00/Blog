@@ -9,6 +9,6 @@ namespace Blog.BLL.Interfaces
         Task DeleteTagAsync(int id);
         Task<List<TagModel>> GetAllTagsAsync();
         Task<TagModel> GetTagByIdAsync(int id);
-        Task<TagModel> GetTagByName(string name);
+        Task<TagModel> GetTagByNameAsync(string name);
     }
 }

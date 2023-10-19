@@ -1,21 +1,17 @@
 ﻿using AutoMapper;
+using Blog.BLL.Externtions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.BLL.Services
 {
     public class AccountRoleService : IAccountRoleService
     {
-        IUnitOfWork db { get; set; }
+        IUnitOfWork db;
         IMapper mapper;
 
         public AccountRoleService(IUnitOfWork db, IMapper mapper)
@@ -24,11 +20,36 @@ namespace Blog.BLL.Services
             this.mapper = mapper;
         }
 
-        public Task<IdentityResult> CreateRoleAsync(AccountRoleModel newRole)
+        public async Task<IdentityResult> CreateRoleAsync(AccountRoleModel newRole)
         {
             var role = new Role(newRole.Name, newRole.Description);
 
-            var result = db.RoleManager.CreateAsync(role);
+            var result = await db.RoleManager.CreateAsync(role);
+
+            if (result.Succeeded)
+            {
+                await db.SaveAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<IdentityResult> UpdateRoleAsync(AccountRoleModel updRoleModel)
+        {
+            var role = await db.RoleManager.FindByIdAsync(updRoleModel.Id);
+
+            var updateRole = mapper.Map<Role>(updRoleModel);
+
+            role.Edit(updateRole);
+
+            var result = await db.RoleManager.UpdateAsync(role);
+
+            if (result.Succeeded)
+            {
+                await db.SaveAsync();
+            }
+
+            await db.SaveAsync();
 
             return result;
         }
@@ -43,6 +64,15 @@ namespace Blog.BLL.Services
             {
                 result.Add(mapper.Map<AccountRoleModel>(role));
             }
+
+            return result;
+        }
+
+        public async Task<AccountRoleModel> GetRoleByIdAsync(string id)
+        {
+            var role = await db.RoleManager.Roles.FirstOrDefaultAsync(r => r.Id == id);
+
+            var result = mapper.Map<AccountRoleModel>(role);
 
             return result;
         }
