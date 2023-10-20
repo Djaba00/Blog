@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebService.Controllers.Blog
 {
+    [Route("Tag")]
     public class TagController : Controller
     {
         IMapper mapper;
@@ -19,16 +20,16 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Tag/NewTag")]
+        [Route("AddTag")]
         [HttpGet]
         public IActionResult CreateTag()
         {
-            return View("NewTag");
+            return View("CreateTag");
         }
 
 
         [Authorize]
-        [Route("Tag/NewTag")]
+        [Route("AddTag")]
         [HttpPost]
         public async Task<IActionResult> CreateTagAsync(CreateTagViewModel tagModel)
         {
@@ -40,7 +41,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Tag/EditTag/{id:int}")]
+        [Route("EditTag/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> UpdateTagAsync(int id)
         {
@@ -52,7 +53,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Tag/EditTag")]
+        [Route("EditTag")]
         [HttpPost]
         public async Task<IActionResult> UpdateTagAsync(EditTagViewModel updateTag)
         {
@@ -64,7 +65,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Tag/DeleteTag")]
+        [Route("DeleteTag")]
         [HttpPost]
         public async Task<IActionResult> DeleteTagAsync(int id)
         {
@@ -73,23 +74,23 @@ namespace Blog.WebService.Controllers.Blog
             return RedirectToAction("Tags");
         }
 
-        [Route("Tag/Tags")]
+        [Route("Tags")]
         [HttpGet]
         public async Task<IActionResult> GetTagsListAsync()
         {
             var tags = await tagService.GetAllTagsAsync();
 
-            var models = new List<TagModel>();
+            var models = new List<TagViewModel>();
 
             foreach (var tag in tags)
             {
-                models.Add(mapper.Map<TagModel>(tag));
+                models.Add(mapper.Map<TagViewModel>(tag));
             }
 
             return View("TagsList", models);
         }
 
-        [Route("Tag/{id:int}")]
+        [Route("Tag")]
         [HttpGet]
         public async Task<IActionResult> GetTagByIdAsync(int id)
         {

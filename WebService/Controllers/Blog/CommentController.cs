@@ -8,21 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebService.Controllers.Blog
 {
+    [Route("Comment")]
     public class CommentController : Controller
     {
         IMapper mapper;
         ICommentService commentService;
-        IAccountService accountService;
 
-        public CommentController(IMapper mapper, ICommentService commentService, IAccountService accountService)
+        public CommentController(IMapper mapper, ICommentService commentService)
         {
             this.mapper = mapper;
             this.commentService = commentService;
-            this.accountService = accountService;
         }
 
         [Authorize]
-        [Route("NewComment")]
+        [Route("AddComment")]
         [HttpPost]
         public async Task<IActionResult> CreateCommentAsync(CreateCommentViewModel commentModel)
         {
@@ -76,7 +75,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [HttpGet]
-        [Route("Comment/ArticleComments")]
+        [Route("ArticleComments")]
         public async Task<IActionResult> GetComentsByArticleIdAsync(int id)
         {
             var comments = await commentService.GetCommentsByArticleIdAsync(id);
@@ -92,7 +91,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [HttpGet]
-        [Route("Comment/AuthorComments")]
+        [Route("AuthorComments")]
         public async Task<IActionResult> GetCommentsByAuthorIdAsync(string id)
         {
             var comments = await commentService.GetCommentsByAuthorIdAsync(id);

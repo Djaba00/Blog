@@ -10,6 +10,7 @@ using Blog.DAL.Entities;
 
 namespace Blog.WebService.Controllers.Blog
 {
+    [Route("Article")]
     public class ArticleController : Controller
     {
         IMapper mapper;
@@ -26,7 +27,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Article/NewArticle")]
+        [Route("AddArticle")]
         [HttpGet]
         public async Task<IActionResult> CreateArticleAsync()
         {
@@ -55,7 +56,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Article/NewArticle")]
+        [Route("AddArticle")]
         [HttpPost]
         public async Task<IActionResult> CreateArticleAsync(CreateArticleViewModel articleModel)
         {
@@ -67,11 +68,11 @@ namespace Blog.WebService.Controllers.Blog
 
             await articleService.CreateArticleAsync(article);
 
-            return RedirectToAction("MyPage");
+            return RedirectToAction("Articles");
         }
 
         [Authorize]
-        [Route("Article/EditArticle/{id:int}")]
+        [Route("EditArticle/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> UpdateArticleAsync(int id)
         {
@@ -83,7 +84,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Article/EditArticle")]
+        [Route("EditArticle")]
         [HttpPost]
         public async Task<IActionResult> UpdateArticleAsync(EditArticleViewModel updateArticle)
         {
@@ -95,49 +96,49 @@ namespace Blog.WebService.Controllers.Blog
 
             await articleService.UpdateArticleAsync(article);
 
-            return RedirectToAction("MyPage");
+            return RedirectToAction("Articles");
         }
 
         [Authorize]
-        [Route("Article/DeleteArticle")]
+        [Route("DeleteArticle")]
         [HttpPost]
         public async Task<IActionResult> DeleteArticleAsync(int id)
         {
             await articleService.DeleteArticleAsync(id);
 
-            return RedirectToAction("MyPage");
+            return RedirectToAction("Articles");
         }
 
-        [Route("Article/Articles")]
+        [Route("Articles")]
         [HttpGet]
         public async Task<IActionResult> GetArticlesListAsync()
         {
             var articles = await articleService.GetAllArticlesAsync();
 
-            var models = new List<ArticleModel>();
+            var models = new List<ArticleViewModel>();
 
             foreach (var article in articles)
             {
-                models.Add(mapper.Map<ArticleModel>(article));
+                models.Add(mapper.Map<ArticleViewModel>(article));
             }
 
-            return View("ArticlesList", models);
+            return View("ArticleList", models);
         }
 
-        [Route("Article/{id:int}")]
+        [Route("Article")]
         [HttpGet]
         public async Task<IActionResult> GetArticleByIdAsync(int id)
         {
             var article = await articleService.GetArticleByIdAsync(id);
 
-            var model = mapper.Map<ArticleModel>(article);
+            var model = mapper.Map<ArticleViewModel>(article);
 
-            return View("ArticlesList", model);
+            return View("ArticleList", model);
         }
 
-        [Route("Article/Author/{id:int}")]
+        [Route("Author")]
         [HttpGet]
-        public async Task<IActionResult> GetArticleByAuthorIdAsync(int authorId)
+        public async Task<IActionResult> GetArticlesByAuthorIdAsync(int authorId)
         {
             var articles = await articleService.GetArticlesByAuthorIdAsync(authorId);
 
@@ -148,12 +149,12 @@ namespace Blog.WebService.Controllers.Blog
                 model.Add(mapper.Map<ArticleViewModel>(article));
             }
             
-            return View("ArticlesList", model);
+            return View("ArticleList", model);
         }
 
-        [Route("Article/Tag/{tagName}")]
+        [Route("Tag")]
         [HttpGet]
-        public async Task<IActionResult> GetArticleByTagAsync(string tagName)
+        public async Task<IActionResult> GetArticlesByTagAsync(string tagName)
         {
             var articles = await articleService.GetArticlesByTagAsync(tagName);
 
@@ -164,7 +165,7 @@ namespace Blog.WebService.Controllers.Blog
                 model.Add(mapper.Map<ArticleViewModel>(article));
             }
 
-            return View("ArticlesList", model);
+            return View("ArticleList", model);
         }
     }
 }
