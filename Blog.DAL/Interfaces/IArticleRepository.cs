@@ -7,7 +7,7 @@ namespace Blog.DAL.Interfaces
     {
         Task<Article> FindArticleAsync(Article entity);
         Task<List<T>> GetArticlesByTitleAsync(string title);
-        Task<List<Article>> GetArticlesByAuthorIdAsync(int authorId);
+        Task<List<Article>> GetArticlesByAuthorIdAsync(string authorId);
         Task<List<Article>> GetArticlesByTagAsync(string tag);
     }
 }

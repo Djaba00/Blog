@@ -14,11 +14,17 @@ namespace Blog.DAL.Repositories
             db = context;
         }
 
+        public async Task<UserProfile> FindByIdAsync(int id)
+        {
+            var user = await db.UserProfiles
+                .FindAsync(id);
+
+            return user;
+        }
+
         public async Task<IEnumerable<UserProfile>> GetAllAsync()
         {
             var users = await db.UserProfiles
-                .Include(u => u.Articles)
-                .Include(u => u.Comments)
                 .ToListAsync();
 
             return users;
@@ -27,8 +33,6 @@ namespace Blog.DAL.Repositories
         public async Task<UserProfile> GetByIdAsync(int id)
         {
             var user = await db.UserProfiles
-                .Include(u => u.Articles)
-                .Include(u => u.Comments)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             return user;
@@ -37,8 +41,6 @@ namespace Blog.DAL.Repositories
         public async Task<UserProfile> GetByAccountId(string id)
         {
             var user = await db.UserProfiles
-                .Include(u => u.Articles)
-                .Include(u => u.Comments)
                 .FirstOrDefaultAsync(u => u.UserAccountId == id);
 
             return user;

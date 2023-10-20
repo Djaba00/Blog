@@ -10,9 +10,9 @@ namespace Blog.DAL.Entities
         public DateTime? Changed { get; set; }
 
         public string UserId { get; set; }
-        public UserAccount User { get; set; }
+        public virtual UserAccount User { get; set; }
 
         public int ArticleId { get; set; }
-        public Article Article { get; set; }
+        public virtual Article Article { get; set; }
     }
 }

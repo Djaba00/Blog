@@ -8,6 +8,7 @@ namespace Blog.DAL.Repositories
     public class ArticleRepository : IArticleRepository<Article>
     {
         DataContext db;
+
         public ArticleRepository(DataContext context)
         {
             db = context;
@@ -33,8 +34,11 @@ namespace Blog.DAL.Repositories
         public async Task<Article> GetByIdAsync(int id)
         {
             var article = await db.Articles
+                .Include(a => a.User)
+                    .ThenInclude(u => u.Profile)
                 .Include(a => a.Tags)
                 .Include(a => a.Comments)
+                    .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             return article;
@@ -51,10 +55,11 @@ namespace Blog.DAL.Repositories
             return articles;
         }
 
-        public async Task<List<Article>> GetArticlesByAuthorIdAsync(int id)
+        public async Task<List<Article>> GetArticlesByAuthorIdAsync(string id)
         {
             var articles = await db.Articles
                 .Include(a => a.Tags)
+                .Include(a => a.User)
                 .Include(a => a.Comments)
                 .Where(a => a.UserId == id)
                 .ToListAsync();

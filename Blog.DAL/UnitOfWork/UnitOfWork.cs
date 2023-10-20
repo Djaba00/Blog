@@ -48,7 +48,7 @@ namespace Blog.DAL.UnitOfWork
             {
                 if (UserAccountRepository == null)
                 {
-                    UserAccountRepository = new UserAccountRepository(db, userManager, signInManager);
+                    UserAccountRepository = new UserAccountRepository(userManager);
                 }
 
                 return UserAccountRepository;

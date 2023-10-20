@@ -3,6 +3,7 @@ using System;
 using Blog.DAL.ApplicationContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231020103507_ProfileUser")]
+    partial class ProfileUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -53,9 +56,8 @@ namespace Blog.DAL.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -83,9 +85,8 @@ namespace Blog.DAL.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -189,7 +190,7 @@ namespace Blog.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("BirthDate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
@@ -390,7 +391,7 @@ namespace Blog.DAL.Migrations
 
             modelBuilder.Entity("Blog.DAL.Entities.Article", b =>
                 {
-                    b.HasOne("Blog.DAL.Entities.UserAccount", "User")
+                    b.HasOne("Blog.DAL.Entities.UserProfile", "User")
                         .WithMany("Articles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -407,7 +408,7 @@ namespace Blog.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Blog.DAL.Entities.UserAccount", "User")
+                    b.HasOne("Blog.DAL.Entities.UserProfile", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -487,12 +488,15 @@ namespace Blog.DAL.Migrations
 
             modelBuilder.Entity("Blog.DAL.Entities.UserAccount", b =>
                 {
+                    b.Navigation("Profile")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Blog.DAL.Entities.UserProfile", b =>
+                {
                     b.Navigation("Articles");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("Profile")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

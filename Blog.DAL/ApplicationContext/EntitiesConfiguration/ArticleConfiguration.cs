@@ -1,5 +1,4 @@
-﻿using System;
-using Blog.DAL.Entities;
+﻿using Blog.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,4 +15,3 @@ namespace Blog.DAL.ApplicationContext.EntitiesConfiguration
         }
 	}
 }
-

@@ -10,22 +10,27 @@ namespace Blog.DAL.Repositories
 {
     public class UserAccountRepository : IUserAccountRepository<UserAccount>
     {
-        readonly DataContext db;
         readonly UserManager<UserAccount> userManager;
-        readonly SignInManager<UserAccount> signInManager;
 
-        public UserAccountRepository(DataContext db, UserManager<UserAccount> userManager, SignInManager<UserAccount> signInManager)
+        public UserAccountRepository(UserManager<UserAccount> userManager)
         {
-            this.db = db;
             this.userManager = userManager;
-            this.signInManager = signInManager;
+        }
+
+        public async Task<UserAccount> FindByIdeAsync(string id)
+        {
+            var user = await userManager
+                .FindByIdAsync(id);
+
+            return user;
         }
 
         public async Task<IEnumerable<UserAccount>> GetAllAsync()
         {
             var users = await userManager.Users
                 .Include(u => u.Profile)
-                    .ThenInclude(p => p.Articles)
+                .Include(u => u.Articles)
+                .Include(u => u.Comments)
                 .ToListAsync();
 
             return users;
@@ -35,7 +40,8 @@ namespace Blog.DAL.Repositories
         {   
             var user = await userManager.Users
                 .Include(u => u.Profile)
-                    .ThenInclude(p => p.Articles)
+                .Include(u => u.Articles)
+                .Include(u => u.Comments)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             return user;
@@ -48,7 +54,7 @@ namespace Blog.DAL.Repositories
             return result.ToList();
         }
 
-        public async Task<UserAccount> GetAuthAccountAsync(ClaimsPrincipal? userClaims)
+        public async Task<UserAccount?> GetAuthAccountAsync(ClaimsPrincipal? userClaims)
         {
             var result = await userManager.GetUserAsync(userClaims);
 
