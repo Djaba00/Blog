@@ -14,5 +14,8 @@ namespace Blog.BLL.Models
         public UserProfileModel Profile { get; set; }
 
         public List<AccountRoleModel> Roles { get; set; }
+
+        public List<ArticleModel> Articles { get; set; }
+        public List<CommentModel> Comments { get; set; }
     }
 }

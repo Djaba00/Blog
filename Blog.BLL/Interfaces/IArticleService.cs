@@ -12,7 +12,7 @@ namespace Blog.BLL.Interfaces
         Task<List<ArticleModel>> GetAllArticlesAsync();
         Task<ArticleModel> GetArticleByIdAsync(int id);
         Task<ArticleModel> GetArticleByIdForEditAsync(int id);
-        Task<List<ArticleModel>> GetArticlesByAuthorIdAsync(int authorId);
+        Task<List<ArticleModel>> GetArticlesByAuthorIdAsync(string authorId);
         Task<List<ArticleModel>> GetArticlesByTagAsync(string tagName);
         Task<List<ArticleModel>> GetArticlesByTitleAsync(string title);
 

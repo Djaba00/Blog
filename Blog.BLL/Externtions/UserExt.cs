@@ -20,8 +20,8 @@ namespace Blog.WebService.Externtions
             user.Profile.Status = userEdit.Profile.Status;
             user.Profile.About = userEdit.Profile.About;
 
-            user.Profile.Articles = userEdit.Profile.Articles;
-            user.Profile.Comments = userEdit.Profile.Comments;
+            user.Articles = userEdit.Articles;
+            user.Comments = userEdit.Comments;
 
             return user;
         }

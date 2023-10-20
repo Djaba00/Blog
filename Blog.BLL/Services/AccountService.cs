@@ -75,11 +75,16 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<UserAccountModel> GetAuthAccountAsync(ClaimsPrincipal account)
+        public async Task<UserAccountModel?> GetAuthAccountAsync(ClaimsPrincipal account)
         {
             var userAccount = await db.UserAccounts.GetAuthAccountAsync(account);
 
-            var result = await GetAccountByIdAsync(userAccount.Id);
+            UserAccountModel result = null;
+
+            if(userAccount != null)
+            {
+                result = await GetAccountByIdAsync(userAccount.Id);
+            }
 
             return result;
         }
@@ -167,7 +172,8 @@ namespace Blog.BLL.Services
                 IdentityResult result = await db.UserAccounts.RegistrationAsync(admin, adminData.Password);
                 if (result.Succeeded)
                 {
-                    await db.UserAccounts.AddToRoleAsync(admin, "Admin");
+                    var roles = new List<string>() { "User", "Admin"};
+                    await db.UserAccounts.AddToRolesAsync(admin, roles);
                 }
             }
 
@@ -177,7 +183,8 @@ namespace Blog.BLL.Services
                 IdentityResult result = await db.UserAccounts.RegistrationAsync(moderator, moderatorData.Password);
                 if (result.Succeeded)
                 {
-                    await db.UserAccounts.AddToRoleAsync(moderator, "Moderator");
+                    var roles = new List<string>() { "User", "Moderator" };
+                    await db.UserAccounts.AddToRolesAsync(moderator, roles);
                 }
             }
 

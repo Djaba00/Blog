@@ -8,7 +8,7 @@ namespace Blog.BLL.Interfaces
     {
         Task<List<UserAccountModel>> GetAllAcсountsAsync();
         Task<UserAccountModel> GetAccountByIdAsync(string id);
-        Task<UserAccountModel> GetAuthAccountAsync(ClaimsPrincipal account);
+        Task<UserAccountModel?> GetAuthAccountAsync(ClaimsPrincipal account);
 
         Task<IdentityResult> RegistrationAsync(UserAccountModel accountModel);
 

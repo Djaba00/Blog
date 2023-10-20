@@ -66,7 +66,7 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<List<ArticleModel>> GetArticlesByAuthorIdAsync(int authorId)
+        public async Task<List<ArticleModel>> GetArticlesByAuthorIdAsync(string authorId)
         {
             var articles = await db.Articles.GetArticlesByAuthorIdAsync(authorId);
 
