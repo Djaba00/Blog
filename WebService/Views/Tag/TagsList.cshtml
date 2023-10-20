@@ -1,26 +1,27 @@
-﻿@using Blog.WebService.ViewModels.Tag;
+﻿@using Blog.WebService.ViewModels.Tag
+
 @model List<TagViewModel>;
 
 @{
-    ViewData["Title"] = "Tags";
+    ViewData["Title"] = "UserList";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Статьи</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container form-container px-0">
+    <div class="row">
+        <h2>Все теги</h2>
+        <a asp-area="" asp-controller="Tag" asp-action="AddTag">Добавить тег</a>
+        <hr />
+
         @foreach (var tag in Model)
         {
-            <tr>
-                <td>@tag.Name</td>
-                <td>
-                    <a class="link-primary" asp-area="" asp-controller="Article" asp-action="Articles" asp-">Статьи</a>
-                </td>
-            </tr>
+            <div class="col-md-6">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <a class="card-title nav-link" asp-area="" asp-controller="Article" asp-action="Tag" asp-route-tagName="@tag.Name">@tag.Name</a>
+                        <p class="card-text text-secondary mb-0">Статей по тегу @tag.Articles.Count()</p>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
