@@ -1,5 +1,7 @@
 ﻿using Blog.BLL.Models;
 using Blog.WebService.ViewModels.AccountRole;
+using Blog.WebService.ViewModels.Article;
+using Blog.WebService.ViewModels.Comment;
 using Blog.WebService.ViewModels.User;
 
 namespace Blog.WebService.ViewModels.Account
@@ -17,5 +19,8 @@ namespace Blog.WebService.ViewModels.Account
         public UserViewModel Profile { get; set; }
 
         public List<AccountRoleViewModel> Roles { get; set; }
+
+        public List<ArticleViewModel> Articles { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
     }
 }

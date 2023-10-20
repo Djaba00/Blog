@@ -1,6 +1,9 @@
 ﻿using Blog.BLL.Models;
+using Blog.WebService.ViewModels.Account;
+using Blog.WebService.ViewModels.Article;
+using Blog.WebService.ViewModels.Comment;
 
-namespace Blog.WebService.VIewModels.User
+namespace Blog.WebService.ViewModels.User
 {
     public class UserViewModel
     {
@@ -15,7 +18,9 @@ namespace Blog.WebService.VIewModels.User
 
         public string UserAccountId { get; set; }
 
-        public List<ArticleModel> Articles { get; set; }
-        public List<CommentModel> Comments { get; set; }
-    }
+        public string GetFullName()
+        {
+            return $"{LastName} {FirstName} {MiddleName}";
+        }
+    } 
 }

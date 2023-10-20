@@ -1,0 +1,31 @@
+﻿@using Blog.WebService.ViewModels.Article;
+
+@model ArticleViewModel;
+
+@{
+    ViewData["Title"] = "Article";
+
+}
+
+<div class="container px-0">
+    <div class="col">
+        <h2>@Model.Title</h2>
+        <div class="d-flex flex-row gap-1">
+            @foreach (var tag in Model.Tags)
+            {
+                <span class="badge bg-success">@tag.Name</span>
+            }
+        </div>
+        <hr />
+
+        <div>
+            <p>@Model.Content</p>
+        </div>
+        <br />
+        <div>
+            <p class="text-secondary mb-0">Автор <a>@Model.User.Profile.GetFullName()</a></p>
+            <p class="text-secondary">@Model.User.Email</p>
+        </div>
+    </div>
+</div>
+

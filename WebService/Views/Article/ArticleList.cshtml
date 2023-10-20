@@ -8,27 +8,34 @@
 @{
     ViewData["Title"] = "ArticleList";
     var user = await AccountService.GetAuthAccountAsync(User);
-    var userRoles = user.Roles.Select(r => r.Name);
-    var userArticles = user.Profile.Articles.Select(a => a.Id);
+    var userRoles = new List<string>();
+    var userArticles = new List<int>();
+
+    if(user != null)
+    {
+        userRoles = user.Roles.Select(r => r.Name).ToList();
+        userArticles = user.Articles.Select(a => a.Id).ToList();
+    }
 }
 
 <div class="container form-container px-0">
     <div class="col">
         <h2>Все статьи</h2>
+        <a asp-area="" asp-controller="Article" asp-action="AddArticle">Добавить статью</a>
         <hr />
 
         @foreach (var article in Model)
         {
             <div class="card my-3">
                 <div class="card-body">
-                    <a class="card-title nav-link">@article.Title</a>
+                    <a class="card-title nav-link" asp-area="" asp-controller="Article" asp-action="Article" asp-route-id="@article.Id">@article.Title</a>
                     <div class="d-flex flex-col gap-1 mb-2">
                         @foreach (var tag in article.Tags)
                         {
                             <span class="badge bg-success">@tag.Name</span>
                         }
                     </div>
-                    @if(userArticles.Contains(article.Id) || userRoles.Contains("Admin") || userRoles.Contains("Moderator"))
+                    @if (user != null && (userArticles.Contains(article.Id) || userRoles.Contains("Admin") || userRoles.Contains("Moderator")))
                     {
                         <div class="btn-group" role="group" aria-label="Article option buttons">
                             <a type="button" class="btn btn-outline-secondary" asp-area="" asp-controller="Article" asp-action="EditArticle" asp-route-id="@article.Id">Редактировать</a>

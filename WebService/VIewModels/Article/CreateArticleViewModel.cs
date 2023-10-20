@@ -12,7 +12,7 @@ namespace Blog.WebService.ViewModels.Article
         [StringLength(1000, MinimumLength = 50)]
         public string Content { get; set; }
 
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         public List<HashTagViewModel> ArticleTags { get; set; } = new List<HashTagViewModel>();
     }

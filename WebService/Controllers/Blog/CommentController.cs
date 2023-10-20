@@ -75,7 +75,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [HttpGet]
-        [Route("ArticleComments")]
+        [Route("ArticleComments/{id:int}")]
         public async Task<IActionResult> GetComentsByArticleIdAsync(int id)
         {
             var comments = await commentService.GetCommentsByArticleIdAsync(id);
@@ -91,7 +91,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [HttpGet]
-        [Route("AuthorComments")]
+        [Route("AuthorComments/{id:int}")]
         public async Task<IActionResult> GetCommentsByAuthorIdAsync(string id)
         {
             var comments = await commentService.GetCommentsByAuthorIdAsync(id);

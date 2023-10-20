@@ -6,7 +6,7 @@ using Blog.WebService.ViewModels.Article;
 using Microsoft.AspNetCore.Authorization;
 using Blog.WebService.ViewModels.User;
 using Blog.WebService.ViewModels.Tag;
-using Blog.DAL.Entities;
+using Blog.WebService.ViewModels.Account;
 
 namespace Blog.WebService.Controllers.Blog
 {
@@ -40,8 +40,7 @@ namespace Blog.WebService.Controllers.Blog
             result.Wait();
             dbTags.Wait();
 
-            var user = mapper.Map<UserViewModel>(result.Result.Profile);
-
+            var user = mapper.Map<AccountViewModel>(result.Result);
 
             var model = new CreateArticleViewModel();
 
@@ -125,7 +124,7 @@ namespace Blog.WebService.Controllers.Blog
             return View("ArticleList", models);
         }
 
-        [Route("Article")]
+        [Route("Article/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> GetArticleByIdAsync(int id)
         {
@@ -133,12 +132,12 @@ namespace Blog.WebService.Controllers.Blog
 
             var model = mapper.Map<ArticleViewModel>(article);
 
-            return View("ArticleList", model);
+            return View("Article", model);
         }
 
         [Route("Author")]
         [HttpGet]
-        public async Task<IActionResult> GetArticlesByAuthorIdAsync(int authorId)
+        public async Task<IActionResult> GetArticlesByAuthorIdAsync(string authorId)
         {
             var articles = await articleService.GetArticlesByAuthorIdAsync(authorId);
 

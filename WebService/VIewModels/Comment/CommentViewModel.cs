@@ -1,4 +1,5 @@
 ﻿using Blog.BLL.Models;
+using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.Article;
 using Blog.WebService.ViewModels.User;
 
@@ -12,7 +13,7 @@ namespace Blog.WebService.ViewModels.Comment
         public DateTime? Changed { get; set; }
 
         public string UserId { get; set; }
-        public UserViewModel User { get; set; }
+        public AccountViewModel User { get; set; }
 
         public string ArticleId { get; set; }
         public ArticleViewModel Article { get; set; }

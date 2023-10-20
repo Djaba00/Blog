@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebService.Externtions;
-using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,8 +31,6 @@ namespace Blog.WebService.Controllers.Account
             var user = await accountService.GetAccountByIdAsync(currentUser.Id);
 
             var model = mapper.Map<UserViewModel>(user.Profile);
-
-            // mapper
 
             return View("UserPage", model);
         }
