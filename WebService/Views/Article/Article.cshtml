@@ -4,10 +4,9 @@
 
 @{
     ViewData["Title"] = "Article";
-
 }
 
-<div class="container px-0">
+<div class="container-lg px-0">
     <div class="col">
         <h2>@Model.Title</h2>
         <div class="d-flex flex-row gap-1">
@@ -21,10 +20,51 @@
         <div>
             <p>@Model.Content</p>
         </div>
-        <br />
-        <div>
-            <p class="text-secondary mb-0">Автор <a>@Model.User.Profile.GetFullName()</a></p>
+        <hr />
+        <div class="d-flex justify-content-end">
+            <p class="text-secondary mb-0"><a>@Model.User.Profile.GetFullName()</a></p>
             <p class="text-secondary">@Model.User.Email</p>
+        </div>
+    </div>
+    <div class="col">
+
+        <h2>Комментарии к статье</h2>
+
+        <div class="d-flex flex-column">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="my-3 border p-2">
+                    <text>@comment.Content</text>   
+                </div>
+                <div class="d-flex justify-content-end">
+                    <span class="badge bg-success">@comment.User.Email</span>
+                </div>
+            }
+
+            <hr />
+
+            @if (Model.CurrentUser != null)
+            {
+                <form method="post" asp-controller="Comment" asp-action="Add">
+                    <div asp-asp-validation-summary="Model">
+                        <input type="hidden" asp-for="AddComment.UserId" value="@Model.CurrentUser.Id" />
+                        <input type="hidden" asp-for="AddComment.ArticleId" value="@Model.Id" />
+                        <div class="col my-3">
+                            <textarea asp-for="AddComment.Content" class="form-control" type="text" placeholder="Комментарий"></textarea>
+                        </div>
+
+                        <div class="col my-3">
+                            <input class="btn btn-primary" type="submit" value="Оставить комментарий" />
+                        </div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="col my-3">
+                    <p>Чтобы оставить комментарий <a asp-area="" asp-controller="AccountManager" asp-action="Login">авторизируйтесь</a></p>
+                </div>
+            }
         </div>
     </div>
 </div>

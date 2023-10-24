@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
+using Blog.WebService.ViewModels.Article;
 using Blog.WebService.ViewModels.Comment;
-using Blog.WebService.ViewModels.User;
+using Blog.WebService.ViewModels.UserProfile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,13 +22,11 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("AddComment")]
+        [Route("Add")]
         [HttpPost]
-        public async Task<IActionResult> CreateCommentAsync(CreateCommentViewModel commentModel)
+        public async Task<IActionResult> CreateCommentAsync(ArticleViewModel articleModel)
         {
-            var comment = mapper.Map<CommentModel>(commentModel);
-
-            comment.Created = DateTime.Now;
+            var comment = mapper.Map<CommentModel>(articleModel.AddComment);
 
             await commentService.CreateCommentAsync(comment);
 
@@ -35,7 +34,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("EditComment")]
+        [Route("Edit")]
         [HttpPost]
         public async Task<IActionResult> UpdateCommentAsync(EditCommentViewModel updateComment)
         {
@@ -49,7 +48,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("DeleteComment")]
+        [Route("Delete")]
         [HttpPost]
         public async Task<IActionResult> DeleteCommentAsync(int id)
         {
@@ -71,7 +70,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<CommentModel>(comment));
             }
 
-            return View("CommentsList", models);
+            return View("CommentList", models);
         }
 
         [HttpGet]
@@ -87,7 +86,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<CommentModel>(comment));
             }
 
-            return View("CommentsList", models);
+            return View("CommentList", models);
         }
 
         [HttpGet]
@@ -103,7 +102,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<CommentModel>(comment));
             }
 
-            return View("CommentsList", models);
+            return View("CommentList", models);
         }
     }
 }

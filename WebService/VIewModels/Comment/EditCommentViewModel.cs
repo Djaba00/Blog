@@ -1,4 +1,6 @@
-﻿namespace Blog.WebService.ViewModels.Comment
+﻿using Blog.WebService.ViewModels.Account;
+
+namespace Blog.WebService.ViewModels.Comment
 {
     public class EditCommentViewModel
     {
@@ -7,6 +9,8 @@
 
         public string UserId { get; set; }
 
-        public string ArticleId { get; set; }
+        public int ArticleId { get; set; }
+
+        public AccountViewModel CurrentAccount { get; set; } = new AccountViewModel();
     }
 }

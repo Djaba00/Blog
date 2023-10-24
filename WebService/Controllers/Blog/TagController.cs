@@ -20,7 +20,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("AddTag")]
+        [Route("Add")]
         [HttpGet]
         public IActionResult CreateTag()
         {
@@ -29,7 +29,7 @@ namespace Blog.WebService.Controllers.Blog
 
 
         [Authorize]
-        [Route("AddTag")]
+        [Route("Add")]
         [HttpPost]
         public async Task<IActionResult> CreateTagAsync(CreateTagViewModel tagModel)
         {
@@ -41,7 +41,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("EditTag/{id:int}")]
+        [Route("Edit")]
         [HttpGet]
         public async Task<IActionResult> UpdateTagAsync(int id)
         {
@@ -53,7 +53,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("EditTag")]
+        [Route("Edit")]
         [HttpPost]
         public async Task<IActionResult> UpdateTagAsync(EditTagViewModel updateTag)
         {
@@ -65,7 +65,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("DeleteTag")]
+        [Route("Delete")]
         [HttpPost]
         public async Task<IActionResult> DeleteTagAsync(int id)
         {
@@ -87,7 +87,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<TagViewModel>(tag));
             }
 
-            return View("TagsList", models);
+            return View("TagList", models);
         }
 
         [Route("Tag")]

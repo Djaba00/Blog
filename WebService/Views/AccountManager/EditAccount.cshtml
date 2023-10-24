@@ -1,6 +1,6 @@
-﻿@using Blog.WebService.ViewModels.User;
+﻿@using Blog.WebService.ViewModels.Account;
 
-@model EditUserViewModel;
+@model EditAccountViewModel;
 
 @{
     ViewData["Title"] = "EditUser";
@@ -11,7 +11,7 @@
         <h2>Редактирование пользователя</h2>
         <hr />
     </div>
-    <form method="post" asp-controller="User" asp-action="EditUser">
+    <form method="post" asp-controller="AccountManager" asp-action="Edit">
         <div asp-asp-validation-summary="Model">
             <input type="hidden" asp-for="Id" value="@Model.Id" />
             <div class="col my-3">
@@ -73,6 +73,6 @@
     </form>
 
     <div class="container-sm">
-        <a class="link-primary" asp-area="" asp-controller="Article" asp-action="Articles">Вернуться к списку всех статей</a>
+        <a class="link-primary" asp-area="" asp-controller="AccountManager" asp-action="Accounts">Вернуться к списку всех пользователей</a>
     </div>
 </div>

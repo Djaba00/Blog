@@ -11,9 +11,10 @@
         <h2>Редактирование статьи</h2>
         <hr />
     </div>
-    <form method="post" asp-controller="Article" asp-action="EditArticle">
+    <form method="post" asp-controller="Article" asp-action="Edit">
         <div asp-asp-validation-summary="Model">
             <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <input type="hidden" asp-for="UserId" value="@Model.UserId" />
             <div class="col my-3">
                 <div class="d-flex flex-row gap-3">
                     @for (var i = 0; i < Model.Tags.Count; i++)

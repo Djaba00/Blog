@@ -2,7 +2,7 @@
 using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.Comment;
 using Blog.WebService.ViewModels.Tag;
-using Blog.WebService.ViewModels.User;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Blog.WebService.ViewModels.Article
 {
@@ -16,9 +16,12 @@ namespace Blog.WebService.ViewModels.Article
 
         public string UserId { get; set; }
         public AccountViewModel User { get; set; }
+        public AccountViewModel CurrentUser { get; set; } = new AccountViewModel();
 
         public List<TagViewModel> Tags { get; set; }
 
         public List<CommentViewModel> Comments { get; set; }
+
+        public CreateCommentViewModel AddComment { get; set; }
     }
 }

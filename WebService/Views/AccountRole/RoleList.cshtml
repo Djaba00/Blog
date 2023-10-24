@@ -8,14 +8,14 @@
 <div class="container form-container px-0">
     <div class="row">
         <h2>Все роли</h2>
-        <a asp-area="" asp-controller="AccountRole" asp-action="AddRole">Добавить роль</a>
+        <a class="mb-2" asp-area="" asp-controller="AccountRole" asp-action="AddRole">Добавить роль</a>
         <hr />
 
         @foreach (var role in Model)
         {
             <div class="card my-3">
                 <div class="card-body">
-                    <a class="card-title nav-link">@role.Name</a>
+                    <a class="card-title nav-link" asp-area="" asp-controller="AccountManager" asp-action="Tag" asp-route-roleName="@role.Name">@role.Name</a>
                     <p class="card-text text-end text-secondary mb-0">@role.Description</p>
                 </div>
             </div>

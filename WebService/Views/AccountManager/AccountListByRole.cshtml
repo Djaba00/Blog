@@ -1,6 +1,6 @@
 ﻿@using Blog.WebService.ViewModels.Account
 
-@model List<AccountViewModel>;
+@model AccountListByRole;
 
 @{
     ViewData["Title"] = "UserList";
@@ -8,14 +8,16 @@
 
 <div class="container form-container px-0">
     <div class="col">
-        <h2>Все пользователи</h2>
+        <h2>Пользователи роли "@Model.AccountRole.Name"</h2>
+        <h3>колличество пользователей: @Model.Accounts.Count()</h3>
+        <h3>@Model.AccountRole.Description</h3>
         <hr />
 
-        @foreach(var user in Model)
+        @foreach (var user in Model.Accounts)
         {
             <div class="card my-3">
                 <div class="card-body">
-                    <a class="card-title nav-link" asp-area="" asp-controller="AccountManager" asp-action="UserPage" asp-route-id="@user.Id">@user.Profile.GetFullName()</a>
+                    <a class="card-title nav-link" asp-area="" asp-controller="AccountManager" asp-action="UserPage" asp-route-id="@user.Id">@user.Email</a>
                     <div class="d-flex">
                         @foreach (var role in user.Roles)
                         {
@@ -37,11 +39,10 @@
                             }
                         }
                     </div>
-                    <p class="card-text mb-0">Количество статей @user.Articles.Count()</p>
                     <p class="card-text text-secondary">@user.Email</p>
                 </div>
             </div>
         }
     </div>
-    
+
 </div>

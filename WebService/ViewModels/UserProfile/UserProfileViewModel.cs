@@ -1,11 +1,7 @@
-﻿using Blog.BLL.Models;
-using Blog.WebService.ViewModels.Account;
-using Blog.WebService.ViewModels.Article;
-using Blog.WebService.ViewModels.Comment;
-
-namespace Blog.WebService.ViewModels.User
+﻿
+namespace Blog.WebService.ViewModels.UserProfile
 {
-    public class UserViewModel
+    public class UserProfileViewModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

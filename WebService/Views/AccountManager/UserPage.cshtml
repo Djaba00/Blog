@@ -1,0 +1,63 @@
+﻿@using Blog.WebService.ViewModels.Account;
+
+@model AccountViewModel;
+
+@{
+    ViewData["Title"] = "UserPage";
+
+    var userArticles = new List<int>();
+
+    if (User.Identity.IsAuthenticated)
+    {
+        userArticles = Model.CurrentAccount.Articles.Select(a => a.Id).ToList();
+    }
+}
+
+<div class="container-lg px-0">
+    <div class="col">
+        <h2>@Model.Profile.GetFullName()</h2>
+        <p>@Model.Email</p>
+        <p>Колличество статей: @Model.Articles.Count()</p>
+        @foreach (var role in Model.Roles)
+        {
+            <span class="badge bg-success">@role.Name</span>
+        }
+        <hr />
+    </div>
+    <div class="row">
+
+        <h2>Статьи пользователя</h2>
+
+        @foreach (var article in Model.Articles)
+        {
+            <div class="col-md-6">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <a class="card-title nav-link" asp-area="" asp-controller="Article" asp-action="Article" asp-route-id="@article.Id">@article.Title</a>
+                        <div class="d-flex flex-column gap-1 mb-2">
+                            <div>
+                                <p class="text-truncate">@article.Content</p>
+                            </div>
+                            <div>
+                                @foreach (var tag in article.Tags)
+                                {
+                                    <span class="badge bg-success">@tag.Name</span>
+                                }
+                            </div>
+                        </div>
+                        @if (userArticles.Contains(article.Id) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                    <div class="btn-group" role="group" aria-label="Article option buttons">
+                        <a type="button" class="btn btn-outline-secondary" asp-area="" asp-controller="Article" asp-action="Edit" asp-route-id="@article.Id">Редактировать</a>
+                        <form asp-area="" asp-controller="Article" asp-action="Delete" asp-route-id="@article.Id">
+                            <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                        </form>
+                    </div>
+                    }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -4,9 +4,10 @@ using Blog.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Blog.WebService.ViewModels.Article;
 using Microsoft.AspNetCore.Authorization;
-using Blog.WebService.ViewModels.User;
 using Blog.WebService.ViewModels.Tag;
 using Blog.WebService.ViewModels.Account;
+using Blog.WebService.ViewModels.Comment;
+using Blog.BLL.Services;
 
 namespace Blog.WebService.Controllers.Blog
 {
@@ -27,7 +28,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("AddArticle")]
+        [Route("Add")]
         [HttpGet]
         public async Task<IActionResult> CreateArticleAsync()
         {
@@ -55,7 +56,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("AddArticle")]
+        [Route("Add")]
         [HttpPost]
         public async Task<IActionResult> CreateArticleAsync(CreateArticleViewModel articleModel)
         {
@@ -71,35 +72,51 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("EditArticle/{id:int}")]
+        [Route("Edit")]
         [HttpGet]
         public async Task<IActionResult> UpdateArticleAsync(int id)
         {
             var article = await articleService.GetArticleByIdForEditAsync(id);
+
+            var currentUser = await accountService.GetAuthAccountAsync(User);
             
             var model = mapper.Map<EditArticleViewModel>(article);
 
-            return View("EditArticle", model);
-        }
-
-        [Authorize]
-        [Route("EditArticle")]
-        [HttpPost]
-        public async Task<IActionResult> UpdateArticleAsync(EditArticleViewModel updateArticle)
-        {
-            var selectedTags = updateArticle.Tags.Where(c => c.Selected).ToList();
-
-            updateArticle.Tags = selectedTags;
-
-            var article = mapper.Map<ArticleModel>(updateArticle);
-
-            await articleService.UpdateArticleAsync(article);
+            if (article.UserId == currentUser.Id || currentUser.Roles.Select(r => r.Name).Contains("Admin") 
+                || currentUser.Roles.Select(r => r.Name).Contains("Moderator"))
+            {
+                return View("EditArticle", model);
+            }
 
             return RedirectToAction("Articles");
         }
 
         [Authorize]
-        [Route("DeleteArticle")]
+        [Route("Edit")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateArticleAsync(EditArticleViewModel updateArticle)
+        {
+            var currentUser = await accountService.GetAuthAccountAsync(User);
+
+            if (updateArticle.UserId == currentUser.Id || currentUser.Roles.Select(r => r.Name).Contains("Admin")
+                || currentUser.Roles.Select(r => r.Name).Contains("Moderator"))
+            {
+                var selectedTags = updateArticle.Tags.Where(c => c.Selected).ToList();
+
+                updateArticle.Tags = selectedTags;
+
+                var article = mapper.Map<ArticleModel>(updateArticle);
+
+                await articleService.UpdateArticleAsync(article);
+
+                return RedirectToAction("Articles");
+            }
+
+            return RedirectToAction("Articles");
+        }
+
+        [Authorize]
+        [Route("Delete")]
         [HttpPost]
         public async Task<IActionResult> DeleteArticleAsync(int id)
         {
@@ -112,25 +129,45 @@ namespace Blog.WebService.Controllers.Blog
         [HttpGet]
         public async Task<IActionResult> GetArticlesListAsync()
         {
-            var articles = await articleService.GetAllArticlesAsync();
+            var articles = articleService.GetAllArticlesAsync();
 
-            var models = new List<ArticleViewModel>();
+            var user = accountService.GetAuthAccountAsync(User);
 
-            foreach (var article in articles)
+            articles.Wait();
+            user.Wait();
+
+            var account = mapper.Map<AccountViewModel>(user.Result);
+
+            var model = new ArticleListViewModel();
+
+            model.CurrentAccount = account;
+
+            foreach (var article in articles.Result)
             {
-                models.Add(mapper.Map<ArticleViewModel>(article));
+                model.Articles.Add(mapper.Map<ArticleViewModel>(article));
             }
 
-            return View("ArticleList", models);
+            return View("ArticleList", model);
         }
 
         [Route("Article/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> GetArticleByIdAsync(int id)
         {
-            var article = await articleService.GetArticleByIdAsync(id);
+            var article = articleService.GetArticleByIdAsync(id);
 
-            var model = mapper.Map<ArticleViewModel>(article);
+            var user = accountService.GetAuthAccountAsync(User);
+
+            article.Wait();
+            user.Wait();
+
+            var model = mapper.Map<ArticleViewModel>(article.Result);
+
+            var userVm = mapper.Map<AccountViewModel>(user.Result);
+
+            model.CurrentUser = userVm;
+
+            model.AddComment = new CreateCommentViewModel();
 
             return View("Article", model);
         }
@@ -155,16 +192,25 @@ namespace Blog.WebService.Controllers.Blog
         [HttpGet]
         public async Task<IActionResult> GetArticlesByTagAsync(string tagName)
         {
-            var articles = await articleService.GetArticlesByTagAsync(tagName);
+            var user = accountService.GetAuthAccountAsync(User);
+            var articles = articleService.GetArticlesByTagAsync(tagName);
 
-            var model = new List<ArticleViewModel>();
+            user.Wait();
+            articles.Wait();
 
-            foreach (var article in articles)
+            var model = new ArticleListByTagViewModel();
+
+            var account = mapper.Map<AccountViewModel>(user.Result);
+
+            model.CurrentAccount = account;
+            model.Tag = tagName;
+
+            foreach (var article in articles.Result)
             {
-                model.Add(mapper.Map<ArticleViewModel>(article));
+                model.Articles.Add(mapper.Map<ArticleViewModel>(article));
             }
 
-            return View("ArticleList", model);
+            return View("ArticleListByTag", model);
         }
     }
 }

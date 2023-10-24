@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebService.Controllers.Account
 {
+    [Route("AccountRole")]
     public class AccountRoleController : Controller
     {
         IMapper mapper;
@@ -19,7 +20,7 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("AccountRole/AddRole")]
+        [Route("Add")]
         [HttpGet]
         public IActionResult CreateRole()
         {
@@ -27,7 +28,7 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("AccountRole/AddRole")]
+        [Route("Add")]
         [HttpPost]
         public async Task<IActionResult> CreateRoleAsync(CreateAccountRoleViewModel newRole)
         {
@@ -44,7 +45,7 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("AccountRole/EditRole/{id:int}")]
+        [Route("Edit")]
         [HttpGet]
         public async Task<IActionResult> EditRole(string id)
         {
@@ -56,7 +57,7 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("AccountRole/AddRole")]
+        [Route("Add")]
         [HttpPost]
         public async Task<IActionResult> EditRoleAsync(CreateAccountRoleViewModel newRole)
         {
@@ -73,7 +74,7 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("AccountRole/Roles")]
+        [Route("Roles")]
         [HttpGet]
         public async Task<IActionResult> GetAllRolseAsync()
         {

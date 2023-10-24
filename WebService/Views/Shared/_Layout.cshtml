@@ -40,10 +40,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Tag" asp-action="AddTag">Создать тег</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Tag" asp-action="EditTag">Редактировать тег</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Tag" asp-action="Add">Создать тег</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="Tag" asp-action="Tags">Список тегов</a>
@@ -58,7 +55,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="EditUser">Редактировать профиль</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AccountManager" asp-action="Edit">Редактировать профиль</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="AccountManager" asp-action="Accounts">Список пользователей</a>
@@ -73,10 +70,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="AccountRole" asp-action="AddRole">Создать роль</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="AccountRole" asp-action="EditRole">Реадактировать роль</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AccountRole" asp-action="Add">Создать роль</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="AccountRole" asp-action="Roles">Список ролей</a>
@@ -86,7 +80,7 @@
                         </li>
                     </ul>
 
-                    @if(SignInService.IsSignIn(User))
+                    @if(User.Identity.IsAuthenticated)
                     {
                         <ul class="nav navbar-nav navbar-right">
                             <li class="nav-item">

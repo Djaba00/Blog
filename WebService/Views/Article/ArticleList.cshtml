@@ -1,49 +1,51 @@
 ﻿@using Blog.WebService.ViewModels.Article;
-@using Blog.BLL.Interfaces;
 
-@model List<ArticleViewModel>;
-
-@inject IAccountService AccountService;
+@model ArticleListViewModel;
 
 @{
     ViewData["Title"] = "ArticleList";
-    var user = await AccountService.GetAuthAccountAsync(User);
-    var userRoles = new List<string>();
+    
     var userArticles = new List<int>();
 
-    if(user != null)
+    if (User.Identity.IsAuthenticated)
     {
-        userRoles = user.Roles.Select(r => r.Name).ToList();
-        userArticles = user.Articles.Select(a => a.Id).ToList();
+        userArticles = Model.CurrentAccount.Articles.Select(a => a.Id).ToList();
     }
 }
 
-<div class="container form-container px-0">
-    <div class="col">
+<div class="container px-0">
+    <div class="row">
         <h2>Все статьи</h2>
-        <a asp-area="" asp-controller="Article" asp-action="AddArticle">Добавить статью</a>
+        <a class="mb-2" asp-area="" asp-controller="Article" asp-action="Add">Добавить статью</a>
         <hr />
 
-        @foreach (var article in Model)
+        @foreach (var article in Model.Articles)
         {
-            <div class="card my-3">
-                <div class="card-body">
-                    <a class="card-title nav-link" asp-area="" asp-controller="Article" asp-action="Article" asp-route-id="@article.Id">@article.Title</a>
-                    <div class="d-flex flex-col gap-1 mb-2">
-                        @foreach (var tag in article.Tags)
+            <div class="col-md-6">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <a class="card-title nav-link" asp-area="" asp-controller="Article" asp-action="Article" asp-route-id="@article.Id">@article.Title</a>
+                        <div class="d-flex flex-column gap-1 mb-2">
+                            <div>
+                                <p class="text-truncate">@article.Content</p>
+                            </div>
+                            <div>
+                                @foreach (var tag in article.Tags)
+                                {
+                                    <span class="badge bg-success">@tag.Name</span>
+                                }
+                            </div>
+                        </div>
+                        @if (userArticles.Contains(article.Id) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
                         {
-                            <span class="badge bg-success">@tag.Name</span>
+                            <div class="btn-group" role="group" aria-label="Article option buttons">
+                                <a type="button" class="btn btn-outline-secondary" asp-area="" asp-controller="Article" asp-action="Edit" asp-route-id="@article.Id">Редактировать</a>
+                                <form asp-area="" asp-controller="Article" asp-action="Delete" asp-route-id="@article.Id">
+                                    <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                                </form>
+                            </div>
                         }
                     </div>
-                    @if (user != null && (userArticles.Contains(article.Id) || userRoles.Contains("Admin") || userRoles.Contains("Moderator")))
-                    {
-                        <div class="btn-group" role="group" aria-label="Article option buttons">
-                            <a type="button" class="btn btn-outline-secondary" asp-area="" asp-controller="Article" asp-action="EditArticle" asp-route-id="@article.Id">Редактировать</a>
-                            <form asp-area="" asp-controller="Article" asp-action="DeleteArticle" asp-route-id="@article.Id">
-                                <button type="submit" class="btn btn-outline-danger">Удалить</button>
-                            </form>
-                        </div>
-                    }
                 </div>
             </div>
         }

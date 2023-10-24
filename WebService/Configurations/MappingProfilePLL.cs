@@ -5,7 +5,7 @@ using Blog.WebService.ViewModels.AccountRole;
 using Blog.WebService.ViewModels.Article;
 using Blog.WebService.ViewModels.Comment;
 using Blog.WebService.ViewModels.Tag;
-using Blog.WebService.ViewModels.User;
+using Blog.WebService.ViewModels.UserProfile;
 
 namespace Blog.WebService.Configurations
 {
@@ -21,16 +21,16 @@ namespace Blog.WebService.Configurations
             CreateMap<LoginViewModel, UserAccountModel>()
                 .ForMember(m => m.UserName, opt => opt.MapFrom(vm => vm.Email));
 
-            CreateMap<UserViewModel, UserProfileModel>()
+            CreateMap<UserProfileViewModel, UserProfileModel>()
                 .ReverseMap();
 
-            CreateMap<UserViewModel, UserProfileModel>()
+            CreateMap<UserProfileViewModel, UserProfileModel>()
                 .ReverseMap();
 
             CreateMap<AccountViewModel, UserAccountModel>()
                 .ReverseMap();
 
-            CreateMap<EditUserViewModel, UserAccountModel>()
+            CreateMap<EditAccountViewModel, UserAccountModel>()
                 .ForMember(m => m.UserName, opt => opt.MapFrom(vm => vm.Email))
                 .ReverseMap();
             #endregion
