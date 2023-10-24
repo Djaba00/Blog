@@ -7,6 +7,7 @@ namespace Blog.BLL.Interfaces
     public interface IAccountService
     {
         Task<List<UserAccountModel>> GetAllAcсountsAsync();
+        Task<List<UserAccountModel>> GetAccountsByRoleAsync(string roleName);
         Task<UserAccountModel> GetAccountByIdAsync(string id);
         Task<UserAccountModel?> GetAuthAccountAsync(ClaimsPrincipal account);
 

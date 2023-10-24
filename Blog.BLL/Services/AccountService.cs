@@ -48,6 +48,31 @@ namespace Blog.BLL.Services
             return result;
         }
 
+        public async Task<List<UserAccountModel>> GetAccountsByRoleAsync(string roleName)
+        {
+            var accounts = await db.UserAccounts.GetAccountsByRoleAsync(roleName);
+
+            var result = new List<UserAccountModel>();
+
+            foreach (var account in accounts)
+            {
+                var tempAcc = mapper.Map<UserAccountModel>(account);
+
+                var accRoles = await db.UserAccounts.GetUserRolesAsync(account);
+
+                tempAcc.Roles = new List<AccountRoleModel>();
+
+                foreach (var role in accRoles)
+                {
+                    tempAcc.Roles.Add(new AccountRoleModel() { Name = role });
+                }
+
+                result.Add(tempAcc);
+            }
+
+            return result;
+        }
+
         public async Task<UserAccountModel> GetAccountByIdAsync(string id)
         {
             var user = await db.UserAccounts.GetByIdAsync(id);

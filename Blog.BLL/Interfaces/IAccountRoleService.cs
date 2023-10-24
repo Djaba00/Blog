@@ -1,10 +1,5 @@
 ﻿using Blog.BLL.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.BLL.Interfaces
 {
@@ -12,7 +7,9 @@ namespace Blog.BLL.Interfaces
     {
         Task<IdentityResult> CreateRoleAsync(AccountRoleModel newRole);
         Task<IdentityResult> UpdateRoleAsync(AccountRoleModel updRoleModel);
+
         Task<List<AccountRoleModel>> GetAllRolesAsync();
+        Task<AccountRoleModel> GetRoleByNameAsync(string roleName);
         Task<AccountRoleModel> GetRoleByIdAsync(string id);
     }
 }

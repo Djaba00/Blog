@@ -24,6 +24,8 @@ namespace Blog.BLL.Services
             {
                 var comment = mapper.Map<Comment>(commentModel);
 
+                comment.Created = DateTime.Now;
+
                 db.Comments.Create(comment);
 
                 await db.SaveAsync();

@@ -76,5 +76,14 @@ namespace Blog.BLL.Services
 
             return result;
         }
+
+        public async Task<AccountRoleModel> GetRoleByNameAsync(string roleName)
+        {
+            var role = await db.RoleManager.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
+
+            var result = mapper.Map<AccountRoleModel>(role);
+
+            return result;
+        }
     }
 }
