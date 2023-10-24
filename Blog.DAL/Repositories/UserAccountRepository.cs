@@ -3,17 +3,18 @@ using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using System.Security.Claims;
 
 namespace Blog.DAL.Repositories
 {
     public class UserAccountRepository : IUserAccountRepository<UserAccount>
     {
+        DataContext db;
         readonly UserManager<UserAccount> userManager;
 
-        public UserAccountRepository(UserManager<UserAccount> userManager)
+        public UserAccountRepository(DataContext db, UserManager<UserAccount> userManager)
         {
+            this.db = db;
             this.userManager = userManager;
         }
 
@@ -45,6 +46,13 @@ namespace Blog.DAL.Repositories
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             return user;
+        }
+
+        public async Task<List<UserAccount>> GetAccountsByRoleAsync(string roleName)
+        {
+            var accounts = await userManager.GetUsersInRoleAsync(roleName);
+
+            return accounts.ToList();
         }
 
         public async Task<List<string>> GetUserRolesAsync(UserAccount entity)

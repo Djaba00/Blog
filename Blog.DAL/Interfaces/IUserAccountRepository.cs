@@ -9,6 +9,7 @@ namespace Blog.DAL.Interfaces
     {
         Task<UserAccount> FindByIdeAsync(string id);
         Task<IEnumerable<UserAccount>> GetAllAsync();
+        Task<List<UserAccount>> GetAccountsByRoleAsync(string roleName);
         Task<UserAccount> GetByIdAsync(string id);
         Task<UserAccount?> GetAuthAccountAsync(ClaimsPrincipal? userClaims);
         Task<List<string>> GetUserRolesAsync(UserAccount entity);
