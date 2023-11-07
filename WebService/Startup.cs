@@ -24,12 +24,6 @@ namespace Blog.WebService
             string dbConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddSqlLiteContext(dbConnection);
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = Configuration["Application:LoginPath"];
-                });
-
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = Configuration["Application:LoginPath"];
