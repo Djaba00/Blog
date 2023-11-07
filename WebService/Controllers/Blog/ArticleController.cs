@@ -7,20 +7,21 @@ using Microsoft.AspNetCore.Authorization;
 using Blog.WebService.ViewModels.Tag;
 using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.Comment;
-using Blog.BLL.Services;
 
 namespace Blog.WebService.Controllers.Blog
 {
     [Route("Article")]
     public class ArticleController : Controller
     {
-        IMapper mapper;
-        IArticleService articleService;
-        IAccountService accountService;
-        ITagService tagService;
+        readonly ILogger<ArticleController> logger;
+        readonly IMapper mapper;
+        readonly IArticleService articleService;
+        readonly IAccountService accountService;
+        readonly ITagService tagService;
 
-        public ArticleController(IMapper mapper, IArticleService articleService, IAccountService accountService, ITagService tagService)
+        public ArticleController(ILogger<ArticleController> logger, IMapper mapper, IArticleService articleService, IAccountService accountService, ITagService tagService)
         {
+            this.logger = logger;
             this.mapper = mapper;
             this.articleService = articleService;
             this.accountService = accountService;
@@ -52,6 +53,10 @@ namespace Blog.WebService.Controllers.Blog
                 model.ArticleTags.Add(mapper.Map<HashTagViewModel>(tag));
             }
 
+            logger.LogInformation("{0} GET CreateArticle page responsed for user-{1}",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
             return View("CreateArticle", model);
         }
 
@@ -60,6 +65,10 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> CreateArticleAsync(CreateArticleViewModel articleModel)
         {
+            logger.LogInformation("{0} POST User-{1} send newArticle data",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
             var selectedTags = articleModel.ArticleTags.Where(c => c.Selected).ToList();
 
             articleModel.ArticleTags = selectedTags;
@@ -67,6 +76,10 @@ namespace Blog.WebService.Controllers.Blog
             var article = mapper.Map<ArticleModel>(articleModel);
 
             await articleService.CreateArticleAsync(article);
+
+            logger.LogInformation("{0} POST User-{1} created article",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Articles");
         }
@@ -85,8 +98,16 @@ namespace Blog.WebService.Controllers.Blog
             if (article.UserId == currentUser.Id || currentUser.Roles.Select(r => r.Name).Contains("Admin") 
                 || currentUser.Roles.Select(r => r.Name).Contains("Moderator"))
             {
+                logger.LogInformation("{0} GET EditArticle page responsed for user-{1}",
+                  DateTime.UtcNow.ToLongTimeString(),
+                  User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
                 return View("EditArticle", model);
             }
+
+            logger.LogInformation("{0} GET EditArticle page forbidden for user-{1}",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Articles");
         }
@@ -96,6 +117,10 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> UpdateArticleAsync(EditArticleViewModel updateArticle)
         {
+            logger.LogInformation("{0} POST User-{1} send editArticle data",
+              DateTime.UtcNow.ToLongTimeString(),
+               User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
             var currentUser = await accountService.GetAuthAccountAsync(User);
 
             if (updateArticle.UserId == currentUser.Id || currentUser.Roles.Select(r => r.Name).Contains("Admin")
@@ -109,8 +134,18 @@ namespace Blog.WebService.Controllers.Blog
 
                 await articleService.UpdateArticleAsync(article);
 
+                logger.LogInformation("{0} POST User-{1} edited article-{2}",
+                    DateTime.UtcNow.ToLongTimeString(),
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                    updateArticle.Id);
+
                 return RedirectToAction("Articles");
             }
+
+            logger.LogInformation("{0} POST Edit article-{1} forbidden for user-{2}",
+                DateTime.UtcNow.ToLongTimeString(),
+                updateArticle.Id,
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Articles");
         }
@@ -121,6 +156,11 @@ namespace Blog.WebService.Controllers.Blog
         public async Task<IActionResult> DeleteArticleAsync(int id)
         {
             await articleService.DeleteArticleAsync(id);
+
+            logger.LogInformation("{0} POST User-{1} deleted article-{2}",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                id);
 
             return RedirectToAction("Articles");
         }
@@ -147,6 +187,9 @@ namespace Blog.WebService.Controllers.Blog
                 model.Articles.Add(mapper.Map<ArticleViewModel>(article));
             }
 
+            logger.LogInformation("{0} GET Articles page responed",
+                DateTime.UtcNow.ToLongTimeString());
+
             return View("ArticleList", model);
         }
 
@@ -169,6 +212,10 @@ namespace Blog.WebService.Controllers.Blog
 
             model.AddComment = new CreateCommentViewModel();
 
+            logger.LogInformation("{0} GET Article-{1} page responsed",
+                DateTime.UtcNow.ToLongTimeString(),
+                id);
+
             return View("Article", model);
         }
 
@@ -184,7 +231,11 @@ namespace Blog.WebService.Controllers.Blog
             {
                 model.Add(mapper.Map<ArticleViewModel>(article));
             }
-            
+
+            logger.LogInformation("{0} GET Articles by user-{1} page responsed",
+                DateTime.UtcNow.ToLongTimeString(),
+                authorId);
+
             return View("ArticleList", model);
         }
 
@@ -209,6 +260,10 @@ namespace Blog.WebService.Controllers.Blog
             {
                 model.Articles.Add(mapper.Map<ArticleViewModel>(article));
             }
+
+            logger.LogInformation("{0} GET Articles by tag-{1} page responsed",
+                DateTime.UtcNow.ToLongTimeString(),
+                tagName);
 
             return View("ArticleListByTag", model);
         }

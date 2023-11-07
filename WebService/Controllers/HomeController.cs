@@ -6,15 +6,17 @@ namespace Blog.WebService.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    readonly ILogger<HomeController> logger;
 
     public HomeController(ILogger<HomeController> logger)
     {
-        _logger = logger;
+        this.logger = logger;
     }
 
     public IActionResult Index()
     {
+        logger.LogInformation("{0} GET The Index page is requested", 
+            DateTime.UtcNow.ToLongTimeString());
         return RedirectToAction("Articles", "Article");
     }
 

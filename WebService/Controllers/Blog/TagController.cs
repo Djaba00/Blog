@@ -10,11 +10,13 @@ namespace Blog.WebService.Controllers.Blog
     [Route("Tag")]
     public class TagController : Controller
     {
-        IMapper mapper;
-        ITagService tagService;
+        readonly ILogger<TagController> logger;
+        readonly IMapper mapper;
+        readonly ITagService tagService;
 
-        public TagController(IMapper mapper, ITagService tagService)
+        public TagController(ILogger<TagController> logger, IMapper mapper, ITagService tagService)
         {
+            this.logger = logger;
             this.mapper = mapper;
             this.tagService = tagService;
         }
@@ -24,6 +26,10 @@ namespace Blog.WebService.Controllers.Blog
         [HttpGet]
         public IActionResult CreateTag()
         {
+            logger.LogInformation("{0} GET CreateTag page responsed for user-{1}",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
             return View("CreateTag");
         }
 
@@ -33,9 +39,17 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> CreateTagAsync(CreateTagViewModel tagModel)
         {
+            logger.LogInformation("{0} POST User-{1} send newTag data",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
             var tag = mapper.Map<TagModel>(tagModel);
 
             await tagService.CreateTagAsync(tag);
+
+            logger.LogInformation("{0} POST User-{1} created tag",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Tags");
         }
@@ -49,6 +63,10 @@ namespace Blog.WebService.Controllers.Blog
 
             var model = mapper.Map<EditTagViewModel>(tag);
 
+            logger.LogInformation("{0} GET EditArticle page responsed for user-{1}",
+                  DateTime.UtcNow.ToLongTimeString(),
+                  User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
             return View("EditTag", model);
         }
 
@@ -57,9 +75,17 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> UpdateTagAsync(EditTagViewModel updateTag)
         {
+            logger.LogInformation("{0} POST User-{1} send updateTag data",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
             var tag = mapper.Map<TagModel>(updateTag);
 
             await tagService.UpdateTagAsync(tag);
+
+            logger.LogInformation("{0} POST User-{1} edited article",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Tags");
         }
@@ -70,6 +96,11 @@ namespace Blog.WebService.Controllers.Blog
         public async Task<IActionResult> DeleteTagAsync(int id)
         {
             await tagService.DeleteTagAsync(id);
+
+            logger.LogInformation("{0} POST User-{1} deleted tag-{2}",
+                DateTime.UtcNow.ToLongTimeString(),
+                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                id);
 
             return RedirectToAction("Tags");
         }
@@ -87,6 +118,9 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<TagViewModel>(tag));
             }
 
+            logger.LogInformation("{0} GET TagList page responsed}",
+                  DateTime.UtcNow.ToLongTimeString());
+
             return View("TagList", models);
         }
 
@@ -97,6 +131,10 @@ namespace Blog.WebService.Controllers.Blog
             var tag = await tagService.GetTagByIdAsync(id);
 
             var model = mapper.Map<TagModel>(tag);
+
+            logger.LogInformation("{0} GET Tag-{1} page responsed",
+                  DateTime.UtcNow.ToLongTimeString(),
+                  id);
 
             return View("Tag", model);
         }
