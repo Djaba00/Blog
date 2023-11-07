@@ -11,8 +11,8 @@ namespace Blog.BLL.Services
 {
     public class AccountRoleService : IAccountRoleService
     {
-        IUnitOfWork db;
-        IMapper mapper;
+        readonly IUnitOfWork db;
+        readonly IMapper mapper;
 
         public AccountRoleService(IUnitOfWork db, IMapper mapper)
         {

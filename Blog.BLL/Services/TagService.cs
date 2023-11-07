@@ -9,8 +9,8 @@ namespace Blog.BLL.Services
 {
     public class TagService : ITagService
     {
-        IUnitOfWork db;
-        IMapper mapper;
+        readonly IUnitOfWork db;
+        readonly IMapper mapper;
 
         public TagService(IUnitOfWork db, IMapper mapper)
         {

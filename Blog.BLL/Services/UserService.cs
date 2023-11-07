@@ -8,8 +8,8 @@ namespace Blog.BLL.Services
 {
     public class UserService : IUserService
     {
-        IUnitOfWork db;
-        IMapper mapper;
+        readonly IUnitOfWork db;
+        readonly IMapper mapper;
 
         public UserService(IUnitOfWork db, IMapper mapper)
         {

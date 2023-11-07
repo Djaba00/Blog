@@ -9,8 +9,8 @@ namespace Blog.BLL.Services
 {
     public class ArticleService : IArticleService
     {
-        IUnitOfWork db;
-        IMapper mapper;
+        readonly IUnitOfWork db;
+        readonly IMapper mapper;
 
         public ArticleService(IUnitOfWork db, IMapper mapper)
         {

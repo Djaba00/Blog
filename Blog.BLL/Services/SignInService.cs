@@ -10,8 +10,8 @@ namespace Blog.BLL.Services
 {
 	public class SignInService : ISignInService
 	{
-        IUnitOfWork db;
-        IMapper mapper;
+        readonly IUnitOfWork db;
+        readonly IMapper mapper;
 
         public SignInService(IUnitOfWork db, IMapper mapper)
 		{

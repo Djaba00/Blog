@@ -9,8 +9,8 @@ namespace Blog.BLL.Services
 {
     public class CommentService : ICommentService
     {
-        IUnitOfWork db;
-        IMapper mapper;
+        readonly IUnitOfWork db;
+        readonly IMapper mapper;
 
         public CommentService(IUnitOfWork db, IMapper mapper)
         {

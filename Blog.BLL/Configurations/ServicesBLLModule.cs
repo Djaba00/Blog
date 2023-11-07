@@ -40,8 +40,7 @@ namespace Blog.BLL.Configurations
         {
             services.AddDbContext<DataContext>(
                 options => options.UseSqlite(connectionString,
-                opts => opts.MigrationsAssembly("Blog.DAL"))
-                .EnableSensitiveDataLogging())
+                opts => opts.MigrationsAssembly("Blog.DAL")))
                 .AddIdentity<UserAccount, Role>(options =>
                 {
                     options.Password.RequiredLength = 5;

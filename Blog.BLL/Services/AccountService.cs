@@ -14,8 +14,8 @@ namespace Blog.BLL.Services
 {
     public class AccountService : IAccountService
     {
-        IUnitOfWork db { get; set; }
-        IMapper mapper;
+        readonly IUnitOfWork db;
+        readonly IMapper mapper;
 
         public AccountService(IUnitOfWork db, IMapper mapper)
         {
