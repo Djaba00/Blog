@@ -6,16 +6,19 @@ using Blog.DAL.Entities;
 using Blog.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Blog.BLL.Services
 {
     public class AccountRoleService : IAccountRoleService
     {
+        readonly ILogger<AccountRoleService> logger;
         readonly IUnitOfWork db;
         readonly IMapper mapper;
 
-        public AccountRoleService(IUnitOfWork db, IMapper mapper)
+        public AccountRoleService(ILogger<AccountRoleService> logger, IUnitOfWork db, IMapper mapper)
         {
+            this.logger = logger;
             this.db = db;
             this.mapper = mapper;
         }

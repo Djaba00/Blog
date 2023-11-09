@@ -5,7 +5,6 @@ using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.AccountRole;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Blog.WebService.Controllers.Account
 {
@@ -39,25 +38,32 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginViewModel login)
         {
-            logger.LogInformation("POST User send Login data");
-
-            var user = mapper.Map<UserAccountModel>(login);
-
-            var result = await signInService.LoginAsync(user);
-
-            if (result.Succeeded)
+            if(ModelState.IsValid)
             {
-                logger.LogInformation("{0} POST Login succesfull");
+                logger.LogInformation("POST User send Login data");
 
-                return RedirectToAction("MyPage");
-            }
-            else
-            {
-                logger.LogInformation("{0} POST Errors occurred during login");
+                var user = mapper.Map<UserAccountModel>(login);
 
-                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                return RedirectToAction("Login");
+                var result = await signInService.LoginAsync(user);
+
+                if (result.Succeeded)
+                {
+                    logger.LogInformation("{0} POST Login succesfull");
+
+                    return RedirectToAction("MyPage");
+                }
+                else
+                {
+                    logger.LogInformation("{0} POST Errors occurred during login");
+
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    return RedirectToAction("Login");
+                }
             }
+            logger.LogInformation("{0} POST Errors occurred during login");
+
+            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+            return RedirectToAction("Login");
         }
 
         [Authorize]
@@ -185,7 +191,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> UpdateUserAsync(EditAccountViewModel updateUser)
         {
-            logger.LogInformation("POST user-{1} send EditAccount data",
+            logger.LogInformation("POST user-{0} send EditAccount data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var user = mapper.Map<UserAccountModel>(updateUser);
@@ -194,13 +200,24 @@ namespace Blog.WebService.Controllers.Account
 
             if (updateUser.NewPassword != null && updateUser.OldPassword != null)
             {
-                await accountService.ChangePasswordAsync(user, updateUser.OldPassword, updateUser.NewPassword);
+                var result = await accountService.ChangePasswordAsync(user, updateUser.OldPassword, updateUser.NewPassword);
+
+                if(result.Errors.Count() != 0)
+                {
+                    ModelState.AddModelError("", result.Errors.FirstOrDefault().Description);
+
+                    logger.LogInformation("POST user-{0} account update error - {1}",
+                        User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                        result.Errors.FirstOrDefault().Description);
+
+                    return View("EditAccount", updateUser);
+                }
             }
 
-            logger.LogInformation("POST user-{1} account update successfull",
+            logger.LogInformation("POST user-{0} account update successfull",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            return RedirectToAction("UserPage");
+            return RedirectToAction("MyPage");
         }
 
         [Authorize]

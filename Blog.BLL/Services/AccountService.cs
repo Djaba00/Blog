@@ -6,19 +6,20 @@ using Blog.DAL.Interfaces;
 using Blog.WebService.Externtions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Linq;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace Blog.BLL.Services
 {
     public class AccountService : IAccountService
     {
+        readonly ILogger<AccountService> logger;
         readonly IUnitOfWork db;
         readonly IMapper mapper;
 
-        public AccountService(IUnitOfWork db, IMapper mapper)
+        public AccountService(ILogger<AccountService> logger, IUnitOfWork db, IMapper mapper)
         {
+            this.logger = logger;
             this.db = db;
             this.mapper = mapper;
         }
@@ -44,6 +45,8 @@ namespace Blog.BLL.Services
 
                 result.Add(tempAcc);
             }
+
+            logger.LogInformation("Accounts list has been received");
 
             return result;
         }
