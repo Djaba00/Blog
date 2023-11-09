@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.WebService.Controllers.Blog;
 using Blog.WebService.ViewModels.AccountRole;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +26,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpGet]
         public IActionResult CreateRole()
         {
-            logger.LogInformation("{0} GET CreateRole page responsed for user-{1}",
-               DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET CreateRole page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("CreateRole");
@@ -39,8 +37,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> CreateRoleAsync(CreateAccountRoleViewModel newRole)
         {
-            logger.LogInformation("{0} POST User-{1} send newRole data",
-               DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send newRole data",
                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var role = mapper.Map<AccountRoleModel>(newRole);
@@ -49,15 +46,13 @@ namespace Blog.WebService.Controllers.Account
 
             if (result.Succeeded)
             {
-                logger.LogInformation("{0} POST User-{1} create new role",
-                   DateTime.UtcNow.ToLongTimeString(),
+                logger.LogInformation("POST User-{0} create new role",
                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
                 return RedirectToAction("Roles");
             }
 
-            logger.LogInformation("{0} POST Errors occurred during create role",
-               DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("POST Errors occurred during create role");
 
             return RedirectToAction("AddRole", "AccountRole");
         }
@@ -71,8 +66,7 @@ namespace Blog.WebService.Controllers.Account
 
             var model = mapper.Map<EditAccountRoleViewModel>(role);
 
-            logger.LogInformation("{0} GET EditRole page responsed for user-{1}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET EditRole page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("EditRole", model);
@@ -83,8 +77,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> EditRoleAsync(CreateAccountRoleViewModel updateRole)
         {
-            logger.LogInformation("{0} POST User-{1} send EditRole data",
-               DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send EditRole data",
                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var role = mapper.Map<AccountRoleModel>(updateRole);
@@ -93,15 +86,13 @@ namespace Blog.WebService.Controllers.Account
 
             if (result.Succeeded)
             {
-                logger.LogInformation("{0} POST User-{1} edited role",
-                   DateTime.UtcNow.ToLongTimeString(),
+                logger.LogInformation("POST User-{0} edited role",
                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
                 return RedirectToAction("Roles");
             }
 
-            logger.LogInformation("{0} POST Errors occurred during create role",
-               DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("POST Errors occurred during create role");
 
             return RedirectToAction("EditRole", "AccountRole");
         }
@@ -120,8 +111,7 @@ namespace Blog.WebService.Controllers.Account
                 model.Add(mapper.Map<AccountRoleViewModel>(role));
             }
 
-            logger.LogInformation("{0} GET RoleList page responsed for user-{1}",
-               DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET RoleList page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("RoleList", model);

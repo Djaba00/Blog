@@ -26,8 +26,7 @@ namespace Blog.WebService.Controllers.Blog
         [HttpGet]
         public IActionResult CreateTag()
         {
-            logger.LogInformation("{0} GET CreateTag page responsed for user-{1}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET CreateTag page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("CreateTag");
@@ -39,16 +38,14 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> CreateTagAsync(CreateTagViewModel tagModel)
         {
-            logger.LogInformation("{0} POST User-{1} send newTag data",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send newTag data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var tag = mapper.Map<TagModel>(tagModel);
 
             await tagService.CreateTagAsync(tag);
 
-            logger.LogInformation("{0} POST User-{1} created tag",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} created tag",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Tags");
@@ -63,8 +60,7 @@ namespace Blog.WebService.Controllers.Blog
 
             var model = mapper.Map<EditTagViewModel>(tag);
 
-            logger.LogInformation("{0} GET EditArticle page responsed for user-{1}",
-                  DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET EditArticle page responsed for user-{0}",
                   User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("EditTag", model);
@@ -75,16 +71,14 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> UpdateTagAsync(EditTagViewModel updateTag)
         {
-            logger.LogInformation("{0} POST User-{1} send updateTag data",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send updateTag data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var tag = mapper.Map<TagModel>(updateTag);
 
             await tagService.UpdateTagAsync(tag);
 
-            logger.LogInformation("{0} POST User-{1} edited article",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} edited article",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Tags");
@@ -97,8 +91,7 @@ namespace Blog.WebService.Controllers.Blog
         {
             await tagService.DeleteTagAsync(id);
 
-            logger.LogInformation("{0} POST User-{1} deleted tag-{2}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} deleted tag-{1}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
                 id);
 
@@ -118,8 +111,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<TagViewModel>(tag));
             }
 
-            logger.LogInformation("{0} GET TagList page responsed}",
-                  DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("GET TagList page responsed}");
 
             return View("TagList", models);
         }
@@ -132,8 +124,7 @@ namespace Blog.WebService.Controllers.Blog
 
             var model = mapper.Map<TagModel>(tag);
 
-            logger.LogInformation("{0} GET Tag-{1} page responsed",
-                  DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET Tag-{0} page responsed",
                   id);
 
             return View("Tag", model);

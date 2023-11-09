@@ -53,8 +53,7 @@ namespace Blog.WebService.Controllers.Blog
                 model.ArticleTags.Add(mapper.Map<HashTagViewModel>(tag));
             }
 
-            logger.LogInformation("{0} GET CreateArticle page responsed for user-{1}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET CreateArticle page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("CreateArticle", model);
@@ -65,8 +64,7 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> CreateArticleAsync(CreateArticleViewModel articleModel)
         {
-            logger.LogInformation("{0} POST User-{1} send newArticle data",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send newArticle data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var selectedTags = articleModel.ArticleTags.Where(c => c.Selected).ToList();
@@ -77,8 +75,7 @@ namespace Blog.WebService.Controllers.Blog
 
             await articleService.CreateArticleAsync(article);
 
-            logger.LogInformation("{0} POST User-{1} created article",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} created article",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Articles");
@@ -98,15 +95,13 @@ namespace Blog.WebService.Controllers.Blog
             if (article.UserId == currentUser.Id || currentUser.Roles.Select(r => r.Name).Contains("Admin") 
                 || currentUser.Roles.Select(r => r.Name).Contains("Moderator"))
             {
-                logger.LogInformation("{0} GET EditArticle page responsed for user-{1}",
-                  DateTime.UtcNow.ToLongTimeString(),
+                logger.LogInformation("GET EditArticle page responsed for user-{0}",
                   User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
                 return View("EditArticle", model);
             }
 
-            logger.LogInformation("{0} GET EditArticle page forbidden for user-{1}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET EditArticle page forbidden for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Articles");
@@ -117,8 +112,7 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> UpdateArticleAsync(EditArticleViewModel updateArticle)
         {
-            logger.LogInformation("{0} POST User-{1} send editArticle data",
-              DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send editArticle data",
                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var currentUser = await accountService.GetAuthAccountAsync(User);
@@ -134,16 +128,14 @@ namespace Blog.WebService.Controllers.Blog
 
                 await articleService.UpdateArticleAsync(article);
 
-                logger.LogInformation("{0} POST User-{1} edited article-{2}",
-                    DateTime.UtcNow.ToLongTimeString(),
+                logger.LogInformation("POST User-{0} edited article-{1}",
                     User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
                     updateArticle.Id);
 
                 return RedirectToAction("Articles");
             }
 
-            logger.LogInformation("{0} POST Edit article-{1} forbidden for user-{2}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST Edit article-{0} forbidden for user-{1}",
                 updateArticle.Id,
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
@@ -157,8 +149,7 @@ namespace Blog.WebService.Controllers.Blog
         {
             await articleService.DeleteArticleAsync(id);
 
-            logger.LogInformation("{0} POST User-{1} deleted article-{2}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} deleted article-{1}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
                 id);
 
@@ -187,8 +178,7 @@ namespace Blog.WebService.Controllers.Blog
                 model.Articles.Add(mapper.Map<ArticleViewModel>(article));
             }
 
-            logger.LogInformation("{0} GET Articles page responed",
-                DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("GET Articles page responed");
 
             return View("ArticleList", model);
         }
@@ -212,7 +202,7 @@ namespace Blog.WebService.Controllers.Blog
 
             model.AddComment = new CreateCommentViewModel();
 
-            logger.LogInformation("{0} GET Article-{1} page responsed",
+            logger.LogInformation("GET Article-{0} page responsed",
                 DateTime.UtcNow.ToLongTimeString(),
                 id);
 
@@ -232,8 +222,7 @@ namespace Blog.WebService.Controllers.Blog
                 model.Add(mapper.Map<ArticleViewModel>(article));
             }
 
-            logger.LogInformation("{0} GET Articles by user-{1} page responsed",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET Articles by user-{0} page responsed",
                 authorId);
 
             return View("ArticleList", model);
@@ -261,8 +250,7 @@ namespace Blog.WebService.Controllers.Blog
                 model.Articles.Add(mapper.Map<ArticleViewModel>(article));
             }
 
-            logger.LogInformation("{0} GET Articles by tag-{1} page responsed",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET Articles by tag-{0} page responsed",
                 tagName);
 
             return View("ArticleListByTag", model);

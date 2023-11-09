@@ -26,8 +26,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpGet]
         public IActionResult Registration()
         {
-            logger.LogInformation("{0} GET Registration page responsed",
-                DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("GET Registration page responsed");
             return View("Registration");
         }
 
@@ -35,8 +34,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> RegistrationAsync(RegistrationViewModel registration)
         {
-            logger.LogInformation("{0} POST send registration data",
-                DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("POST send registration data");
 
             var account = mapper.Map<UserAccountModel>(registration);
 
@@ -46,8 +44,7 @@ namespace Blog.WebService.Controllers.Account
 
             if (result.Succeeded)
             {
-                logger.LogInformation("{0} POST A new user has been registered",
-                DateTime.UtcNow.ToLongTimeString());
+                logger.LogInformation("POST A new user has been registered");
 
                 await signInService.LoginAsync(account);
 
@@ -55,8 +52,7 @@ namespace Blog.WebService.Controllers.Account
             }
             else
             {
-                logger.LogInformation("{0} POST Errors occurred during registration",
-                DateTime.UtcNow.ToLongTimeString());
+                logger.LogInformation("POST Errors occurred during registration");
 
                 foreach (var error in result.Errors)
                 {

@@ -27,16 +27,14 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> CreateCommentAsync(ArticleViewModel articleModel)
         {
-            logger.LogInformation("{0} POST User-{1} send newComment data",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send newComment data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var comment = mapper.Map<CommentModel>(articleModel.AddComment);
 
             await commentService.CreateCommentAsync(comment);
 
-            logger.LogInformation("{0} POST User-{1} created comment",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} created comment",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("MyPage");
@@ -47,8 +45,7 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> UpdateCommentAsync(EditCommentViewModel updateComment)
         {
-            logger.LogInformation("{0} POST User-{1} send updateComment data",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} send updateComment data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var comment = mapper.Map<CommentModel>(updateComment);
@@ -57,8 +54,7 @@ namespace Blog.WebService.Controllers.Blog
 
             await commentService.UpdateCommentAsync(comment);
 
-            logger.LogInformation("{0} POST User-{1} updated comment",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST User-{0} updated comment",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("MyPage");
@@ -87,8 +83,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<CommentModel>(comment));
             }
 
-            logger.LogInformation("{0} GET CommentList page responsed",
-                DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("GET CommentList page responsed");
 
             return View("CommentList", models);
         }
@@ -106,8 +101,7 @@ namespace Blog.WebService.Controllers.Blog
                 models.Add(mapper.Map<CommentModel>(comment));
             }
 
-            logger.LogInformation("{0} GET CommentList by user-{1} page responsed",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET CommentList by user-{0} page responsed",
                 id);
 
             return View("CommentList", models);

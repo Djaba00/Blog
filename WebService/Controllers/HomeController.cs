@@ -15,8 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        logger.LogInformation("{0} GET The Index page is requested", 
-            DateTime.UtcNow.ToLongTimeString());
+        logger.LogInformation("GET The Index page is requested");
         return RedirectToAction("Articles", "Article");
     }
 

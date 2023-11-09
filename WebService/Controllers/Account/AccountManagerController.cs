@@ -31,8 +31,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpGet]
         public IActionResult Login()
         {
-            logger.LogInformation("{0} GET The Login page is rquested",
-               DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("GET The Login page is rquested");
 
             return View();
         }
@@ -40,8 +39,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginViewModel login)
         {
-            logger.LogInformation("{0} POST User send Login data",
-               DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("POST User send Login data");
 
             var user = mapper.Map<UserAccountModel>(login);
 
@@ -49,15 +47,13 @@ namespace Blog.WebService.Controllers.Account
 
             if (result.Succeeded)
             {
-                logger.LogInformation("{0} POST Login succesfull",
-                    DateTime.UtcNow.ToLongTimeString());
+                logger.LogInformation("{0} POST Login succesfull");
 
                 return RedirectToAction("MyPage");
             }
             else
             {
-                logger.LogInformation("{0} POST Errors occurred during login",
-                DateTime.UtcNow.ToLongTimeString());
+                logger.LogInformation("{0} POST Errors occurred during login");
 
                 ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 return RedirectToAction("Login");
@@ -71,8 +67,7 @@ namespace Blog.WebService.Controllers.Account
         {
             await signInService.LogoutAsync();
             
-            logger.LogInformation("{0} POST Logout user-{1} successfull",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST Logout user-{0} successfull",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("Index", "Home");
@@ -91,8 +86,7 @@ namespace Blog.WebService.Controllers.Account
                 models.Add(mapper.Map<AccountViewModel>(user));
             }
 
-            logger.LogInformation("{0} GET Accounts page responsed",
-                DateTime.UtcNow.ToLongTimeString());
+            logger.LogInformation("GET Accounts page responsed");
 
             return View("AccountList", models);
         }
@@ -115,10 +109,8 @@ namespace Blog.WebService.Controllers.Account
                 model.Accounts.Add(mapper.Map<AccountViewModel>(user));
             }
 
-            logger.LogInformation("{0} GET Accounts page by {1} role responsed}",
-                DateTime.UtcNow.ToLongTimeString(),
-                roleName,
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+            logger.LogInformation("GET Accounts page by {0} role responsed}",
+                roleName);
 
             return View("AccountListByRole", model);
         }
@@ -136,8 +128,7 @@ namespace Blog.WebService.Controllers.Account
 
             model.CurrentAccount = model;
 
-            logger.LogInformation("{0} GET User page responsed for user-{1}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET User page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("UserPage", model);
@@ -148,8 +139,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpGet]
         public async Task<IActionResult> UserPageAsync(string id)
         {
-            logger.LogInformation("{0} GET user-{1} requested User-{2} page",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET user-{0} requested User-{1} page",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
                 id);
 
@@ -163,8 +153,7 @@ namespace Blog.WebService.Controllers.Account
 
             model.CurrentAccount = account;
 
-            logger.LogInformation("{0} GET User-{1} page responsed for user-{2}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET User-{0} page responsed for user-{1}",
                 id,
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
@@ -176,8 +165,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpGet]
         public async Task<IActionResult> UpdateUserAsync()
         {
-            logger.LogInformation("{0} GET user-{1} requested EditAccount page",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET user-{0} requested EditAccount page",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var currentAccount = await accountService.GetAuthAccountAsync(User);
@@ -186,8 +174,7 @@ namespace Blog.WebService.Controllers.Account
 
             var model = mapper.Map<EditAccountViewModel>(account);
 
-            logger.LogInformation("{0} GET EditAccount page responsed for user-{1}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("GET EditAccount page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return View("EditAccount", model);
@@ -198,8 +185,7 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> UpdateUserAsync(EditAccountViewModel updateUser)
         {
-            logger.LogInformation("{0} POST user-{1} send EditAccount data",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST user-{1} send EditAccount data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var user = mapper.Map<UserAccountModel>(updateUser);
@@ -211,8 +197,7 @@ namespace Blog.WebService.Controllers.Account
                 await accountService.ChangePasswordAsync(user, updateUser.OldPassword, updateUser.NewPassword);
             }
 
-            logger.LogInformation("{0} POST user-{1} account update successfull",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST user-{1} account update successfull",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             return RedirectToAction("UserPage");
@@ -223,16 +208,14 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> DeleteUserProfileAsync(AccountViewModel account)
         {
-            logger.LogInformation("{0} POST user-{1} send delete account data",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST user-{0} send delete account data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
             var accountModel = mapper.Map<UserAccountModel>(account);
             
             await accountService.DeleteAccountAsync(accountModel);
 
-            logger.LogInformation("{0} POST user-{1} delete user-{2}",
-                DateTime.UtcNow.ToLongTimeString(),
+            logger.LogInformation("POST user-{0} delete user-{1}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
                 account.Id);
 
