@@ -46,11 +46,11 @@ namespace Blog.WebService.Controllers.Blog
 
             var model = new CreateArticleViewModel();
 
-            model.AuthorId = user.Id;
+            model.UserId = user.Id;
 
             foreach (var tag in dbTags.Result)
             {
-                model.ArticleTags.Add(mapper.Map<HashTagViewModel>(tag));
+                model.Tags.Add(mapper.Map<HashTagViewModel>(tag));
             }
 
             logger.LogInformation("GET CreateArticle page responsed for user-{0}",
@@ -67,9 +67,7 @@ namespace Blog.WebService.Controllers.Blog
             logger.LogInformation("POST User-{0} send newArticle data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            var selectedTags = articleModel.ArticleTags.Where(c => c.Selected).ToList();
-
-            articleModel.ArticleTags = selectedTags;
+            articleModel.Tags = articleModel.GetSelectedTags();
             
             var article = mapper.Map<ArticleModel>(articleModel);
 
@@ -92,8 +90,7 @@ namespace Blog.WebService.Controllers.Blog
             
             var model = mapper.Map<EditArticleViewModel>(article);
 
-            if (article.UserId == currentUser.Id || currentUser.Roles.Select(r => r.Name).Contains("Admin") 
-                || currentUser.Roles.Select(r => r.Name).Contains("Moderator"))
+            if (article.UserId == currentUser.Id || currentUser.IsInAnyRole("Admin", "Moderator"))
             {
                 logger.LogInformation("GET EditArticle page responsed for user-{0}",
                   User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
@@ -117,12 +114,9 @@ namespace Blog.WebService.Controllers.Blog
 
             var currentUser = await accountService.GetAuthAccountAsync(User);
 
-            if (updateArticle.UserId == currentUser.Id || currentUser.Roles.Select(r => r.Name).Contains("Admin")
-                || currentUser.Roles.Select(r => r.Name).Contains("Moderator"))
+            if (updateArticle.UserId == currentUser.Id || currentUser.IsInAnyRole("Admin", "Moderator"))
             {
-                var selectedTags = updateArticle.Tags.Where(c => c.Selected).ToList();
-
-                updateArticle.Tags = selectedTags;
+                updateArticle.Tags = updateArticle.GetSelectedTags();
 
                 var article = mapper.Map<ArticleModel>(updateArticle);
 
@@ -203,7 +197,6 @@ namespace Blog.WebService.Controllers.Blog
             model.AddComment = new CreateCommentViewModel();
 
             logger.LogInformation("GET Article-{0} page responsed",
-                DateTime.UtcNow.ToLongTimeString(),
                 id);
 
             return View("Article", model);

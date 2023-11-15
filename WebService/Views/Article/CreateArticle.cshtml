@@ -13,16 +13,16 @@
     </div>
     <form method="post" asp-controller="Article" asp-action="Add">
         <div asp-asp-validation-summary="Model">
-            <input type="hidden" asp-for="AuthorId" value="@Model.AuthorId" />
+            <input type="hidden" asp-for="UserId" value="@Model.UserId" />
             <div class="col my-3">
                 <div class="d-flex flex-row gap-3">
-                    @for(var i = 0; i < Model.ArticleTags.Count; i++)
+                    @for(var i = 0; i < Model.Tags.Count; i++)
                     {
                         <div>
-                            <input id="@Model.ArticleTags[i].Name" class="form-check-input me-1" type="checkbox" asp-for="@Model.ArticleTags[i].Selected" />
-                            <label class="@Model.ArticleTags[i].Name" for="firstCheckbox">@Model.ArticleTags[i].Name</label>
-                            <input type="hidden" asp-for="@Model.ArticleTags[i].Id" />
-                            <input type="hidden" asp-for="@Model.ArticleTags[i].Name" />
+                            <input id="@Model.Tags[i].Name" class="form-check-input me-1" type="checkbox" asp-for="@Model.Tags[i].Selected" />
+                            <label class="@Model.Tags[i].Name" for="firstCheckbox">@Model.Tags[i].Name</label>
+                            <input type="hidden" asp-for="@Model.Tags[i].Id" />
+                            <input type="hidden" asp-for="@Model.Tags[i].Name" />
                         </div>
                     }
                 </div>

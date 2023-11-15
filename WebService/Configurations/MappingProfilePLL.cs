@@ -53,8 +53,8 @@ namespace Blog.WebService.Configurations
                 .ReverseMap();
 
             CreateMap<CreateArticleViewModel, ArticleModel>()
-                .ForMember(m => m.UserId, opt => opt.MapFrom(vm => vm.AuthorId))
-                .ForMember(m => m.Tags, opt => opt.MapFrom(vm => vm.ArticleTags));
+                .ForMember(m => m.UserId, opt => opt.MapFrom(vm => vm.UserId))
+                .ForMember(m => m.Tags, opt => opt.MapFrom(vm => vm.Tags));
 
             CreateMap<EditArticleViewModel, ArticleModel>()
                 .ReverseMap();

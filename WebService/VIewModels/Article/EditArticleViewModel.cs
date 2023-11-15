@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Blog.DAL.Entities;
 using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.Tag;
 
@@ -18,5 +19,10 @@ namespace Blog.WebService.ViewModels.Article
         public string UserId { get; set; }
 
         public AccountViewModel CurrentUser { get; set; } = new AccountViewModel();
-    }
+
+        public List<HashTagViewModel> GetSelectedTags()
+        {
+            return Tags.Where(c => c.Selected).ToList();
+        }
+    }  
 }
