@@ -17,5 +17,16 @@ namespace Blog.BLL.Models
 
         public List<ArticleModel> Articles { get; set; }
         public List<CommentModel> Comments { get; set; }
+
+        public bool IsInAnyRole(params string[] roles)
+        {
+            foreach (var role in roles)
+            {
+                if (Roles.Select(r => r.Name).Contains(role))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
