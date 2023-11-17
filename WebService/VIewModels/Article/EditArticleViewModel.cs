@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Blog.DAL.Entities;
 using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.Tag;
 

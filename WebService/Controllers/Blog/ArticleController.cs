@@ -33,9 +33,7 @@ namespace Blog.WebService.Controllers.Blog
         [HttpGet]
         public async Task<IActionResult> CreateArticleAsync()
         {
-            var currentUser = User;
-
-            var result = accountService.GetAuthAccountAsync(currentUser);
+            var result = accountService.GetAuthAccountAsync(User);
 
             var dbTags = tagService.GetAllTagsAsync();
 
@@ -192,7 +190,7 @@ namespace Blog.WebService.Controllers.Blog
 
             var userVm = mapper.Map<AccountViewModel>(user.Result);
 
-            model.CurrentUser = userVm;
+            model.CurrentAccount = userVm;
 
             model.AddComment = new CreateCommentViewModel();
 

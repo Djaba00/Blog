@@ -73,7 +73,7 @@ namespace Blog.WebService.Controllers.Account
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("Add")]
+        [Route("Edit")]
         [HttpPost]
         public async Task<IActionResult> EditRoleAsync(CreateAccountRoleViewModel updateRole)
         {

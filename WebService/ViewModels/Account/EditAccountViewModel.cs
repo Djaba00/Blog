@@ -20,6 +20,6 @@ namespace Blog.WebService.ViewModels.Account
         public UserProfileViewModel Profile { get; set; }
 
         [Required]
-        public AccountRoleViewModel CurrentAccount { get; set; } = new AccountRoleViewModel();
+        public AccountViewModel CurrentAccount { get; set; } = new AccountViewModel();
     }
 }

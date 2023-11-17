@@ -3,7 +3,6 @@ using Microsoft.OpenApi.Models;
 using Blog.WebService.Configurations;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-
 namespace Blog.WebService
 {
     public class Startup
@@ -31,8 +30,6 @@ namespace Blog.WebService
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog", Version = "v1" }); });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,8 +37,6 @@ namespace Blog.WebService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog v1"));
             }
             else
             {

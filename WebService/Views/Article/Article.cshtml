@@ -43,11 +43,11 @@
 
             <hr />
 
-            @if (Model.CurrentUser != null)
+            @if (Model.CurrentAccount != null)
             {
                 <form method="post" asp-controller="Comment" asp-action="Add">
                     <div asp-asp-validation-summary="Model">
-                        <input type="hidden" asp-for="AddComment.UserId" value="@Model.CurrentUser.Id" />
+                        <input type="hidden" asp-for="AddComment.UserId" value="@Model.CurrentAccount.Id" />
                         <input type="hidden" asp-for="AddComment.ArticleId" value="@Model.Id" />
                         <div class="col my-3">
                             <textarea asp-for="AddComment.Content" class="form-control" type="text" placeholder="Комментарий"></textarea>

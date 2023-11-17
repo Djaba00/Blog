@@ -16,7 +16,7 @@ namespace Blog.WebService.ViewModels.Article
 
         public string UserId { get; set; }
         public AccountViewModel User { get; set; }
-        public AccountViewModel CurrentUser { get; set; } = new AccountViewModel();
+        public AccountViewModel CurrentAccount { get; set; } = new AccountViewModel();
 
         public List<TagViewModel> Tags { get; set; }
 

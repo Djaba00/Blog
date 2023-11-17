@@ -1,4 +1,6 @@
-﻿namespace Blog.WebService.ViewModels.AccountRole
+﻿using Blog.WebService.ViewModels.Account;
+
+namespace Blog.WebService.ViewModels.AccountRole
 {
     public class AccountRoleViewModel
     {
@@ -7,6 +9,6 @@
         public string Description { get; set; }
         public bool Selected { get; set; }
 
-        public List<AccountRoleViewModel> Accounts { get; set; }
+        public List<AccountViewModel> Accounts { get; set; }
     }
 }

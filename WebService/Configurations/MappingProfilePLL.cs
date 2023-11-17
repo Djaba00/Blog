@@ -30,6 +30,9 @@ namespace Blog.WebService.Configurations
             CreateMap<AccountViewModel, UserAccountModel>()
                 .ReverseMap();
 
+            CreateMap<UserPageViewModel, UserAccountModel>()
+                .ReverseMap();
+
             CreateMap<EditAccountViewModel, UserAccountModel>()
                 .ForMember(m => m.UserName, opt => opt.MapFrom(vm => vm.Email))
                 .ReverseMap();

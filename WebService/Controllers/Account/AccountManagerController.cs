@@ -52,14 +52,8 @@ namespace Blog.WebService.Controllers.Account
 
                     return RedirectToAction("MyPage");
                 }
-                else
-                {
-                    logger.LogInformation("{0} POST Errors occurred during login");
-
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                    return RedirectToAction("Login");
-                }
             }
+
             logger.LogInformation("{0} POST Errors occurred during login");
 
             ModelState.AddModelError("", "Неправильный логин и (или) пароль");
@@ -102,6 +96,7 @@ namespace Blog.WebService.Controllers.Account
         public async Task<IActionResult> GetAccountsListByRoleAsync(string roleName)
         {
             var accounts = await accountService.GetAccountsByRoleAsync(roleName);
+
             var role = await roleService.GetRoleByNameAsync(roleName);
 
             var model = new AccountListByRole();
@@ -115,7 +110,7 @@ namespace Blog.WebService.Controllers.Account
                 model.Accounts.Add(mapper.Map<AccountViewModel>(user));
             }
 
-            logger.LogInformation("GET Accounts page by {0} role responsed}",
+            logger.LogInformation("GET Accounts page by {0} role responsed",
                 roleName);
 
             return View("AccountListByRole", model);
@@ -126,13 +121,13 @@ namespace Blog.WebService.Controllers.Account
         [HttpGet]
         public async Task<IActionResult> MyPageAsync()
         {
-            var currentUser = await accountService.GetAuthAccountAsync(User);
+            var currentAccount = await accountService.GetAuthAccountAsync(User);
 
-            var user = await accountService.GetAccountByIdAsync(currentUser.Id);
+            var model = mapper.Map<UserPageViewModel>(currentAccount);
 
-            var model = mapper.Map<AccountViewModel>(user);
+            var account = mapper.Map<AccountViewModel>(currentAccount);
 
-            model.CurrentAccount = model;
+            model.CurrentAccount = account;
 
             logger.LogInformation("GET User page responsed for user-{0}",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
@@ -149,13 +144,13 @@ namespace Blog.WebService.Controllers.Account
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
                 id);
 
-            var currentUser = await accountService.GetAuthAccountAsync(User);
+            var currentAccount = await accountService.GetAuthAccountAsync(User);
 
             var user = await accountService.GetAccountByIdAsync(id);
 
-            var model = mapper.Map<AccountViewModel>(user);
+            var account = mapper.Map<AccountViewModel>(currentAccount);
 
-            var account = mapper.Map<AccountViewModel>(currentUser);
+            var model = mapper.Map<UserPageViewModel>(user);
 
             model.CurrentAccount = account;
 
@@ -174,9 +169,7 @@ namespace Blog.WebService.Controllers.Account
             logger.LogInformation("GET user-{0} requested EditAccount page",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            var currentAccount = await accountService.GetAuthAccountAsync(User);
-
-            var account = await accountService.GetAccountByIdAsync(currentAccount.Id);
+            var account = await accountService.GetAuthAccountAsync(User);
 
             var model = mapper.Map<EditAccountViewModel>(account);
 
