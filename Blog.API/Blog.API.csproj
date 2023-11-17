@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.14" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.BLL\Blog.BLL.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\" />
+    <None Remove="Models\Requests\" />
+    <None Remove="Models\Responses\" />
+    <None Remove="Models\Requests\Account\" />
+    <None Remove="Models\Requests\Article\" />
+    <None Remove="Models\Requests\Comment\" />
+    <None Remove="Models\Requests\Tag\" />
+    <None Remove="Models\Requests\UserProfile\" />
+    <None Remove="Models\Responses\Account\" />
+    <None Remove="Models\Responses\Article\" />
+    <None Remove="Models\Responses\Comment\" />
+    <None Remove="Models\Responses\Tag\" />
+    <None Remove="Models\Responses\UserProfile\" />
+    <None Remove="Models\ViewModels\" />
+    <None Remove="Configurations\" />
+    <None Remove="Models\Requests\SignIn\" />
+    <None Remove="Models\Responses\Role\" />
+    <None Remove="Models\Requests\Role\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Requests\" />
+    <Folder Include="Models\Responses\" />
+    <Folder Include="Models\Requests\Account\" />
+    <Folder Include="Models\Requests\Article\" />
+    <Folder Include="Models\Requests\Comment\" />
+    <Folder Include="Models\Requests\Tag\" />
+    <Folder Include="Models\Requests\UserProfile\" />
+    <Folder Include="Models\Responses\Account\" />
+    <Folder Include="Models\Responses\Article\" />
+    <Folder Include="Models\Responses\Comment\" />
+    <Folder Include="Models\Responses\Tag\" />
+    <Folder Include="Models\Responses\UserProfile\" />
+    <Folder Include="Configurations\" />
+    <Folder Include="Models\Requests\SignIn\" />
+    <Folder Include="Models\Responses\Role\" />
+    <Folder Include="Models\Requests\Role\" />
+  </ItemGroup>
+</Project>
