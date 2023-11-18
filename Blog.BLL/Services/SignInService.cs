@@ -19,6 +19,17 @@ namespace Blog.BLL.Services
             this.mapper = mapper;
         }
 
+        public async Task<IdentityResult> RegistrationAsync(UserAccountModel accountModel)
+        {
+            var account = mapper.Map<UserAccount>(accountModel);
+
+            var result = await db.UserAccounts.RegistrationAsync(account, accountModel.Password);
+
+            await db.UserAccounts.AddToRoleAsync(account, "User");
+
+            return result;
+        }
+
         public async Task<SignInResult> LoginAsync(UserAccountModel accountModel)
         {
             var account = mapper.Map<UserAccount>(accountModel);

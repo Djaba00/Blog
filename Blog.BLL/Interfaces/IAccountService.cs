@@ -9,13 +9,14 @@ namespace Blog.BLL.Interfaces
         Task<List<UserAccountModel>> GetAllAcсountsAsync();
         Task<List<UserAccountModel>> GetAccountsByRoleAsync(string roleName);
         Task<UserAccountModel> GetAccountByIdAsync(string id);
+
         Task<UserAccountModel?> GetAuthAccountAsync(ClaimsPrincipal account);
+        Task<bool> CanChangeAccount(ClaimsPrincipal claims, UserAccountModel userAccount);
 
-        Task<IdentityResult> RegistrationAsync(UserAccountModel accountModel);
-
-        Task<IdentityResult> UpdateAccountAsync(UserAccountModel userAccount);
+        Task<UserAccountModel> GetUpdateAccountAsync(ClaimsPrincipal claims, string id);
+        Task<IdentityResult> UpdateAccountAsync(ClaimsPrincipal claims, UserAccountModel userAccount);
         Task<IdentityResult> ChangePasswordAsync(UserAccountModel userAccount, string oldPassword, string newPassword);
-        Task<IdentityResult> DeleteAccountAsync(UserAccountModel accountModel);
+        Task<IdentityResult> DeleteAccountAsync(ClaimsPrincipal claims, UserAccountModel accountModel);
 
         Task InitializeAccountsWithRolesAsync();
     }

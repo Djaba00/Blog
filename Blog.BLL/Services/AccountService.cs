@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Blog.BLL.Exceptions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.DAL.Entities;
@@ -117,15 +118,18 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<IdentityResult> RegistrationAsync(UserAccountModel accountModel)
+        public async Task<bool> CanChangeAccount(ClaimsPrincipal claims, UserAccountModel userAccount)
         {
-            var account = mapper.Map<UserAccount>(accountModel);
+            var currentAccount = await GetAuthAccountAsync(claims);
 
-            var result = await db.UserAccounts.RegistrationAsync(account, accountModel.Password);
-
-            await db.UserAccounts.AddToRoleAsync(account, "User");
-
-            return result;
+            if (currentAccount.Id == userAccount.Id || currentAccount.IsInAnyRole("Admin", "Moderator"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(UserAccountModel userAccount, string oldPassword, string newPassword)
@@ -137,38 +141,99 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<IdentityResult> UpdateAccountAsync(UserAccountModel userAccount)
+        public async Task<UserAccountModel> GetUpdateAccountAsync(ClaimsPrincipal claims, string id)
         {
-            var account = await db.UserAccounts.GetByIdAsync(userAccount.Id);
-
-            var updateAccount = mapper.Map<UserAccount>(userAccount);
-
-            await account.EditRoles(userAccount, db);
-
-            account.Edit(updateAccount);
-
-            var result = await db.UserAccounts.UpdateAsync(account);
-
-            if (result.Succeeded)
+            try
             {
-                await db.SaveAsync();
-            }
+                var updateAccount = await GetAccountByIdAsync(id);
 
-            return result;
+                var hasPermissions = await CanChangeAccount(claims, updateAccount);
+
+                if (!hasPermissions)
+                {
+                    throw new ForbiddenException();
+                }
+
+                return updateAccount;
+            }
+            catch (ForbiddenException ex)
+            {
+                logger.LogInformation("ERROR User-{0} doesn't have permissions to update user-{1}",
+                    claims.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                    id);
+
+                throw new ForbiddenException();
+            }
         }
 
-        public async Task<IdentityResult> DeleteAccountAsync(UserAccountModel accountModel)
+        public async Task<IdentityResult> UpdateAccountAsync(ClaimsPrincipal claims, UserAccountModel userAccount)
         {
-            var account = await db.UserAccounts.GetByIdAsync(accountModel.Id);
-            
-            var result = await db.UserAccounts.DeleteAsync(account);
-
-            if (result.Succeeded)
+            try
             {
-                await db.SaveAsync();
-            }
+                var hasPermissions = await CanChangeAccount(claims, userAccount);
 
-            return result;
+                if (!hasPermissions)
+                {
+                    throw new ForbiddenException(); 
+                }
+
+                var account = await db.UserAccounts.GetByIdAsync(userAccount.Id);
+
+                var updateAccount = mapper.Map<UserAccount>(userAccount);
+
+                await account.EditRoles(userAccount, db);
+
+                account.Edit(updateAccount);
+
+                var result = await db.UserAccounts.UpdateAsync(account);
+
+                if (result.Succeeded)
+                {
+                    await db.SaveAsync();
+                }
+
+                return result;
+            }
+            catch (ForbiddenException ex)
+            {
+                logger.LogInformation("ERROR User-{0} doesn't have permissions to update user-{1}",
+                    claims.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                    userAccount.Id);
+
+                throw new ForbiddenException();
+            }
+        }
+
+        public async Task<IdentityResult> DeleteAccountAsync(ClaimsPrincipal claims, UserAccountModel userAccount)
+        {
+            try
+            {
+                var hasPermissions = await CanChangeAccount(claims, userAccount);
+
+                if (!hasPermissions)
+                {
+                    throw new ForbiddenException();
+                }
+
+                var account = await db.UserAccounts.GetByIdAsync(userAccount.Id);
+
+                var result = await db.UserAccounts.DeleteAsync(account);
+
+                if (result.Succeeded)
+                {
+                    await db.SaveAsync();
+                }
+
+                return result;
+            }
+            catch (ForbiddenException ex)
+            {
+                logger.LogInformation("ERROR User-{0} doesn't have permissions to delete user-{1}",
+                    claims.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                    userAccount.Id);
+
+                throw new ForbiddenException();
+            }
         }
 
         public async Task InitializeAccountsWithRolesAsync()

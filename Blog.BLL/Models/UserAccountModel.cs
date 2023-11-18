@@ -22,7 +22,7 @@ namespace Blog.BLL.Models
         {
             foreach (var role in roles)
             {
-                if (Roles.Select(r => r.Name).Contains(role))
+                if (Roles.Where(r => r.Selected).Select(r => r.Name).Contains(role))
                     return true;
             }
 

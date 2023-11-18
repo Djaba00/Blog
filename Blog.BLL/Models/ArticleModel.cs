@@ -14,5 +14,10 @@
         public List<TagModel> Tags { get; set; }
 
         public List<CommentModel> Comments { get; set; }
+
+        public List<TagModel> GetSelectedTags()
+        {
+            return Tags.Where(c => c.Selected).ToList();
+        }
     }
 }
