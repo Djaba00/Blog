@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Blog.WebService.ViewModels.Tag;
 using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.Comment;
+using Blog.BLL.Exceptions;
 
 namespace Blog.WebService.Controllers.Blog
 {
@@ -78,28 +79,25 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Edit")]
+        [Route("Edit/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> UpdateArticleAsync(int id)
         {
-            var article = await articleService.GetArticleByIdForEditAsync(id);
-
-            var currentUser = await accountService.GetAuthAccountAsync(User);
-            
-            var model = mapper.Map<EditArticleViewModel>(article);
-
-            if (article.UserId == currentUser.Id || currentUser.IsInAnyRole("Admin", "Moderator"))
+            try
             {
+                var article = await articleService.GetUpdateArticle(User, id);
+
+                var model = mapper.Map<EditArticleViewModel>(article);
+
                 logger.LogInformation("GET EditArticle page responsed for user-{0}",
-                  User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
                 return View("EditArticle", model);
             }
-
-            logger.LogInformation("GET EditArticle page forbidden for user-{0}",
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
-
-            return RedirectToAction("Articles");
+            catch (ForbiddenException)
+            {
+                return RedirectToAction("403", "Error");
+            }
         }
 
         [Authorize]
@@ -107,18 +105,14 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> UpdateArticleAsync(EditArticleViewModel updateArticle)
         {
-            logger.LogInformation("POST User-{0} send editArticle data",
-               User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
-
-            var currentUser = await accountService.GetAuthAccountAsync(User);
-
-            if (updateArticle.UserId == currentUser.Id || currentUser.IsInAnyRole("Admin", "Moderator"))
+            try
             {
-                updateArticle.Tags = updateArticle.GetSelectedTags();
+                logger.LogInformation("POST User-{0} send editArticle data",
+               User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
                 var article = mapper.Map<ArticleModel>(updateArticle);
 
-                await articleService.UpdateArticleAsync(article);
+                await articleService.UpdateArticleAsync(User, article);
 
                 logger.LogInformation("POST User-{0} edited article-{1}",
                     User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
@@ -126,12 +120,11 @@ namespace Blog.WebService.Controllers.Blog
 
                 return RedirectToAction("Articles");
             }
-
-            logger.LogInformation("POST Edit article-{0} forbidden for user-{1}",
-                updateArticle.Id,
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
-
-            return RedirectToAction("Articles");
+            catch (ForbiddenException)
+            {
+                return RedirectToAction("403", "Error");
+            }
+            
         }
 
         [Authorize]
@@ -139,13 +132,20 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> DeleteArticleAsync(int id)
         {
-            await articleService.DeleteArticleAsync(id);
+            try
+            {
+                await articleService.DeleteArticleAsync(User, id);
 
-            logger.LogInformation("POST User-{0} deleted article-{1}",
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
-                id);
+                logger.LogInformation("POST User-{0} deleted article-{1}",
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                    id);
 
-            return RedirectToAction("Articles");
+                return RedirectToAction("Articles");
+            }
+            catch (ForbiddenException)
+            {
+                return RedirectToAction("403", "Error");
+            }
         }
 
         [Route("Articles")]

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Blog.BLL.Exceptions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
 using Blog.WebService.ViewModels.Article;
@@ -42,22 +43,51 @@ namespace Blog.WebService.Controllers.Blog
 
         [Authorize]
         [Route("Edit")]
+        [HttpGet]
+        public async Task<IActionResult> UpdateArticleAsync(int id)
+        {
+            try
+            {
+                var comment = await commentService.GetUpdateCommentAsync(User, id);
+
+                var model = mapper.Map<EditCommentViewModel>(comment);
+
+                logger.LogInformation("GET EditComment page responsed for user-{0}",
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
+                return View("EditComment", model);
+            }
+            catch (ForbiddenException)
+            {
+                return RedirectToAction("403", "Error");
+            }
+        }
+
+        [Authorize]
+        [Route("Edit")]
         [HttpPost]
         public async Task<IActionResult> UpdateCommentAsync(EditCommentViewModel updateComment)
         {
-            logger.LogInformation("POST User-{0} send updateComment data",
+            try
+            {
+                logger.LogInformation("POST User-{0} send updateComment data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            var comment = mapper.Map<CommentModel>(updateComment);
+                var comment = mapper.Map<CommentModel>(updateComment);
 
-            comment.Changed = DateTime.Now;
+                comment.Changed = DateTime.Now;
 
-            await commentService.UpdateCommentAsync(comment);
+                await commentService.UpdateCommentAsync(User, comment);
 
-            logger.LogInformation("POST User-{0} updated comment",
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+                logger.LogInformation("POST User-{0} updated comment",
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            return RedirectToAction("MyPage");
+                return RedirectToAction("MyPage");
+            }
+            catch (ForbiddenException)
+            {
+                return RedirectToAction("403", "Error");
+            }
         }
 
         [Authorize]
@@ -65,9 +95,16 @@ namespace Blog.WebService.Controllers.Blog
         [HttpPost]
         public async Task<IActionResult> DeleteCommentAsync(int id)
         {
-            await commentService.DeleteCommentAsync(id);
+            try
+            {
+                await commentService.DeleteCommentAsync(User, id);
 
-            return RedirectToAction("MyPage");
+                return RedirectToAction("MyPage");
+            }
+            catch (ForbiddenException)
+            {
+                return RedirectToAction("403", "Error");
+            }
         }
 
         [HttpGet]

@@ -11,14 +11,12 @@ namespace Blog.WebService.Controllers.Account
     {
         readonly ILogger<RegistrationController> logger;
         readonly IMapper mapper;
-        readonly IAccountService accountService;
         readonly ISignInService signInService;
 
-        public RegistrationController(ILogger<RegistrationController> logger, IMapper mapper, IAccountService accountService, ISignInService signInService)
+        public RegistrationController(ILogger<RegistrationController> logger, IMapper mapper, ISignInService signInService)
         {
             this.logger = logger;
             this.mapper = mapper;
-            this.accountService = accountService;
             this.signInService = signInService;
         }
 
@@ -40,7 +38,7 @@ namespace Blog.WebService.Controllers.Account
 
             account.Profile = mapper.Map<UserProfileModel>(registration);
 
-            var result = await accountService.RegistrationAsync(account);
+            var result = await signInService.RegistrationAsync(account);
 
             if (result.Succeeded)
             {

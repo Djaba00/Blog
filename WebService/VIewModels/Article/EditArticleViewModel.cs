@@ -18,10 +18,5 @@ namespace Blog.WebService.ViewModels.Article
         public string UserId { get; set; }
 
         public AccountViewModel CurrentUser { get; set; } = new AccountViewModel();
-
-        public List<HashTagViewModel> GetSelectedTags()
-        {
-            return Tags.Where(c => c.Selected).ToList();
-        }
     }  
 }

@@ -1,6 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
+using Blog.BLL.Exceptions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
+using Blog.DAL.Entities;
 using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.AccountRole;
 using Microsoft.AspNetCore.Authorization;
@@ -93,7 +96,7 @@ namespace Blog.WebService.Controllers.Account
 
         [Route("Role")]
         [HttpGet]
-        public async Task<IActionResult> GetAccountsListByRoleAsync(string roleName)
+        public async Task<IActionResult> GetAccountListByRoleAsync(string roleName)
         {
             var accounts = await accountService.GetAccountsByRoleAsync(roleName);
 
@@ -164,19 +167,35 @@ namespace Blog.WebService.Controllers.Account
         [Authorize]
         [Route("Edit")]
         [HttpGet]
-        public async Task<IActionResult> UpdateUserAsync()
+        public async Task<IActionResult> UpdateUserAsync(string id)
         {
-            logger.LogInformation("GET user-{0} requested EditAccount page",
+            try
+            {
+                logger.LogInformation("GET user-{0} requested EditAccount page",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            var account = await accountService.GetAuthAccountAsync(User);
+                var updateAccount = new UserAccountModel();
 
-            var model = mapper.Map<EditAccountViewModel>(account);
+                if (id == null)
+                {
+                    updateAccount = await accountService.GetAuthAccountAsync(User);
+                }
+                else
+                {
+                    updateAccount = await accountService.GetUpdateAccountAsync(User, id);
+                }
 
-            logger.LogInformation("GET EditAccount page responsed for user-{0}",
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+                var model = mapper.Map<EditAccountViewModel>(updateAccount);
 
-            return View("EditAccount", model);
+                logger.LogInformation("GET EditAccount page responsed for user-{0}",
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
+                return View("EditAccount", model);
+            }
+            catch (ForbiddenException ex)
+            {
+                return RedirectToAction("403", "Error");
+            }
         }
 
         [Authorize]
@@ -184,52 +203,57 @@ namespace Blog.WebService.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> UpdateUserAsync(EditAccountViewModel updateUser)
         {
-            logger.LogInformation("POST user-{0} send EditAccount data",
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
-
-            var user = mapper.Map<UserAccountModel>(updateUser);
-
-            await accountService.UpdateAccountAsync(user);
-
-            if (updateUser.NewPassword != null && updateUser.OldPassword != null)
+            try
             {
-                var result = await accountService.ChangePasswordAsync(user, updateUser.OldPassword, updateUser.NewPassword);
-
-                if(result.Errors.Count() != 0)
-                {
-                    ModelState.AddModelError("", result.Errors.FirstOrDefault().Description);
-
-                    logger.LogInformation("POST user-{0} account update error - {1}",
-                        User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
-                        result.Errors.FirstOrDefault().Description);
-
-                    return View("EditAccount", updateUser);
-                }
-            }
-
-            logger.LogInformation("POST user-{0} account update successfull",
+                logger.LogInformation("POST user-{0} send EditAccount data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            return RedirectToAction("MyPage");
+                var currentAccount = await accountService.GetAuthAccountAsync(User);
+
+                var user = mapper.Map<UserAccountModel>(updateUser);
+
+                await accountService.UpdateAccountAsync(User, user);
+
+                if (updateUser.NewPassword != null && updateUser.OldPassword != null)
+                {
+                    var result = await accountService.ChangePasswordAsync(user, updateUser.OldPassword, updateUser.NewPassword);
+                }
+
+                logger.LogInformation("POST user-{0} account update successfull",
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
+
+                return RedirectToAction("MyPage");
+            }
+            catch (ForbiddenException ex)
+            {
+                return RedirectToAction("403", "Error");
+            }
         }
 
         [Authorize]
         [Route("Delete")]
         [HttpPost]
-        public async Task<IActionResult> DeleteUserProfileAsync(AccountViewModel account)
+        public async Task<IActionResult> DeleteUserAsync(AccountViewModel account)
         {
-            logger.LogInformation("POST user-{0} send delete account data",
+            try
+            {
+                logger.LogInformation("POST user-{0} send delete account data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            var accountModel = mapper.Map<UserAccountModel>(account);
-            
-            await accountService.DeleteAccountAsync(accountModel);
+                var accountModel = mapper.Map<UserAccountModel>(account);
 
-            logger.LogInformation("POST user-{0} delete user-{1}",
-                User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
-                account.Id);
+                await accountService.DeleteAccountAsync(User, accountModel);
 
-            return RedirectToAction("Accounts");
+                logger.LogInformation("POST user-{0} delete user-{1}",
+                    User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
+                    account.Id);
+
+                return RedirectToAction("Accounts");
+            }
+            catch (ForbiddenException ex)
+            {
+                return RedirectToAction("403", "Error");
+            }
         }
 
         [Route("InitializeAccounts")]

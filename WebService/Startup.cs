@@ -1,7 +1,5 @@
 ﻿using Blog.BLL.Configurations;
-using Microsoft.OpenApi.Models;
 using Blog.WebService.Configurations;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Blog.WebService
 {
