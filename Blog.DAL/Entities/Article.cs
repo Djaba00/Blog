@@ -17,4 +17,3 @@ namespace Blog.DAL.Entities
 		public virtual ICollection<Comment> Comments { get; set; }
     }
 }
-
