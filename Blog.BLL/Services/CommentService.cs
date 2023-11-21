@@ -162,7 +162,9 @@ namespace Blog.BLL.Services
         {
             try
             {
-                var commentModel = await GetCommentByIdAsync(id);
+                var comment = await db.Comments.FindAsync(id);
+
+                var commentModel = mapper.Map<CommentModel>(comment);
 
                 var hasPermissions = await CanChangeCommentAsync(claims, commentModel);
 
@@ -170,8 +172,6 @@ namespace Blog.BLL.Services
                 {
                     throw new ForbiddenException();
                 }
-
-                var comment = mapper.Map<Comment>(commentModel);
 
                 db.Comments.Delete(comment);
 

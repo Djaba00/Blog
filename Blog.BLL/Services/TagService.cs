@@ -91,7 +91,7 @@ namespace Blog.BLL.Services
 
         public async Task DeleteTagAsync(int id)
         {
-            var tag = await db.Tags.GetByIdAsync(id);
+            var tag = await db.Tags.FindAsync(id);
             
             db.Tags.Delete(tag);
 

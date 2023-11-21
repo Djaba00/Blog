@@ -215,7 +215,7 @@ namespace Blog.BLL.Services
                     throw new ForbiddenException();
                 }
 
-                var account = await db.UserAccounts.GetByIdAsync(userAccount.Id);
+                var account = await db.UserAccounts.FindAsync(userAccount.Id);
 
                 var result = await db.UserAccounts.DeleteAsync(account);
 

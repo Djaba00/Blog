@@ -225,7 +225,9 @@ namespace Blog.BLL.Services
         {
             try
             {
-                var articleModel = await GetArticleByIdAsync(id);
+                var article = await db.Articles.FindAsync(id);
+
+                var articleModel = mapper.Map<ArticleModel>(article);
 
                 var hasPermissions = await CanChangeArticleAsync(claims, articleModel);
 
@@ -233,8 +235,6 @@ namespace Blog.BLL.Services
                 {
                     throw new ForbiddenException();
                 }
-
-                var article = mapper.Map<Article>(articleModel);
 
                 db.Articles.Delete(article);
 
