@@ -14,7 +14,7 @@ namespace Blog.DAL.UnitOfWork
         RoleManager<Role> roleManager { get; set; }
 
         IUserProfileRepository<UserProfile> UserProfileRepository { get; set; }
-        IUserAccountRepository<UserAccount> UserAccountRepository { get; set; }
+        IUserAccountRepository UserAccountRepository { get; set; }
         IArticleRepository<Article> ArticleRepository { get; set; }
         ICommentRepository<Comment> CommentRepository { get; set; }
         ITagRepository<Tag> TagRepository { get; set; }
@@ -42,7 +42,7 @@ namespace Blog.DAL.UnitOfWork
             }
         }
 
-        public IUserAccountRepository<UserAccount> UserAccounts
+        public IUserAccountRepository UserAccounts
         {
             get
             {

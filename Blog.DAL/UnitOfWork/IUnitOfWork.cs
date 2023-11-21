@@ -6,7 +6,7 @@ namespace Blog.DAL.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IUserProfileRepository<UserProfile> UserProfiles { get; }
-        IUserAccountRepository<UserAccount> UserAccounts { get; }
+        IUserAccountRepository UserAccounts { get; }
         SignInManager<UserAccount> SignInManager { get; }
         RoleManager<Role> RoleManager { get; }
         IArticleRepository<Article> Articles { get; }
