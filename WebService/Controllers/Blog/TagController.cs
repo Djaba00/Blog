@@ -52,7 +52,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Edit")]
+        [Route("Edit/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> UpdateTagAsync(int id)
         {
@@ -85,7 +85,7 @@ namespace Blog.WebService.Controllers.Blog
         }
 
         [Authorize]
-        [Route("Delete")]
+        [Route("Delete/{id:int}")]
         [HttpPost]
         public async Task<IActionResult> DeleteTagAsync(int id)
         {

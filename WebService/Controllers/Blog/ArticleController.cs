@@ -130,15 +130,15 @@ namespace Blog.WebService.Controllers.Blog
         [Authorize]
         [Route("Delete")]
         [HttpPost]
-        public async Task<IActionResult> DeleteArticleAsync(int id)
+        public async Task<IActionResult> DeleteArticleAsync(int articleId)
         {
             try
             {
-                await articleService.DeleteArticleAsync(User, id);
+                await articleService.DeleteArticleAsync(User, articleId);
 
                 logger.LogInformation("POST User-{0} deleted article-{1}",
                     User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
-                    id);
+                    articleId);
 
                 return RedirectToAction("Articles");
             }

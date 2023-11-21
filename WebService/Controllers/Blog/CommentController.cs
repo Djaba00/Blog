@@ -2,6 +2,7 @@
 using Blog.BLL.Exceptions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
+using Blog.DAL.Entities;
 using Blog.WebService.ViewModels.Article;
 using Blog.WebService.ViewModels.Comment;
 using Microsoft.AspNetCore.Authorization;
@@ -38,11 +39,11 @@ namespace Blog.WebService.Controllers.Blog
             logger.LogInformation("POST User-{0} created comment",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-            return RedirectToAction("MyPage");
+            return RedirectToAction($"Article", "Article", new { id = comment.ArticleId });
         }
 
         [Authorize]
-        [Route("Edit")]
+        [Route("Edit/{id:int}")]
         [HttpGet]
         public async Task<IActionResult> UpdateArticleAsync(int id)
         {
@@ -82,7 +83,7 @@ namespace Blog.WebService.Controllers.Blog
                 logger.LogInformation("POST User-{0} updated comment",
                     User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-                return RedirectToAction("MyPage");
+                return RedirectToAction($"Article", "Article", new { id = comment.ArticleId });
             }
             catch (ForbiddenException)
             {
@@ -93,13 +94,13 @@ namespace Blog.WebService.Controllers.Blog
         [Authorize]
         [Route("Delete")]
         [HttpPost]
-        public async Task<IActionResult> DeleteCommentAsync(int id)
+        public async Task<IActionResult> DeleteCommentAsync(int commentId, int articleId)
         {
             try
             {
-                await commentService.DeleteCommentAsync(User, id);
+                await commentService.DeleteCommentAsync(User, commentId);
 
-                return RedirectToAction("MyPage");
+                return RedirectToAction($"Article", "Article", new { id = articleId});
             }
             catch (ForbiddenException)
             {
