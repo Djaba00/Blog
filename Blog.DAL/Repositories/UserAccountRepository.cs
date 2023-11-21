@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Blog.DAL.Repositories
 {
-    public class UserAccountRepository : IUserAccountRepository<UserAccount>
+    public class UserAccountRepository : IUserAccountRepository
     {
         DataContext db;
         readonly UserManager<UserAccount> userManager;
@@ -18,10 +18,9 @@ namespace Blog.DAL.Repositories
             this.userManager = userManager;
         }
 
-        public async Task<UserAccount> FindByIdeAsync(string id)
+        public async Task<UserAccount> FindAsync(string id)
         {
-            var user = await userManager
-                .FindByIdAsync(id);
+            var user = await userManager.FindByIdAsync(id);
 
             return user;
         }

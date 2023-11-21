@@ -14,6 +14,13 @@ namespace Blog.DAL.Repositories
             db = context;
         }
 
+        public async Task<Article> FindAsync(int id)
+        {
+            var result = await db.Articles.FindAsync(id);
+
+            return result;
+        }
+
         public async Task<IEnumerable<Article>> GetAllAsync()
         {
             var articles = await db.Articles
@@ -22,13 +29,6 @@ namespace Blog.DAL.Repositories
                 .ToListAsync();
 
             return articles;
-        }
-
-        public async Task<Article> FindArticleAsync(Article entity)
-        {
-            var result = await db.Articles.FindAsync(entity.Id);
-
-            return result;
         }
 
         public async Task<Article> GetByIdAsync(int id)

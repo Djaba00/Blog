@@ -13,6 +13,13 @@ namespace Blog.DAL.Repositories
             db = context;
         }
 
+        public async Task<Tag> FindAsync(int id)
+        {
+            var result = await db.Tags.FindAsync(id);
+
+            return result;
+        }
+
         public async Task<IEnumerable<Tag>> GetAllAsync()
         {
             var tags = await db.Tags

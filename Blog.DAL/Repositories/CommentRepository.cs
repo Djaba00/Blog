@@ -13,6 +13,12 @@ namespace Blog.DAL.Repositories
             db = context;
         }
 
+        public async Task<Comment> FindAsync(int id)
+        {
+            var result = await db.Comments.FindAsync(id);
+
+            return result;
+        }
         public async Task<IEnumerable<Comment>> GetAllAsync()
         {
             var comments = await db.Comments

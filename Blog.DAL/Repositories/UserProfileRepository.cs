@@ -14,10 +14,9 @@ namespace Blog.DAL.Repositories
             db = context;
         }
 
-        public async Task<UserProfile> FindByIdAsync(int id)
+        public async Task<UserProfile> FindAsync(int id)
         {
-            var user = await db.UserProfiles
-                .FindAsync(id);
+            var user = await db.UserProfiles.FindAsync(id);
 
             return user;
         }

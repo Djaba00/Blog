@@ -4,10 +4,9 @@ using System.Security.Claims;
 
 namespace Blog.DAL.Interfaces
 {
-    public interface IUserAccountRepository<T>
-        where T : class
+    public interface IUserAccountRepository
     {
-        Task<UserAccount> FindByIdeAsync(string id);
+        Task<UserAccount> FindAsync(string id);
         Task<IEnumerable<UserAccount>> GetAllAsync();
         Task<List<UserAccount>> GetAccountsByRoleAsync(string roleName);
         Task<UserAccount> GetByIdAsync(string id);
