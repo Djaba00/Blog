@@ -4,6 +4,13 @@
 
 @{
     ViewData["Title"] = "Article";
+
+    var userComments = new List<int>();
+
+    if (User.Identity.IsAuthenticated)
+    {
+        userComments = Model.CurrentAccount.Comments.Select(a => a.Id).ToList();
+    }
 }
 
 <div class="container-lg px-0">
@@ -23,6 +30,7 @@
         <hr />
         <div class="d-flex justify-content-end">
             <p class="text-secondary mb-0"><a>@Model.User.Profile.GetFullName()</a></p>
+            <br />
             <p class="text-secondary">@Model.User.Email</p>
         </div>
     </div>
@@ -31,18 +39,6 @@
         <h2>Комментарии к статье</h2>
 
         <div class="d-flex flex-column">
-            @foreach (var comment in Model.Comments)
-            {
-                <div class="my-3 border p-2">
-                    <text>@comment.Content</text>   
-                </div>
-                <div class="d-flex justify-content-end">
-                    <span class="badge bg-success">@comment.User.Email</span>
-                </div>
-            }
-
-            <hr />
-
             @if (Model.CurrentAccount != null)
             {
                 <form method="post" asp-controller="Comment" asp-action="Add">
@@ -63,6 +59,29 @@
             {
                 <div class="col my-3">
                     <p>Чтобы оставить комментарий <a asp-area="" asp-controller="AccountManager" asp-action="Login">авторизируйтесь</a></p>
+                </div>
+            }
+
+            <hr />
+
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="my-3 border p-2">
+                    <text>@comment.Content</text>
+                    <div class="d-flex justify-content-end">
+                        @if (userComments.Contains(comment.Id) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                        {
+                            <div class="btn-group" role="group" aria-label="Article option buttons">
+                                <a type="button" class="btn btn-outline-secondary" asp-area="" asp-controller="Comment" asp-action="Edit" asp-route-id="@comment.Id">Редактировать</a>
+                                <form asp-area="" asp-controller="Comment" asp-action="Delete" asp-route-commentId="@comment.Id" asp-route-articleId="@Model.Id">
+                                    <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <span class="badge bg-success">@comment.User.Email</span>
                 </div>
             }
         </div>

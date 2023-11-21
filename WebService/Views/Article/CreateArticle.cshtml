@@ -15,7 +15,7 @@
         <div asp-asp-validation-summary="Model">
             <input type="hidden" asp-for="UserId" value="@Model.UserId" />
             <div class="col my-3">
-                <div class="d-flex flex-row gap-3">
+                <div class="d-flex flex-row flex-wrap gap-3">
                     @for(var i = 0; i < Model.Tags.Count; i++)
                     {
                         <div>

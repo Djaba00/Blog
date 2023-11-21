@@ -40,7 +40,7 @@
                         {
                             <div class="btn-group" role="group" aria-label="Article option buttons">
                                 <a type="button" class="btn btn-outline-secondary" asp-area="" asp-controller="Article" asp-action="Edit" asp-route-id="@article.Id">Редактировать</a>
-                                <form asp-area="" asp-controller="Article" asp-action="Delete" asp-route-id="@article.Id">
+                                <form asp-area="" asp-controller="Article" asp-action="Delete" asp-route-articleId="@article.Id">
                                     <button type="submit" class="btn btn-outline-danger">Удалить</button>
                                 </form>
                             </div>
