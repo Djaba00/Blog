@@ -1,9 +1,8 @@
 ﻿using Blog.BLL.Configurations;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Blog.API.Configurations;
 
-namespace Blog.WebService
+namespace Blog.API
 {
     public class Startup
     {
@@ -20,17 +19,18 @@ namespace Blog.WebService
             services.AddBllServices(profile: new MappingProfileAPI());
             services.AddAPIServices();
 
-            string dbConnection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddSqlLiteContext(dbConnection);
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = Configuration["Application:LoginPath"];
-            });
+            services.AddSqlLiteContext();
 
             services.AddControllers();
 
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog", Version = "v1" }); });
+            services.AddEndpointsApiExplorer();
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog", Version = "v1" });
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Blog.API.xml");
+                c.IncludeXmlComments(filePath);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
