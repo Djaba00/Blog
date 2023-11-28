@@ -1,9 +1,7 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using Blog.BLL.Exceptions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.DAL.Entities;
 using Blog.WebService.ViewModels.Account;
 using Blog.WebService.ViewModels.AccountRole;
 using Microsoft.AspNetCore.Authorization;
@@ -208,8 +206,6 @@ namespace Blog.WebService.Controllers.Account
                 logger.LogInformation("POST user-{0} send EditAccount data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-                var currentAccount = await accountService.GetAuthAccountAsync(User);
-
                 var user = mapper.Map<UserAccountModel>(updateUser);
 
                 await accountService.UpdateAccountAsync(User, user);
@@ -233,20 +229,18 @@ namespace Blog.WebService.Controllers.Account
         [Authorize]
         [Route("Delete")]
         [HttpPost]
-        public async Task<IActionResult> DeleteUserAsync(AccountViewModel account)
+        public async Task<IActionResult> DeleteUserAsync(string id)
         {
             try
             {
                 logger.LogInformation("POST user-{0} send delete account data",
                 User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value);
 
-                var accountModel = mapper.Map<UserAccountModel>(account);
-
-                await accountService.DeleteAccountAsync(User, accountModel);
+                await accountService.DeleteAccountAsync(User, id);
 
                 logger.LogInformation("POST user-{0} delete user-{1}",
                     User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
-                    account.Id);
+                    id);
 
                 return RedirectToAction("Accounts");
             }

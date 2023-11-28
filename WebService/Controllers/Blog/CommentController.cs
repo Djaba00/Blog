@@ -2,7 +2,6 @@
 using Blog.BLL.Exceptions;
 using Blog.BLL.Interfaces;
 using Blog.BLL.Models;
-using Blog.DAL.Entities;
 using Blog.WebService.ViewModels.Article;
 using Blog.WebService.ViewModels.Comment;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +21,43 @@ namespace Blog.WebService.Controllers.Blog
             this.logger = logger;
             this.mapper = mapper;
             this.commentService = commentService;
+        }
+
+        [HttpGet]
+        [Route("Comments")]
+        public async Task<IActionResult> GetCommentsListAsync()
+        {
+            var comments = await commentService.GetAllCommentsAsync();
+
+            var models = new List<CommentViewModel>();
+
+            foreach (var comment in comments)
+            {
+                models.Add(mapper.Map<CommentViewModel>(comment));
+            }
+
+            logger.LogInformation("GET CommentList page responsed");
+
+            return View("CommentList", models);
+        }
+
+        [HttpGet]
+        [Route("AuthorComments/{id:int}")]
+        public async Task<IActionResult> GetCommentsByAuthorIdAsync(string id)
+        {
+            var comments = await commentService.GetCommentsByAuthorIdAsync(id);
+
+            var models = new List<CommentViewModel>();
+
+            foreach (var comment in comments)
+            {
+                models.Add(mapper.Map<CommentViewModel>(comment));
+            }
+
+            logger.LogInformation("GET CommentList by user-{0} page responsed",
+                id);
+
+            return View("CommentList", models);
         }
 
         [Authorize]
@@ -76,8 +112,6 @@ namespace Blog.WebService.Controllers.Blog
 
                 var comment = mapper.Map<CommentModel>(updateComment);
 
-                comment.Changed = DateTime.Now;
-
                 await commentService.UpdateCommentAsync(User, comment);
 
                 logger.LogInformation("POST User-{0} updated comment",
@@ -106,43 +140,6 @@ namespace Blog.WebService.Controllers.Blog
             {
                 return RedirectToAction("403", "Error");
             }
-        }
-
-        [HttpGet]
-        [Route("Comments")]
-        public async Task<IActionResult> GetCommentsListAsync()
-        {
-            var comments = await commentService.GetAllCommentsAsync();
-
-            var models = new List<CommentModel>();
-
-            foreach (var comment in comments)
-            {
-                models.Add(mapper.Map<CommentModel>(comment));
-            }
-
-            logger.LogInformation("GET CommentList page responsed");
-
-            return View("CommentList", models);
-        }
-
-        [HttpGet]
-        [Route("AuthorComments/{id:int}")]
-        public async Task<IActionResult> GetCommentsByAuthorIdAsync(string id)
-        {
-            var comments = await commentService.GetCommentsByAuthorIdAsync(id);
-
-            var models = new List<CommentModel>();
-
-            foreach (var comment in comments)
-            {
-                models.Add(mapper.Map<CommentModel>(comment));
-            }
-
-            logger.LogInformation("GET CommentList by user-{0} page responsed",
-                id);
-
-            return View("CommentList", models);
         }
     }
 }
