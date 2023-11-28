@@ -36,8 +36,14 @@ namespace Blog.BLL.Configurations
             return services;
         }
 
-        public static IServiceCollection AddSqlLiteContext(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddSqlLiteContext(this IServiceCollection services, string connectionString = null)
         {
+
+            if(connectionString == null)
+            {
+                connectionString = "DataSource=../Blog.DAL/Database/blog_database.db";
+            }
+
             services.AddDbContext<DataContext>(
                 options => options.UseSqlite(connectionString,
                 opts => opts.MigrationsAssembly("Blog.DAL"))

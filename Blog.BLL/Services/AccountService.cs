@@ -118,11 +118,11 @@ namespace Blog.BLL.Services
             return result;
         }
 
-        public async Task<bool> CanChangeAccount(ClaimsPrincipal claims, UserAccountModel userAccount)
+        public async Task<bool> CanChangeAccount(ClaimsPrincipal claims, string id)
         {
             var currentAccount = await GetAuthAccountAsync(claims);
 
-            if (currentAccount.Id == userAccount.Id || currentAccount.IsInAnyRole("Admin", "Moderator"))
+            if (currentAccount.Id == id || currentAccount.IsInAnyRole("Admin", "Moderator"))
             {
                 return true;
             }
@@ -147,7 +147,7 @@ namespace Blog.BLL.Services
             {
                 var updateAccount = await GetAccountByIdAsync(id);
 
-                var hasPermissions = await CanChangeAccount(claims, updateAccount);
+                var hasPermissions = await CanChangeAccount(claims, id);
 
                 if (!hasPermissions)
                 {
@@ -170,7 +170,7 @@ namespace Blog.BLL.Services
         {
             try
             {
-                var hasPermissions = await CanChangeAccount(claims, userAccount);
+                var hasPermissions = await CanChangeAccount(claims, userAccount.Id);
 
                 if (!hasPermissions)
                 {
@@ -204,18 +204,18 @@ namespace Blog.BLL.Services
             }
         }
 
-        public async Task<IdentityResult> DeleteAccountAsync(ClaimsPrincipal claims, UserAccountModel userAccount)
+        public async Task<IdentityResult> DeleteAccountAsync(ClaimsPrincipal claims, string id)
         {
             try
             {
-                var hasPermissions = await CanChangeAccount(claims, userAccount);
+                var hasPermissions = await CanChangeAccount(claims, id);
 
                 if (!hasPermissions)
                 {
                     throw new ForbiddenException();
                 }
 
-                var account = await db.UserAccounts.FindAsync(userAccount.Id);
+                var account = await db.UserAccounts.FindAsync(id);
 
                 var result = await db.UserAccounts.DeleteAsync(account);
 
@@ -230,7 +230,7 @@ namespace Blog.BLL.Services
             {
                 logger.LogInformation("ERROR User-{0} doesn't have permissions to delete user-{1}",
                     claims.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier")).Value,
-                    userAccount.Id);
+                    id);
 
                 throw new ForbiddenException();
             }
