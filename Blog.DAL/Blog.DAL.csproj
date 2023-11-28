@@ -10,6 +10,7 @@
     <Compile Remove="DataBase\**" />
     <EmbeddedResource Remove="DataBase\**" />
     <None Remove="DataBase\**" />
+    <None Remove="Database\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,5 +29,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Database\" />
   </ItemGroup>
 </Project>

@@ -19,7 +19,7 @@ namespace Blog.WebService
             services.AddPllServices();
 
             string dbConnection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddSqlLiteContext(dbConnection);
+            services.AddSqlLiteContext();
 
             services.ConfigureApplicationCookie(options =>
             {
