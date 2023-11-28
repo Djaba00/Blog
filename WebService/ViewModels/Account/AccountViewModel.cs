@@ -13,6 +13,8 @@ namespace Blog.WebService.ViewModels.Account
         public string UserName { get; set; }
         public string Email { get; set; }
 
+        public string Password { get; set; }
+
         public UserProfileViewModel Profile { get; set; }
 
         public List<AccountRoleViewModel> Roles { get; set; }
